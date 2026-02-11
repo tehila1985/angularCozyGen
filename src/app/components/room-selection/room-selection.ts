@@ -1,199 +1,225 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { HttpClient, HttpParams } from '@angular/common/http';
+import { environment } from '../../../environments/environment.development';
+import { firstValueFrom } from 'rxjs';
 
 @Component({
-    selector: 'app-room-selection',
-    standalone: true,
-    imports: [CommonModule],
-    template: `
-        <section class="selection-section">
-            <div class="header-container">
-                <h3 class="style-heading">קולקציות לפי סגנון</h3>
-                <p class="style-subtext">גלו את השפה העיצובית שמתאימה לבית שלכם</p>
+  selector: 'app-room-selection',
+  standalone: true,
+  imports: [CommonModule],
+  template: `
+    <section class="selection-section">
+      <div class="header-container">
+        <span class="category-label">PREMIUM CURATION</span>
+        <h3 class="style-heading">קולקציות לפי סגנון</h3>
+        <p class="style-subtext">גלו את השפה העיצובית שמתאימה לבית שלכם</p>
+      </div>
+
+      <div class="rooms-grid">
+        <div *ngFor="let room of rooms; let i = index" 
+             class="room-card" 
+             [class.appear]="isLoaded"
+             [style.transition-delay]="(i * 150) + 'ms'">
+          
+          <div class="card-inner">
+            <div class="image-zoom-wrapper">
+              <img [src]="room.image" [alt]="room.title" (error)="handleImageError($event)">
             </div>
             
-            <div class="rooms-grid">
-                <div *ngFor="let room of rooms; let i = index"
-                     class="room-card"
-                     [class.appear]="isLoaded"
-                     [style.transition-delay]="(i * 120) + 'ms'">
-                    
-                    <div class="card-inner">
-                        <img [src]="room.image" [alt]="room.title">
-                        
-                        <div class="card-content">
-                            <div class="text-group">
-                                <span class="collection-label">{{ room.collection }}</span>
-                                <h4 class="room-title">{{ room.title }}</h4>
-                                <span class="product-count">{{ room.count }} מוצרים מחכים לך</span>
-                            </div>
-                            
-                            <button class="view-products">
-                                <span>בחירה בסגנון זה</span>
-                                <i class="pi pi-arrow-left"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
+            <div class="card-overlay">
+              <div class="top-info">
+                <span class="count-pill">{{ room.count }} פריטים מחכים לך</span>
+              </div>
+
+              <div class="bottom-content">
+                <p class="collection-desc">{{ room.description }}</p>
+                <h4 class="room-title">{{ room.title }}</h4>
+                
+                <button class="modern-btn">
+                  <span class="btn-inner">
+                    <span class="text">בחירה בסגנון זה</span>
+                    <i class="pi pi-arrow-left"></i>
+                  </span>
+                </button>
+              </div>
             </div>
-        </section>
-    `,
-    styles: [`
-        .selection-section { 
-            padding: 100px 5%; 
-            background-color: #fff; 
-            direction: rtl; 
-            font-family: 'Inter', -apple-system, sans-serif;
-        }
-        
-        /* כותרות חיצוניות - שחור נקי */
-        .header-container { 
-            margin-bottom: 60px; 
-            text-align: right;
-        }
+          </div>
+        </div>
+      </div>
+    </section>
+  `,
+  styles: [`
+    .selection-section { 
+      padding: 120px 6%; 
+      background: #ffffff; 
+      direction: rtl; 
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    }
 
-        .style-heading { 
-            font-size: 2.2rem; 
-            font-weight: 700; 
-            color: #111; 
-            margin: 0;
-            letter-spacing: -0.5px;
-        }
+    .header-container { text-align: center; margin-bottom: 100px; }
+    
+    .category-label { 
+      font-size: 1rem; 
+      letter-spacing: 6px; 
+      color: #b1935b; 
+      font-weight: 600; 
+      display: block;
+      margin-bottom: 20px;
+    }
 
-        .style-subtext {
-            font-size: 1.1rem;
-            color: #666;
-            margin-top: 8px;
-            font-weight: 300;
-        }
-        
-        .rooms-grid { 
-            display: grid; 
-            grid-template-columns: repeat(3, 1fr); 
-            gap: 16px; /* מרווח דק ויוקרתי */
-            max-width: 1600px; 
-            margin: 0 auto; 
-        }
+    .style-heading { 
+      font-size: 4.5rem; /* כותרת ראשית ענקית ומודרנית */
+      font-weight: 200; 
+      margin: 0; 
+      color: #1a1a1a;
+      letter-spacing: -2px;
+    }
 
-        /* אנימציה יציבה */
-        .room-card { 
-            position: relative;
-            aspect-ratio: 1 / 1.25;
-            overflow: hidden;
-            border-radius: 0; /* ביטול המסגרת העגולה - פינות חדות */
-            opacity: 0;
-            transform: translateY(30px);
-            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
-        }
+    .style-subtext { color: #666; font-size: 1.4rem; margin-top: 20px; font-weight: 300; }
 
-        .room-card.appear {
-            opacity: 1;
-            transform: translateY(0);
-        }
+    .rooms-grid { 
+      display: grid; 
+      grid-template-columns: repeat(3, 1fr); 
+      gap: 40px; 
+      max-width: 1800px; 
+      margin: 0 auto; 
+    }
 
-        .card-inner { height: 100%; width: 100%; position: relative; }
+    .room-card { 
+      position: relative; 
+      aspect-ratio: 1 / 1.45; 
+      overflow: hidden; 
+      opacity: 0; 
+      transform: translateY(40px);
+      transition: all 1.2s cubic-bezier(0.2, 1, 0.3, 1);
+    }
 
-        .room-card img { 
-            width: 100%; 
-            height: 100%; 
-            object-fit: cover; 
-            transition: transform 1.8s cubic-bezier(0.19, 1, 0.22, 1); 
-        }
+    .room-card.appear { opacity: 1; transform: translateY(0); }
 
-        .room-card:hover img { 
-            transform: scale(1.1); 
-        }
+    .card-inner { width: 100%; height: 100%; position: relative; }
+    
+    .image-zoom-wrapper { width: 100%; height: 100%; overflow: hidden; }
+    
+    img { 
+      width: 100%; 
+      height: 100%; 
+      object-fit: cover; 
+      transition: transform 2s cubic-bezier(0.2, 1, 0.3, 1);
+    }
 
-        /* תוכן על התמונה - טקסט לבן */
-        .card-content { 
-            position: absolute; 
-            inset: 0;
-            padding: 35px; 
-            background: linear-gradient(to top, 
-                rgba(0,0,0,0.8) 0%, 
-                rgba(0,0,0,0.3) 40%, 
-                transparent 100%); 
-            display: flex; 
-            flex-direction: column;
-            justify-content: flex-end; 
-        }
+    .room-card:hover img { transform: scale(1.1); }
 
-        .collection-label {
-            color: rgba(255,255,255,0.7);
-            font-size: 0.7rem;
-            letter-spacing: 2px;
-            font-weight: 600;
-            text-transform: uppercase;
-            display: block;
-            margin-bottom: 6px;
-        }
+    .card-overlay { 
+      position: absolute; 
+      inset: 0; 
+      background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.2) 50%, transparent 100%);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between; 
+      padding: 50px;
+    }
 
-        .room-title { 
-            color: white; /* טקסט לבן על התמונה */
-            margin: 0; 
-            font-size: 1.8rem; 
-            font-weight: 500;
-        }
+    .count-pill {
+      background: rgba(255, 255, 255, 0.9);
+      color: #000;
+      padding: 10px 20px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      border-radius: 2px;
+    }
 
-        .product-count {
-            color: rgba(255,255,255,0.6);
-            font-size: 0.9rem;
-            margin-top: 5px;
-            display: block;
-            font-weight: 300;
-        }
+    .bottom-content { color: #fff; }
 
-        /* כפתור */
-        .view-products {
-            margin-top: 25px;
-            background: #fff;
-            border: none;
-            color: #000;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 12px;
-            padding: 14px 24px;
-            width: fit-content;
-            font-size: 0.9rem;
-            font-weight: 600;
-            border-radius: 0; /* גם הכפתור עם פינות חדות */
-            opacity: 0;
-            transform: translateY(15px);
-            transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
-            cursor: pointer;
-        }
+    .collection-desc { 
+      font-size: 1.3rem; /* תיאור מוגדל */
+      margin-bottom: 12px; 
+      font-weight: 300;
+      opacity: 0.95;
+      line-height: 1.4;
+    }
 
-        .room-card:hover .view-products {
-            opacity: 1;
-            transform: translateY(0);
-        }
+    .room-title { 
+      font-size: 3.5rem; /* כותרת הקלף מוגדלת מאוד */
+      font-weight: 700; 
+      margin: 0 0 35px 0; 
+      line-height: 1;
+      letter-spacing: -1px;
+    }
 
-        /* רספונסיביות */
-        @media (max-width: 1100px) { 
-            .rooms-grid { grid-template-columns: repeat(2, 1fr); }
-        }
-        @media (max-width: 650px) { 
-            .rooms-grid { grid-template-columns: 1fr; }
-            .style-heading { font-size: 1.8rem; }
-        }
-    `]
+    .modern-btn {
+      width: 100%;
+      background: #fff;
+      border: none;
+      height: 70px; /* כפתור גבוה יותר */
+      cursor: pointer;
+      transition: all 0.4s ease;
+      opacity: 0;
+      transform: translateY(20px);
+    }
+
+    .room-card:hover .modern-btn { opacity: 1; transform: translateY(0); }
+
+    .btn-inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 30px;
+      color: #000;
+      font-size: 1.1rem;
+      font-weight: 600;
+    }
+
+    .modern-btn:hover { background: #f0f0f0; }
+
+    @media (max-width: 1400px) { 
+        .style-heading { font-size: 3.5rem; }
+        .room-title { font-size: 2.8rem; }
+    }
+    @media (max-width: 1100px) { .rooms-grid { grid-template-columns: 1fr 1fr; } }
+    @media (max-width: 768px) { 
+      .rooms-grid { grid-template-columns: 1fr; } 
+      .style-heading { font-size: 2.5rem; }
+      .room-title { font-size: 2.2rem; }
+      .card-overlay { padding: 30px; }
+    }
+  `]
 })
 export class RoomSelection implements OnInit {
-    isLoaded = false;
+  isLoaded = false;
+  rooms: any[] = [];
+  private http = inject(HttpClient);
 
-    rooms = [
-        { id: 101, title: 'מינימליזם נורדי', collection: 'Collection 2026', count: 24, image: '/images/PH204076.webp' },
-        { id: 102, title: 'תעשייתי מודרני', collection: 'Collection 2026', count: 18, image: '/images/PH204014.webp' },
-        { id: 103, title: 'בוהו-שיק חם', collection: 'Premium Line', count: 31, image: '/images/PH202784.webp' },
-        { id: 104, title: 'קלאסיקה נצחית', collection: 'Heritage', count: 15, image: '/images/PH202780.webp' },
-        { id: 105, title: 'אורבן מודרן', collection: 'Collection 2026', count: 27, image: '/images/PH202348_SHI_001.webp' },
-        { id: 106, title: 'רטרו מעודכן', collection: 'Vintage Edit', count: 12, image: '/images/PH200242.webp' }
-    ];
+  ngOnInit() { this.fetchRooms(); }
 
-    ngOnInit() {
-        setTimeout(() => {
-            this.isLoaded = true;
-        }, 100);
-    }
+  async getProductCountForStyle(styleId: number): Promise<number> {
+    const params = new HttpParams().set('position', '1').set('skip', '1').set('styleIds', styleId.toString());
+    try {
+      const res = await firstValueFrom(this.http.get<any>(`${environment.apiUrl}/Product`, { params }));
+      return res.totalCount ?? res.TotalCount ?? res.item2 ?? 0;
+    } catch { return 0; }
+  }
+
+  fetchRooms() {
+    const baseUrl = environment.apiUrl.replace('/api', '');
+    this.http.get<any[]>(`${environment.apiUrl}/Style`).subscribe({
+      next: async (data) => {
+        this.rooms = await Promise.all(data.map(async (s) => {
+          const id = s.styleId || s.StyleId;
+          const count = await this.getProductCountForStyle(id);
+          const imgPath = s.imageUrl || s.ImageUrl || '';
+          return {
+            id,
+            title: (s.name || s.Name || '').replace(/_/g, ' '),
+            description: s.description || s.Description,
+            count: count,
+            image: imgPath.startsWith('http') ? imgPath : `${baseUrl}/${imgPath}`
+          };
+        }));
+        setTimeout(() => (this.isLoaded = true), 100);
+      }
+    });
+  }
+
+  handleImageError(e: any) { e.target.src = 'https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?q=80&w=1000'; }
 }
