@@ -5,6 +5,7 @@ import { RoomSelection } from '../../components/room-selection/room-selection';
 import { FurnitureGallery } from '../../components/furniture-gallery/furniture-gallery';
 import { ProductSelection } from '../../components/product-selection/product-selection';
 import { ContactFooter } from '../../components/contact-footer/contact-footer';
+import { Navbar } from "../../components/navbar/navbar";
 
 @Component({
   selector: 'app-home',
@@ -15,8 +16,9 @@ import { ContactFooter } from '../../components/contact-footer/contact-footer';
     RoomSelection,
     FurnitureGallery,
     ProductSelection,
-    ContactFooter
-  ],
+    ContactFooter,
+    Navbar
+],
   templateUrl: './home.html',
   styleUrl: './home.css'
 })

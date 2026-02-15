@@ -3,6 +3,8 @@ import { CommonModule } from '@angular/common';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { environment } from '../../../environments/environment.development';
 import { firstValueFrom } from 'rxjs';
+import { Style } from '../../models/style.model';
+import { Room } from '../../models/room.model';
 
 @Component({
   selector: 'app-room-selection',
@@ -187,9 +189,9 @@ import { firstValueFrom } from 'rxjs';
 })
 export class RoomSelection implements OnInit {
   isLoaded = false;
-  rooms: any[] = [];
+  rooms: Room[] = [];
   private http = inject(HttpClient);
-
+  
   ngOnInit() { this.fetchRooms(); }
 
   async getProductCountForStyle(styleId: number): Promise<number> {
@@ -202,16 +204,16 @@ export class RoomSelection implements OnInit {
 
   fetchRooms() {
     const baseUrl = environment.apiUrl.replace('/api', '');
-    this.http.get<any[]>(`${environment.apiUrl}/Style`).subscribe({
+    this.http.get<Style[]>(`${environment.apiUrl}/Style`).subscribe({
       next: async (data) => {
         this.rooms = await Promise.all(data.map(async (s) => {
-          const id = s.styleId || s.StyleId;
+          const id = s.styleId;
           const count = await this.getProductCountForStyle(id);
-          const imgPath = s.imageUrl || s.ImageUrl || '';
+          const imgPath = s.imageUrl|| '';
           return {
             id,
-            title: (s.name || s.Name || '').replace(/_/g, ' '),
-            description: s.description || s.Description,
+            title: (s.name || '').replace(/_/g, ' '),
+            description: s.description,
             count: count,
             image: imgPath.startsWith('http') ? imgPath : `${baseUrl}/${imgPath}`
           };
