@@ -1,0 +1,12 @@
+.rooms-grid {
+  display: flex;
+  gap: 20px;
+
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-behavior: smooth;
+
+  max-width: 1400px;   
+  margin: 0 auto;     
+  padding-bottom: 8px;
+}
