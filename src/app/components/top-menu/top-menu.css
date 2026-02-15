@@ -1,38 +1,7 @@
-/* עיצוב כללי לתפריט */
-:host ::ng-deep .p-menubar {
-    background: rgba(255, 255, 255, 0.98);
-    border: none;
-    border-bottom: 1px solid #e0e0e0;
-    border-radius: 0; /* פינות חדות */
-    padding: 0.5rem 5%;
-    font-family: 'Inter', sans-serif;
-}
-
-/* צבע האייקונים - ירוק מנטה שביקשת */
-:host ::ng-deep .p-menubar .pi {
-    color: #648381 !important;
-}
-
-/* טקסט הפריטים */
-:host ::ng-deep .p-menubar .p-menuitem-text {
-    color: #333 !important;
-    font-weight: 500;
-    font-size: 0.95rem;
-}
-
-/* אפקט Hover - נקי ומינימליסטי */
-:host ::ng-deep .p-menubar .p-menuitem-link {
-    border-radius: 0 !important; /* פינות חדות ב-hover */
-    transition: all 0.2s ease;
-}
-
-:host ::ng-deep .p-menubar .p-menuitem-link:hover {
-    background: #f9f9f9 !important;
-}
-
-/* עיצוב התפריט הנפתח (Sub-menu) */
-:host ::ng-deep .p-submenu-list {
-    border-radius: 0 !important;
-    border: 1px solid #eee !important;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.05) !important;
+:host {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
 }

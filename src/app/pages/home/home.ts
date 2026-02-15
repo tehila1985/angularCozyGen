@@ -6,6 +6,7 @@ import { FurnitureGallery } from '../../components/furniture-gallery/furniture-g
 import { ProductSelection } from '../../components/product-selection/product-selection';
 import { ContactFooter } from '../../components/contact-footer/contact-footer';
 import { Navbar } from "../../components/navbar/navbar";
+import { RouterOutlet } from "@angular/router";
 
 @Component({
   selector: 'app-home',
@@ -17,7 +18,8 @@ import { Navbar } from "../../components/navbar/navbar";
     FurnitureGallery,
     ProductSelection,
     ContactFooter,
-    Navbar
+    Navbar,
+    RouterOutlet
 ],
   templateUrl: './home.html',
   styleUrl: './home.css'

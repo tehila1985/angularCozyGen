@@ -11,7 +11,7 @@ import { Room } from '../../models/room.model';
   standalone: true,
   imports: [CommonModule],
   template: `
-    <section class="selection-section">
+  <section id="styles-section" class="selection-section">
       <div class="header-container">
         <span class="category-label">PREMIUM CURATION</span>
         <h3 class="style-heading">קולקציות לפי סגנון</h3>

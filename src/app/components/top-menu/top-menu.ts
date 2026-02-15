@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { MenuItem } from 'primeng/api';
 import { MenubarModule } from 'primeng/menubar';
-
+import { RouterModule } from '@angular/router';
 @Component({
   selector: 'app-top-menu',
-  standalone: true, // וודאי שזה קיים
-  imports: [MenubarModule],
+  standalone: true, 
+  imports: [MenubarModule,RouterModule],
   templateUrl: './top-menu.html',
   styleUrl: './top-menu.css',
 })
@@ -14,10 +14,12 @@ export class TopMenu implements OnInit {
 
   ngOnInit() {
     this.items = [
-      { label: 'Home', icon: 'pi pi-home' },
-      { label: 'Shop by Room', icon: 'pi pi-image' },
+      { label: 'Home', icon: 'pi pi-home',routerLink: '/', fragment: 'home-section' },
+      { label: 'Shop by Style', icon: 'pi pi-image',routerLink: '/', fragment: 'styles-section'},
       {
         label: 'Shop by Category',
+        routerLink: '/',
+        fragment: 'products-section',
         icon: 'pi pi-th-large',
         items: [
           { label: 'Sofas', icon: 'pi pi-heart' },
@@ -28,7 +30,8 @@ export class TopMenu implements OnInit {
           { label: 'Lighting', icon: 'pi pi-sun' }
         ]
       },
-      { label: 'Contact', icon: 'pi pi-envelope' }
+      { label: 'Contact', icon: 'pi pi-envelope' },
+      { label: 'Shopping Cart', icon: 'pi pi-shopping-cart'}
     ];
   }
 }

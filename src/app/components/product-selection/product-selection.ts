@@ -10,7 +10,7 @@ import { Category } from '../../models/category.model';
   standalone: true,
   imports: [CommonModule],
   template: `
-    <section class="selection-section">
+    <section id="products-section" class="selection-section">
       <div class="header-container">
         <span class="category-label">OUR COLLECTIONS</span>
         <h3 class="style-heading">קטגוריות מוצרים</h3>
@@ -78,7 +78,7 @@ import { Category } from '../../models/category.model';
     }
 
     .style-heading {
-      font-size: 2.8rem;
+      font-size: 3.8rem;
       font-weight: 300;
       margin: 0;
       color: #1a1a1a;
@@ -90,7 +90,6 @@ import { Category } from '../../models/category.model';
       margin-top: 12px;
     }
 
-    /* ===== גלילה אופקית נקייה ===== */
     .rooms-grid {
       display: flex;
       gap: 20px;
