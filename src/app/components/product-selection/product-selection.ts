@@ -1,9 +1,10 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { environment } from '../../../environments/environment.development';
 import { firstValueFrom } from 'rxjs';
 import { Category } from '../../models/category.model';
+import { Product } from '../../models/product.model';
 
 @Component({
   selector: 'app-product-selection',
@@ -23,6 +24,7 @@ import { Category } from '../../models/category.model';
           class="room-card"
           [class.appear]="isLoaded"
           [style.transition-delay]="(i * 100) + 'ms'"
+          (click)="choose(c.categoryId)"
         >
           <div class="card-inner">
             <div class="image-zoom-wrapper">
@@ -208,11 +210,15 @@ export class ProductSelection implements OnInit {
   categories: Category[] = [];
   counts: Record<number, number> = {};
   private http = inject(HttpClient);
+  categoryChosen = output<number>();
 
+  choose(id: number) {
+    this.categoryChosen.emit(id); }
   ngOnInit() {
     this.fetchCategories();
   }
-
+  
+ 
   async getProductCountForCategory(categoryId: number): Promise<number> {
     const params = new HttpParams()
       .set('position', '1')
