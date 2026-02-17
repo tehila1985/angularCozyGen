@@ -1,0 +1,19 @@
+.page-layout {
+  display: flex; /* שימוש ב-flex עדיף כאן לשליטה מלאה */
+  gap: 30px;
+  max-width: 1600px;
+  margin: 40px auto;
+  padding: 0 20px;
+  direction: rtl;
+  align-items: flex-start; /* מונע מהסרגל להימתח לגובה כל העמוד */
+}
+
+.sidebar {
+  flex: 0 0 280px; /* רוחב קבוע לסרגל הצד */
+  position: sticky;
+  top: 20px;
+}
+
+.main-content {
+  flex: 1; /* לוקח את כל שאר המקום הפנוי */
+}

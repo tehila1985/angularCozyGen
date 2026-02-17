@@ -1,5 +1,5 @@
 import { Component, Output, EventEmitter, OnInit, inject } from '@angular/core';
-import { CommonModule } from '@angular/common'; // הוספת CommonModule עבור ngFor ו-ngIf
+import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment.development';
@@ -13,14 +13,16 @@ interface Style { styleId: number; name: string; }
   standalone: true,
   imports: [FormsModule, CommonModule],
   template: `
-    <div class="search-card">
-      <h3 class="search-title">סינון מוצרים</h3>
+    <div class="sidebar-card">
+      <h3 class="sidebar-title">סינון פריטים</h3>
       
-      <div class="search-grid">
-        <div class="input-group full-width">
+      <div class="filter-stack">
+        <div class="input-group">
           <label>חיפוש חופשי</label>
-          <input type="text" [(ngModel)]="desc" placeholder="מה תרצו למצוא היום?" class="form-control">
+          <input type="text" [(ngModel)]="desc" placeholder="חפש מוצר..." class="form-control">
         </div>
+
+        <hr class="divider">
 
         <div class="input-group">
           <label>קטגוריות</label>
@@ -31,6 +33,8 @@ interface Style { styleId: number; name: string; }
           </select>
         </div>
 
+        <hr class="divider">
+
         <div class="input-group">
           <label>סגנונות</label>
           <select multiple [(ngModel)]="styleIds" class="form-control select-multi">
@@ -40,151 +44,77 @@ interface Style { styleId: number; name: string; }
           </select>
         </div>
 
-        <div class="input-group">
-          <label>מחיר מינימלי</label>
-          <input type="number" [(ngModel)]="minPrice" class="form-control">
-        </div>
+        <hr class="divider">
 
         <div class="input-group">
-          <label>מחיר מקסימלי</label>
-          <input type="number" [(ngModel)]="maxPrice" class="form-control">
+          <label>טווח מחירים</label>
+          <div class="price-inputs">
+            <input type="number" [(ngModel)]="minPrice" placeholder="מ-" class="form-control price-input">
+            <input type="number" [(ngModel)]="maxPrice" placeholder="עד-" class="form-control price-input">
+          </div>
         </div>
       </div>
 
-      <div class="actions">
-        <button (click)="search()" class="btn-primary">
-          <span class="icon">🔍</span> חפש עכשיו
-        </button>
-      </div>
+      <button (click)="search()" class="btn-apply">
+        <span>🔍</span> החל מסננים
+      </button>
     </div>
   `,
   styles: [`
     :host { display: block; direction: rtl; }
-
-    .search-card {
-      background: #ffffff;
-      padding: 24px;
-      border-radius: 12px;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
-      max-width: 900px;
-      margin: 20px auto;
-      border: 1px solid #f0f0f0;
-    }
-
-    .search-title {
-      margin-top: 0;
-      margin-bottom: 20px;
-      color: #333;
-      font-size: 1.25rem;
-      border-bottom: 2px solid #b1935b;
-      display: inline-block;
-      padding-bottom: 4px;
-    }
-
-    .search-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 20px;
-      margin-bottom: 24px;
-    }
-
-    .full-width { grid-column: 1 / -1; }
-
-    .input-group { display: flex; flex-direction: column; gap: 8px; }
-
-    .input-group label {
-      font-weight: 600;
-      font-size: 0.85rem;
-      color: #666;
-    }
-
-    .form-control {
-      padding: 10px 12px;
-      border: 1.5px solid #e0e0e0;
-      border-radius: 8px;
-      font-size: 0.95rem;
-      transition: all 0.3s ease;
-      background: #fafafa;
-    }
-
-    .form-control:focus {
-      outline: none;
-      border-color: #b1935b;
+    .sidebar-card {
       background: #fff;
-      box-shadow: 0 0 0 3px rgba(177, 147, 91, 0.1);
+      padding: 24px;
+      border: 1px solid #eee;
+      border-radius: 4px; /* התאמה לסגנון הריבועי של המוצרים */
     }
-
-    .select-multi { height: 100px; }
-
-    .actions { display: flex; justify-content: flex-end; }
-
-    .btn-primary {
-      padding: 12px 30px;
+    .sidebar-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 20px;
+      border-right: 4px solid #b1935b;
+      padding-right: 12px;
+      color: #111;
+    }
+    .filter-stack { display: flex; flex-direction: column; gap: 15px; }
+    .input-group { display: flex; flex-direction: column; gap: 6px; }
+    .input-group label { font-weight: 600; font-size: 0.85rem; color: #666; }
+    .form-control {
+      padding: 10px;
+      border: 1px solid #e2e2e2;
+      border-radius: 2px;
+      font-size: 0.9rem;
+      background: #fcfcfc;
+    }
+    .form-control:focus { outline: none; border-color: #b1935b; background: #fff; }
+    .select-multi { height: 110px; }
+    .price-inputs { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+    .divider { border: 0; border-top: 1px solid #f0f0f0; margin: 10px 0; }
+    .btn-apply {
+      width: 100%;
+      margin-top: 25px;
+      padding: 12px;
       background: #b1935b;
-      color: white;
+      color: #fff;
       border: none;
-      border-radius: 8px;
-      font-weight: 600;
+      font-weight: 700;
       cursor: pointer;
-      transition: transform 0.2s, background 0.3s;
-      display: flex;
-      align-items: center;
-      gap: 8px;
+      transition: background 0.3s;
     }
-
-    .btn-primary:hover {
-      background: #9c7e48;
-      transform: translateY(-2px);
-    }
-
-    .btn-primary:active { transform: translateY(0); }
-
-    /* התאמה לנייד */
-    @media (max-width: 600px) {
-      .search-grid { grid-template-columns: 1fr; }
-    }
+    .btn-apply:hover { background: #967d4d; }
   `]
 })
 export class ChooseComponent implements OnInit {
-  // הלוגיקה נשארת זהה...
   @Output() onSearch = new EventEmitter<search>();
   private http = inject(HttpClient);
+  desc = ''; categoryIds: number[] = []; styleIds: number[] = [];
+  minPrice = 0; maxPrice = 999999;
+  availableCategories: Category[] = []; availableStyles: Style[] = [];
 
-  desc: string = '';
-  categoryIds: number[] = [];
-  styleIds: number[] = [];
-  minPrice: number = 0;
-  maxPrice: number = 999999;
-
-  availableCategories: Category[] = [];
-  availableStyles: Style[] = [];
-
-  ngOnInit() {
-    this.fetchCategories();
-    this.fetchStyles();
-  }
-
+  ngOnInit() { this.fetchCategories(); this.fetchStyles(); }
   search() {
-    this.onSearch.emit({
-      desc: this.desc,
-      categoryIds: this.categoryIds,
-      styleIds: this.styleIds,
-      minPrice: this.minPrice,
-      maxPrice: this.maxPrice
-    });
+    this.onSearch.emit({ desc: this.desc, categoryIds: this.categoryIds, styleIds: this.styleIds, minPrice: this.minPrice, maxPrice: this.maxPrice });
   }
-
-  fetchCategories() {
-    this.http.get<Category[]>(`${environment.apiUrl}/Category`).subscribe({
-      next: data => this.availableCategories = data,
-      error: err => console.error('Error fetching categories:', err)
-    });
-  }
-
-  fetchStyles() {
-    this.http.get<Style[]>(`${environment.apiUrl}/Style`).subscribe({
-      next: data => this.availableStyles = data,
-      error: err => console.error('Error fetching styles:', err)
-    });
-  }
+  fetchCategories() { this.http.get<Category[]>(`${environment.apiUrl}/Category`).subscribe(data => this.availableCategories = data); }
+  fetchStyles() { this.http.get<Style[]>(`${environment.apiUrl}/Style`).subscribe(data => this.availableStyles = data); }
 }

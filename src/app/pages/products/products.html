@@ -1,9 +1,17 @@
 <app-top-menu></app-top-menu>
-<app-choose (onSearch)="updateFilters($event)"></app-choose>
-<app-showproducts
-  [categoryIds]="categoryIds"
-  [styleIds]="styleIds"
-  [desc]="desc"
-  [minPrice]="minPrice"
-  [maxPrice]="maxPrice">
-</app-showproducts>
+
+<div class="page-layout">
+  <aside class="sidebar">
+    <app-choose (onSearch)="updateFilters($event)"></app-choose>
+  </aside>
+
+  <main class="main-content">
+    <app-showproducts
+      [categoryIds]="categoryIds"
+      [styleIds]="styleIds"
+      [desc]="desc"
+      [minPrice]="minPrice"
+      [maxPrice]="maxPrice">
+    </app-showproducts>
+  </main>
+</div>
