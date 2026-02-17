@@ -173,7 +173,9 @@ export class Showproducts implements OnInit {
   private http = inject(HttpClient);
 
   ngOnInit() { this.fetchProducts(); }
-
+  ngOnChanges() {
+  this.fetchProducts();
+  }
   fetchProducts() {
     const baseUrl = environment.apiUrl.replace('/api', '');
     let params = new HttpParams()

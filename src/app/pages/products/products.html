@@ -1,6 +1,9 @@
 <app-top-menu></app-top-menu>
-
+<app-choose (onSearch)="updateFilters($event)"></app-choose>
 <app-showproducts
-  [categoryIds]="categoryId ? [categoryId] : []"
-  [styleIds]="styleId ? [styleId] : []">
+  [categoryIds]="categoryIds"
+  [styleIds]="styleIds"
+  [desc]="desc"
+  [minPrice]="minPrice"
+  [maxPrice]="maxPrice">
 </app-showproducts>

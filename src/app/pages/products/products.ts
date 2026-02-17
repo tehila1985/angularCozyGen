@@ -1,31 +1,40 @@
 import { Component, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Showproducts } from "../../components/showproducts/showproducts";
-import { TopMenu } from "../../components/top-menu/top-menu";
-import { Choose } from "../../components/choose/choose";
+import { Showproducts } from '../../components/showproducts/showproducts';
+import { TopMenu } from '../../components/top-menu/top-menu';
+import { ChooseComponent } from '../../components/choose/choose';
+import { search } from '../../models/search.model';
 
 @Component({
   selector: 'app-products',
   standalone: true,
-  imports: [Showproducts, TopMenu, Choose],
+  imports: [Showproducts, TopMenu, ChooseComponent],
   templateUrl: './products.html',
-  styleUrl: './products.css',
+  styleUrls: ['./products.css'],
 })
 export class Products {
-
-  categoryId = 0;
-  styleId = 0;
+  categoryIds: number[] = [];
+  styleIds: number[] = [];
+  desc: string = '';
+  minPrice: number = 0;
+  maxPrice: number = 999999;
 
   private route = inject(ActivatedRoute);
 
   ngOnInit() {
     this.route.queryParamMap.subscribe(params => {
-
-      this.categoryId =
-        Number(params.get('categoryId')) || 0;
-
-      this.styleId =
-        Number(params.get('styleId')) || 0;
+      const categoryId = Number(params.get('categoryId'));
+      const styleId = Number(params.get('styleId'));
+      this.categoryIds = categoryId ? [categoryId] : [];
+      this.styleIds = styleId ? [styleId] : [];
     });
+  }
+
+  updateFilters(filters: search) {
+    this.categoryIds = filters.categoryIds;
+    this.styleIds = filters.styleIds;
+    this.desc = filters.desc;
+    this.minPrice = filters.minPrice;
+    this.maxPrice = filters.maxPrice;
   }
 }
