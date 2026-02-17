@@ -162,7 +162,7 @@ import { Product } from '../../models/product.model';
 export class Showproducts implements OnInit {
   @Input() categoryIds: number[] = [];
   @Input() position = 0;
-  @Input() skip = 12;
+  @Input() skip = 40;
   @Input() desc = '';
   @Input() minPrice = 0;
   @Input() maxPrice = 999999;

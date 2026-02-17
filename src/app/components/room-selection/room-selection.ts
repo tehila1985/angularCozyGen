@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { environment } from '../../../environments/environment.development';
@@ -22,7 +22,8 @@ import { Room } from '../../models/room.model';
         <div *ngFor="let room of rooms; let i = index" 
              class="room-card" 
              [class.appear]="isLoaded"
-             [style.transition-delay]="(i * 150) + 'ms'">
+             [style.transition-delay]="(i * 150) + 'ms'"
+            >
           
           <div class="card-inner">
             <div class="image-zoom-wrapper">
@@ -38,7 +39,7 @@ import { Room } from '../../models/room.model';
                 <p class="collection-desc">{{ room.description }}</p>
                 <h4 class="room-title">{{ room.title }}</h4>
                 
-                <button class="modern-btn">
+                <button class="modern-btn" (click)="choose(room.id)">
                   <span class="btn-inner">
                     <span class="text">בחירה בסגנון זה</span>
                     <i class="pi pi-arrow-left"></i>
@@ -188,6 +189,10 @@ import { Room } from '../../models/room.model';
   `]
 })
 export class RoomSelection implements OnInit {
+  styleChosen = output<number>();
+  choose(id: number) {
+    this.styleChosen.emit(id); }
+
   isLoaded = false;
   rooms: Room[] = [];
   private http = inject(HttpClient);
