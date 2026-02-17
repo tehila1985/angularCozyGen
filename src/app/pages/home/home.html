@@ -2,11 +2,14 @@
     <app-top-menu></app-top-menu>
     <router-outlet></router-outlet>
     <app-navbar></app-navbar>
-    <app-room-selection></app-room-selection>
+    <app-room-selection
+    (styleChosen)="onStyleChoose($event)">
+    </app-room-selection>
 
     <app-furniture-gallery></app-furniture-gallery>
-
-    <app-product-selection></app-product-selection>
+    <app-product-selection 
+    (categoryChosen)="onCategoryChoose($event)">
+    </app-product-selection>
 
     <app-contact-footer></app-contact-footer>
      

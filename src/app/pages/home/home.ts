@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 // ייבוא של כל חמשת החלקים שיצרנו
 import { TopMenu } from '../../components/top-menu/top-menu';
 import { RoomSelection } from '../../components/room-selection/room-selection';
@@ -6,12 +6,11 @@ import { FurnitureGallery } from '../../components/furniture-gallery/furniture-g
 import { ProductSelection } from '../../components/product-selection/product-selection';
 import { ContactFooter } from '../../components/contact-footer/contact-footer';
 import { Navbar } from "../../components/navbar/navbar";
-import { RouterOutlet } from "@angular/router";
+import { Router, RouterOutlet } from "@angular/router";
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  // כאן אנחנו מוסיפים אותן לרשימת הייבוא של דף הבית
   imports: [
     TopMenu,
     RoomSelection,
@@ -24,4 +23,18 @@ import { RouterOutlet } from "@angular/router";
   templateUrl: './home.html',
   styleUrl: './home.css'
 })
-export class HomeComponent { }
+export class HomeComponent {
+   private router = inject(Router);
+
+onStyleChoose(styleId: number) {
+  this.router.navigate(['/products'], {
+    queryParams: { styleId }
+  });
+}
+
+ onCategoryChoose(categoryId: number) {
+  this.router.navigate(['/products'], {
+    queryParams: { categoryId }
+  });
+}
+}
