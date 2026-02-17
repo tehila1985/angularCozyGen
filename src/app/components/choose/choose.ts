@@ -1,8 +1,8 @@
 import { Component, Output, EventEmitter, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { search } from '../../models/search.model';  
-import { StyleService } from '../../services/style'; 
+import { search } from '../../models/search.model';
+import { StyleService } from '../../services/style';
 import { CategoryService } from '../../services/category';
 
 @Component({
@@ -14,12 +14,11 @@ import { CategoryService } from '../../services/category';
       <h3 class="sidebar-title">סינון תוצאות</h3>
       
       <div class="filter-section">
-        <label class="section-label">חיפוש חופשי</label>
+        <label class="section-label">חיפוש חופשי בעמוד</label>
         <input 
           type="text" 
           [(ngModel)]="searchTerm" 
           (input)="search()" 
-          (keyup.enter)="search()"
           placeholder="חפשו שם מוצר או תיאור..." 
           class="ikea-input"
         >
@@ -47,7 +46,7 @@ import { CategoryService } from '../../services/category';
               <input type="checkbox" [id]="'stl-'+stl.styleId" 
                      [checked]="styleIds.includes(stl.styleId)"
                      (change)="toggleStyle(stl.styleId)">
-              <label [for]="'stl-'+stl.styleId">{{ formatStyleName(stl.name) }}</label>
+              <label [for]="'stl-'+stl.styleId">{{ stl.name.replace('_', ' ') }}</label>
             </div>
           </div>
         </details>
@@ -63,26 +62,21 @@ import { CategoryService } from '../../services/category';
         </details>
       </div>
 
-      <button (click)="search()" class="apply-btn">החל מסננים</button>
       <button (click)="reset()" class="reset-btn">נקה הכל</button>
     </div>
   `,
   styles: [`
-    .filter-sidebar { direction: rtl; padding: 5px; color: #111; font-family: 'Inter', sans-serif; }
-    .sidebar-title { font-size: 1.4rem; font-weight: 700; margin-bottom: 30px; }
+    .filter-sidebar { direction: rtl; padding: 20px; font-family: sans-serif; color: #111; border-left: 1px solid #e5e5e5; }
+    .sidebar-title { font-size: 1.4rem; font-weight: 700; margin-bottom: 25px; }
     .filter-section { border-top: 1px solid #e5e5e5; padding: 20px 0; }
     .section-label { display: block; font-weight: 700; margin-bottom: 10px; font-size: 0.9rem; }
-    summary { list-style: none; display: flex; justify-content: space-between; font-weight: 700; cursor: pointer; }
-    summary::after { content: '+'; }
-    details[open] summary::after { content: '–'; }
+    summary { font-weight: 700; cursor: pointer; display: flex; justify-content: space-between; }
     .checkbox-group { padding-top: 15px; display: flex; flex-direction: column; gap: 12px; }
     .checkbox-row { display: flex; align-items: center; gap: 12px; }
-    .checkbox-row input { width: 20px; height: 20px; accent-color: #0058a3; cursor: pointer; }
+    .checkbox-row input { width: 18px; height: 18px; accent-color: #0058a3; }
     .ikea-input { width: 100%; padding: 12px; border: 1px solid #929292; border-radius: 4px; box-sizing: border-box; }
     .price-flex { display: flex; gap: 10px; padding-top: 15px; }
     .small { width: 50%; }
-    .apply-btn { width: 100%; background: #111; color: #fff; border: none; padding: 16px; border-radius: 50px; font-weight: 700; margin-top: 25px; cursor: pointer; transition: opacity 0.2s; }
-    .apply-btn:hover { opacity: 0.8; }
     .reset-btn { width: 100%; background: transparent; border: none; text-decoration: underline; color: #484848; margin-top: 15px; cursor: pointer; }
   `]
 })
@@ -92,7 +86,7 @@ export class ChooseComponent implements OnInit {
   private categoryService = inject(CategoryService);
   private styleService = inject(StyleService);
   
-  searchTerm = ''; // שינוי שם לצורך בהירות הקוד
+  searchTerm = '';
   categoryIds: number[] = []; 
   styleIds: number[] = [];
   minPrice = 0; 
@@ -106,28 +100,21 @@ export class ChooseComponent implements OnInit {
     this.fetchStyles(); 
   }
 
-  // פונקציה להחלפת קו תחתי ברווח בתצוגה בלבד
-  formatStyleName(name: string): string {
-    if (!name) return '';
-    return name.replace(/_/g, ' ');
-  }
-
   toggleCategory(id: number) {
     const index = this.categoryIds.indexOf(id);
     if (index > -1) this.categoryIds.splice(index, 1);
     else this.categoryIds.push(id);
-    this.search(); // חיפוש אוטומטי בסימון/ביטול קטגוריה
+    this.search();
   }
 
   toggleStyle(id: number) {
     const index = this.styleIds.indexOf(id);
     if (index > -1) this.styleIds.splice(index, 1);
     else this.styleIds.push(id);
-    this.search(); // חיפוש אוטומטי בסימון/ביטול סטייל
+    this.search();
   }
 
   search() {
-    // השליחה עדיין משתמשת במפתח 'desc' כדי להתאים לסרוויס ולשרת שלך
     this.onSearch.emit({ 
       desc: this.searchTerm, 
       categoryIds: [...this.categoryIds], 
@@ -147,16 +134,10 @@ export class ChooseComponent implements OnInit {
   }
 
   fetchCategories() { 
-    this.categoryService.getCategories().subscribe({
-      next: (data) => this.availableCategories = data,
-      error: (err) => console.error('Error loading categories', err)
-    });
+    this.categoryService.getCategories().subscribe(data => this.availableCategories = data);
   }
 
   fetchStyles() { 
-    this.styleService.getStyles().subscribe({
-      next: (data) => this.availableStyles = data,
-      error: (err) => console.error('Error loading styles', err)
-    });
+    this.styleService.getStyles().subscribe(data => this.availableStyles = data);
   }
 }

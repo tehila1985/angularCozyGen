@@ -1,0 +1,11 @@
+.search-container {
+  padding: 10px;
+}
+
+.ikea-input {
+  width: 10%;
+  padding: 12px;
+  border: 1px solid #929292;
+  border-radius: 4px;
+  box-sizing: border-box;
+}

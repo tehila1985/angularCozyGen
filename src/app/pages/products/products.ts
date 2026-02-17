@@ -4,11 +4,12 @@ import { Showproducts } from '../../components/showproducts/showproducts';
 import { TopMenu } from '../../components/top-menu/top-menu';
 import { ChooseComponent } from '../../components/choose/choose';
 import { search } from '../../models/search.model';
+import { SearchComponent } from "../../components/search/search";
 
 @Component({
   selector: 'app-products',
   standalone: true,
-  imports: [Showproducts, TopMenu, ChooseComponent],
+  imports: [Showproducts, TopMenu, ChooseComponent, SearchComponent],
   templateUrl: './products.html',
   styleUrls: ['./products.css'],
 })

@@ -1,10 +1,9 @@
 <app-top-menu></app-top-menu>
-
+<app-search (onSearch)="updateFilters($event)"></app-search>
 <div class="page-layout">
   <aside class="sidebar">
     <app-choose (onSearch)="updateFilters($event)"></app-choose>
   </aside>
-
   <main class="main-content">
     <app-showproducts
       [categoryIds]="categoryIds"
