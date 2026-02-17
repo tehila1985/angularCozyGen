@@ -1,10 +1,11 @@
-import { Component, OnInit, inject, output } from '@angular/core';
+import { Component, OnInit, inject, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { HttpClient, HttpParams } from '@angular/common/http';
-import { environment } from '../../../environments/environment.development';
 import { firstValueFrom } from 'rxjs';
+import { environment } from '../../../environments/environment.development';
 import { Style } from '../../models/style.model';
 import { Room } from '../../models/room.model';
+import { StyleService } from '../../services/style';
+import { ProductService } from '../../services/product';
 
 @Component({
   selector: 'app-room-selection',
@@ -22,8 +23,7 @@ import { Room } from '../../models/room.model';
         <div *ngFor="let room of rooms; let i = index" 
              class="room-card" 
              [class.appear]="isLoaded"
-             [style.transition-delay]="(i * 150) + 'ms'"
-            >
+             [style.transition-delay]="(i * 150) + 'ms'">
           
           <div class="card-inner">
             <div class="image-zoom-wrapper">
@@ -72,7 +72,7 @@ import { Room } from '../../models/room.model';
     }
 
     .style-heading { 
-      font-size: 4.5rem; /* כותרת ראשית ענקית ומודרנית */
+      font-size: 4.5rem; 
       font-weight: 200; 
       margin: 0; 
       color: #1a1a1a;
@@ -135,7 +135,7 @@ import { Room } from '../../models/room.model';
     .bottom-content { color: #fff; }
 
     .collection-desc { 
-      font-size: 1.3rem; /* תיאור מוגדל */
+      font-size: 1.3rem; 
       margin-bottom: 12px; 
       font-weight: 300;
       opacity: 0.95;
@@ -143,7 +143,7 @@ import { Room } from '../../models/room.model';
     }
 
     .room-title { 
-      font-size: 3.5rem; /* כותרת הקלף מוגדלת מאוד */
+      font-size: 3.5rem; 
       font-weight: 700; 
       margin: 0 0 35px 0; 
       line-height: 1;
@@ -154,7 +154,7 @@ import { Room } from '../../models/room.model';
       width: 100%;
       background: #fff;
       border: none;
-      height: 70px; /* כפתור גבוה יותר */
+      height: 70px; 
       cursor: pointer;
       transition: all 0.4s ease;
       opacity: 0;
@@ -189,44 +189,47 @@ import { Room } from '../../models/room.model';
   `]
 })
 export class RoomSelection implements OnInit {
-  styleChosen = output<number>();
-  choose(id: number) {
-    this.styleChosen.emit(id); }
+  @Output() styleChosen = new EventEmitter<number>();
+  choose(id: number) { this.styleChosen.emit(id); }
 
   isLoaded = false;
   rooms: Room[] = [];
-  private http = inject(HttpClient);
-  
+
+  private styleService = inject(StyleService);
+  private productService = inject(ProductService);
+
   ngOnInit() { this.fetchRooms(); }
 
   async getProductCountForStyle(styleId: number): Promise<number> {
-    const params = new HttpParams().set('position', '1').set('skip', '1').set('styleIds', styleId.toString());
     try {
-      const res = await firstValueFrom(this.http.get<any>(`${environment.apiUrl}/Product`, { params }));
+      const filters = { styleIds: [styleId], position: 1, skip: 1 };
+      const res = await firstValueFrom(this.productService.getProducts(filters));
       return res.totalCount ?? res.TotalCount ?? res.item2 ?? 0;
-    } catch { return 0; }
+    } catch { 
+      return 0; 
+    }
   }
 
-  fetchRooms() {
+  async fetchRooms() {
     const baseUrl = environment.apiUrl.replace('/api', '');
-    this.http.get<Style[]>(`${environment.apiUrl}/Style`).subscribe({
-      next: async (data) => {
-        this.rooms = await Promise.all(data.map(async (s) => {
-          const id = s.styleId;
-          const count = await this.getProductCountForStyle(id);
-          const imgPath = s.imageUrl|| '';
-          return {
-            id,
-            title: (s.name || '').replace(/_/g, ' '),
-            description: s.description,
-            count: count,
-            image: imgPath.startsWith('http') ? imgPath : `${baseUrl}/${imgPath}`
-          };
-        }));
-        setTimeout(() => (this.isLoaded = true), 100);
-      }
-    });
+    const styles = await firstValueFrom(this.styleService.getStyles());
+
+    this.rooms = await Promise.all(styles.map(async (s: Style) => {
+      const count = await this.getProductCountForStyle(s.styleId);
+      const imgPath = s.imageUrl || '';
+      return {
+        id: s.styleId,
+        title: (s.name || '').replace(/_/g, ' '),
+        description: s.description,
+        count,
+        image: imgPath.startsWith('http') ? imgPath : `${baseUrl}/${imgPath}`
+      };
+    }));
+
+    setTimeout(() => (this.isLoaded = true), 100);
   }
 
-  handleImageError(e: any) { e.target.src = 'https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?q=80&w=1000'; }
+  handleImageError(e: any) { 
+    e.target.src = 'https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?q=80&w=1000'; 
+  }
 }

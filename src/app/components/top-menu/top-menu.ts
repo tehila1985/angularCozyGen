@@ -1,37 +1,84 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { MenuItem } from 'primeng/api';
 import { MenubarModule } from 'primeng/menubar';
-import { RouterModule } from '@angular/router';
+import { RouterModule, Router } from '@angular/router';
+import { CategoryService } from '../../services/category';
+import { StyleService } from '../../services/style';
+
 @Component({
   selector: 'app-top-menu',
-  standalone: true, 
-  imports: [MenubarModule,RouterModule],
+  standalone: true,
+  imports: [MenubarModule, RouterModule],
   templateUrl: './top-menu.html',
-  styleUrl: './top-menu.css',
+  styleUrls: ['./top-menu.css'],
 })
 export class TopMenu implements OnInit {
-  items: MenuItem[] | undefined;
+  items: MenuItem[] = [];
+
+  private categoryService = inject(CategoryService);
+  private styleService = inject(StyleService);
+  private router = inject(Router);
+
+  availableCategories: any[] = [];
+  availableStyles: any[] = [];
 
   ngOnInit() {
+    this.loadCategories();
+    this.loadStyles();
+  }
+
+  private loadCategories() {
+    this.categoryService.getCategories().subscribe({
+      next: (cats) => {
+        this.availableCategories = cats;
+        this.updateMenu();
+      },
+      error: (err) => console.error('Error loading categories', err)
+    });
+  }
+
+  private loadStyles() {
+    this.styleService.getStyles().subscribe({
+      next: (styles) => {
+        this.availableStyles = styles;
+        this.updateMenu();
+      },
+      error: (err) => console.error('Error loading styles', err)
+    });
+  }
+
+  private updateMenu() {
+    if (!this.availableCategories.length || !this.availableStyles.length) return;
+
     this.items = [
-      { label: 'Home', icon: 'pi pi-home',routerLink: '/', fragment: 'home-section' },
-      { label: 'Shop by Style', icon: 'pi pi-image',routerLink: '/', fragment: 'styles-section'},
+      { label: 'Home', icon: 'pi pi-home', routerLink: '/', fragment: 'home-section' },
+
+      {
+        label: 'Shop by Style',
+        icon: 'pi pi-image',
+        items: this.availableStyles.map(stl => ({
+          label: stl.name.replace(/_/g, ' '),
+          icon: 'pi pi-palette',
+          command: () => this.navigateToProducts({ styleId: stl.styleId })
+        }))
+      },
+
       {
         label: 'Shop by Category',
-        routerLink: '/',
-        fragment: 'products-section',
         icon: 'pi pi-th-large',
-        items: [
-          { label: 'Sofas', icon: 'pi pi-heart' },
-          { label: 'Sideboards & Display Cabinets', icon: 'pi pi-inbox' },
-          { label: 'TV & Media Units', icon: 'pi pi-desktop' },
-          { label: 'Coffee & Side Tables', icon: 'pi pi-table' },
-          { label: 'Rugs', icon: 'pi pi-clone' },
-          { label: 'Lighting', icon: 'pi pi-sun' }
-        ]
+        items: this.availableCategories.map(cat => ({
+          label: cat.name,
+          icon: 'pi pi-tag',
+          command: () => this.navigateToProducts({ categoryId: cat.categoryId })
+        }))
       },
-      { label: 'Contact', icon: 'pi pi-envelope' },
-      { label: 'Shopping Cart', icon: 'pi pi-shopping-cart'}
+
+      { label: 'Contact', icon: 'pi pi-envelope', routerLink: '/contact' },
+      { label: 'Shopping Cart', icon: 'pi pi-shopping-cart', routerLink: '/cart' }
     ];
+  }
+
+  private navigateToProducts(params: { categoryId?: number; styleId?: number }) {
+    this.router.navigate(['/products'], { queryParams: params });
   }
 }
