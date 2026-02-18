@@ -132,10 +132,9 @@ export class Showproducts implements OnInit, OnChanges {
 
         if (hasSearch) {
           const searchTerm = this.desc.trim().toLowerCase();
-          this.rooms = mapped.filter((p: any) => {
-            const titleWords = p.title.toLowerCase().split(/\s+/);
-            return titleWords.some((word: string) => word === searchTerm);
-          });
+          this.rooms = mapped.filter((p: any) => 
+            p.title.toLowerCase().includes(searchTerm)
+          );
           this.totalItems = this.rooms.length;
           this.totalPages = this.rooms.length > 0 ? 1 : 0;
           this.pagesArray = this.rooms.length > 0 ? [1] : [];
