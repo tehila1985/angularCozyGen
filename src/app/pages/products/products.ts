@@ -1,8 +1,7 @@
 import { Component, inject, ViewChild } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Showproducts } from '../../components/showproducts/showproducts';
 import { TopMenu } from '../../components/top-menu/top-menu';
-import { ChooseComponent } from '../../components/choose/choose';
 import { search } from '../../models/search.model';
 import { SearchComponent } from "../../components/search/search";
 import { PriceFilterComponent } from '../../components/price-filter/price-filter';
@@ -10,7 +9,7 @@ import { PriceFilterComponent } from '../../components/price-filter/price-filter
 @Component({
   selector: 'app-products',
   standalone: true,
-  imports: [Showproducts, TopMenu, ChooseComponent, SearchComponent, PriceFilterComponent],
+  imports: [Showproducts, TopMenu, SearchComponent, PriceFilterComponent],
   templateUrl: './products.html',
   styleUrls: ['./products.css'],
 })
@@ -18,13 +17,22 @@ export class Products {
   @ViewChild(PriceFilterComponent) priceFilter!: PriceFilterComponent;
   @ViewChild(SearchComponent) searchComponent!: SearchComponent;
   
+  private route = inject(ActivatedRoute);
+  private router = inject(Router);
+  
   categoryIds: number[] = [];
   styleIds: number[] = [];
   desc: string = '';
   minPrice: number = 0;
   maxPrice: number = 999999;
 
-  private route = inject(ActivatedRoute);
+  onProductChoose(product: any) {
+    this.router.navigate(['/item'], {
+      queryParams: { 
+        product: JSON.stringify(product) 
+      }
+    });
+  }
 
   ngOnInit() {
     this.route.queryParamMap.subscribe(params => {

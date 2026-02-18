@@ -1,4 +1,4 @@
-import { Component, inject, Input, OnInit, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, inject, Input, OnInit, OnChanges, SimpleChanges, output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ProductService } from '../../services/product';
 import { Product } from '../../models/product.model';
@@ -11,7 +11,7 @@ import { environment } from '../../../environments/environment.development';
   template: `
   <section class="ikea-products">
     <div class="products-grid" *ngIf="rooms.length > 0; else noProducts">
-      <div *ngFor="let product of rooms" class="product-card">
+      <div *ngFor="let product of rooms" class="product-card" (click)="choose(product)">
         <div class="image-container">
           <img class="img-front" [src]="product.frontImageUrl" (error)="handleImageError($event)" alt="{{ product.title }}">
           <img class="img-back" [src]="product.backImageUrl" (error)="handleImageError($event)" alt="{{ product.title }}">
@@ -79,6 +79,12 @@ import { environment } from '../../../environments/environment.development';
   `]
 })
 export class Showproducts implements OnInit, OnChanges {
+  productChosen = output<any>();
+  
+  choose(p: any) {
+    this.productChosen.emit(p);
+  }
+
   @Input() categoryIds: number[] = [];
   @Input() styleIds: number[] = [];
   @Input() desc = '';
@@ -123,9 +129,12 @@ export class Showproducts implements OnInit, OnChanges {
         const baseUrl = environment.apiUrl.replace('/api', '');
         const mapped = productsFromServer.map((s: any) => ({
           id: s.productId,
+          productId: s.productId,
           title: (s.name || '').replace(/_/g, ' '),
-          description: s.description,
+          name: (s.name || '').replace(/_/g, ' '),
+          description: s.description || '',
           price: s.price,
+          categoryName: s.categoryName || '',
           frontImageUrl: s.frontImageUrl?.startsWith('http') ? s.frontImageUrl : `${baseUrl}/${s.frontImageUrl}`,
           backImageUrl: s.backImageUrl?.startsWith('http') ? s.backImageUrl : `${baseUrl}/${s.backImageUrl}`
         }));

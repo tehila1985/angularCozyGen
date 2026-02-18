@@ -10,7 +10,8 @@
       [styleIds]="styleIds"
       [desc]="desc"
       [minPrice]="minPrice"
-      [maxPrice]="maxPrice">
+      [maxPrice]="maxPrice"
+      (productChosen)="onProductChoose($event)">
     </app-showproducts>
   </main>
 </div>

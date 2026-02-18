@@ -1,0 +1,47 @@
+@if (product) {
+<div class="product-page-container">
+  <div class="gallery-layout">
+    <div class="thumb-list">
+      <img 
+        [src]="product.frontImageUrl" 
+        (click)="activeImage = product.frontImageUrl"
+        [class.selected]="activeImage === product.frontImageUrl">
+      <img 
+        [src]="product.backImageUrl" 
+        (click)="activeImage = product.backImageUrl"
+        [class.selected]="activeImage === product.backImageUrl">
+    </div>
+    <div class="main-display">
+      <img [src]="activeImage || product.frontImageUrl">
+    </div>
+  </div>
+  <div class="product-details">
+    <span class="category-path">
+      קולקציה / {{ product.categoryName }}
+    </span>
+    <h1 class="item-name">
+      {{ product.name }}
+    </h1>
+    <div class="price">
+      ₪{{ product.price }}
+    </div>
+    
+    <p class="product-description">{{ product.description }}</p>
+    
+    <div class="buy-box">
+      <div class="qty-control">
+        <button (click)="qty = qty + 1">+</button>
+        <span>{{ qty }}</span>
+        <button (click)="qty = qty > 1 ? qty - 1 : 1">-</button>
+      </div>
+      <button class="add-btn" (click)="addToCart()">
+        הוספה לסל הקניות
+      </button>
+    </div>
+    <div class="info-footer">
+      <p><span>משלוח:</span> עד 7 ימי עסקים</p>
+      <p><span>חומרים:</span> חומרי פרימיום בגימור פרימיום</p>
+    </div>
+  </div>
+</div>
+}
