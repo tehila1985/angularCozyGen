@@ -24,4 +24,8 @@ export class SearchComponent {
       maxPrice: 999999
     });
   }
+
+  resetSearch() {
+    this.searchTerm = '';
+  }
 }
