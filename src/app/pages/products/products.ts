@@ -30,18 +30,21 @@ export class Products {
     this.route.queryParamMap.subscribe(params => {
       const categoryId = Number(params.get('categoryId'));
       const styleId = Number(params.get('styleId'));
+      const search = params.get('search') || '';
+      
       this.categoryIds = categoryId ? [categoryId] : [];
       this.styleIds = styleId ? [styleId] : [];
+      this.desc = search;
       
-      // Reset filters on navigation
-      this.desc = '';
-      this.minPrice = 0;
-      this.maxPrice = 999999;
-      
-      setTimeout(() => {
-        if (this.priceFilter) this.priceFilter.resetFilter();
-        if (this.searchComponent) this.searchComponent.resetSearch();
-      });
+      if (!search) {
+        this.minPrice = 0;
+        this.maxPrice = 999999;
+        
+        setTimeout(() => {
+          if (this.priceFilter) this.priceFilter.resetFilter();
+          if (this.searchComponent) this.searchComponent.resetSearch();
+        });
+      }
     });
   }
 
@@ -57,5 +60,9 @@ export class Products {
     this.minPrice = filters.minPrice;
     this.maxPrice = filters.maxPrice;
     this.desc = filters.searchName;
+  }
+
+  updateSearch(searchTerm: string) {
+    this.desc = searchTerm;
   }
 }

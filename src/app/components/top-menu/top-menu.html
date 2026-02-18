@@ -1,3 +1,22 @@
- <div class="card">
-            <p-menubar [model]="items" />
+<div class="ikea-header">
+  <div class="header-top">
+    <div class="logo-section">
+      <h1 class="logo">CozyGen</h1>
+    </div>
+    <app-search *ngIf="showSearch" class="search-wrapper" (onSearch)="handleSearch($event)"></app-search>
+    <div class="header-actions">
+      <button class="icon-btn" (click)="toggleSearch()">
+        <i class="pi pi-search"></i>
+      </button>
+      <button class="icon-btn">
+        <i class="pi pi-user"></i>
+      </button>
+      <button class="icon-btn">
+        <i class="pi pi-shopping-cart"></i>
+      </button>
+    </div>
+  </div>
+  <div class="header-nav">
+    <p-menubar [model]="items" />
+  </div>
 </div>

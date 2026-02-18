@@ -1,10 +1,88 @@
-:host {
-  position: relative;
+.ikea-header {
+  background: #fff;
+  position: sticky;
   top: 0;
-  left: 0;
-  right: 0;
   z-index: 1000;
-  background: #fff; 
-  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
 }
 
+.header-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 40px;
+  max-width: 1920px;
+  margin: 0 auto;
+  gap: 40px;
+}
+
+.logo-section {
+  flex: 0 0 auto;
+}
+
+.logo {
+  font-size: 32px;
+  font-weight: 700;
+  color: #008B8B;
+  margin: 0;
+}
+
+.search-wrapper {
+  flex: 1;
+  max-width: 600px;
+}
+
+.header-actions {
+  display: flex;
+  gap: 16px;
+  flex: 0 0 auto;
+}
+
+.icon-btn {
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  color: #111;
+  padding: 8px;
+  transition: color 0.2s;
+}
+
+.icon-btn:hover {
+  color: #008B8B;
+}
+
+.header-nav {
+  background: #fff;
+}
+
+/* PrimeNG Menubar */
+::ng-deep .p-menubar {
+  background: transparent !important;
+  border: none !important;
+  padding: 0 40px !important;
+  max-width: 1920px;
+  margin: 0 auto;
+}
+
+::ng-deep .p-menubar .p-menuitem-link {
+  padding: 16px 20px !important;
+  color: #111 !important;
+  font-weight: 700 !important;
+  font-size: 14px !important;
+}
+
+::ng-deep .p-menubar .p-menuitem-link:hover {
+  background: #fff !important;
+  color: #008B8B !important;
+  text-decoration: none !important;
+}
+
+::ng-deep .p-menubar .p-menuitem-link:focus {
+  box-shadow: none !important;
+  outline: none !important;
+}
+
+::ng-deep .p-menubar .p-menuitem-link:active {
+  text-decoration: none !important;
+}

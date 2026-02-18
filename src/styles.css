@@ -1,1 +1,74 @@
 @import "primeicons/primeicons.css";
+
+/* IKEA Design System - Global Styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Noto IKEA', 'Noto Sans Hebrew', -apple-system, BlinkMacSystemFont, sans-serif;
+  color: #111;
+  background: #fff;
+  line-height: 1.5;
+  direction: rtl;
+}
+
+/* Color Palette */
+:root {
+  --primary-turquoise: #008B8B;
+  --dark-turquoise: #006666;
+  --light-gray: #f5f5f5;
+  --ikea-black: #111;
+  --ikea-gray: #929292;
+  --ikea-border: #dfdfdf;
+}
+
+/* Typography */
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 700;
+  color: var(--ikea-black);
+}
+
+a {
+  color: var(--ikea-black);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* Buttons */
+.ikea-btn {
+  background: var(--primary-turquoise);
+  color: #fff;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 50px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.ikea-btn:hover {
+  background: var(--dark-turquoise);
+}
+
+.ikea-btn-secondary {
+  background: var(--ikea-black);
+  color: #fff;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 50px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.ikea-btn-secondary:hover {
+  background: #484848;
+}

@@ -1,11 +1,22 @@
 .search-container {
-  padding: 10px;
+  padding: 0;
+  width: 100%;
 }
 
 .ikea-input {
-  width: 10%;
-  padding: 12px;
-  border: 1px solid #929292;
-  border-radius: 4px;
-  box-sizing: border-box;
+  width: 100%;
+  padding: 12px 45px 12px 20px;
+  border: 2px solid #dfdfdf;
+  border-radius: 50px;
+  font-size: 14px;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.ikea-input:focus {
+  border-color: #008B8B;
+}
+
+.ikea-input::placeholder {
+  color: #929292;
 }

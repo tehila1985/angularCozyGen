@@ -56,28 +56,27 @@ import { firstValueFrom } from 'rxjs';
     </section>
   `,
   styles: [`
-    /* הסטייל נשאר ללא שינוי */
-    .selection-section { padding: 80px 6%; background: #fafafa; direction: rtl; font-family: 'Inter', system-ui, sans-serif; overflow: hidden; }
-    .header-container { text-align: center; margin-bottom: 50px; }
-    .category-label { font-size: .85rem; letter-spacing: 4px; color: #b1935b; font-weight: 600; display: block; margin-bottom: 12px; }
-    .style-heading { font-size: 3.8rem; font-weight: 300; margin: 0; color: #1a1a1a; }
-    .style-subtext { color: #888; font-size: 1.05rem; margin-top: 12px; }
-    .rooms-grid { display: flex; gap: 20px; overflow-x: auto; scroll-behavior: smooth; padding-bottom: 8px; scroll-snap-type: x mandatory; }
-    .rooms-grid::-webkit-scrollbar { height: 0; }
-    .room-card { flex: 0 0 300px; height: 280px; scroll-snap-align: start; opacity: 0; transform: translateY(12px); transition: all .6s ease; cursor: pointer; }
+    .selection-section { padding: 80px 40px; background: #fff; direction: rtl; font-family: 'Noto Sans Hebrew', sans-serif; }
+    .header-container { text-align: center; margin-bottom: 48px; }
+    .category-label { font-size: 12px; letter-spacing: 2px; color: #929292; font-weight: 700; display: block; margin-bottom: 16px; text-transform: uppercase; }
+    .style-heading { font-size: 48px; font-weight: 700; margin: 0; color: #111; }
+    .style-subtext { color: #484848; font-size: 18px; margin-top: 16px; }
+    .rooms-grid { display: flex; gap: 16px; overflow-x: auto; scroll-behavior: smooth; padding-bottom: 16px; scroll-snap-type: x mandatory; max-width: 1920px; margin: 0 auto; }
+    .rooms-grid::-webkit-scrollbar { height: 8px; }
+    .rooms-grid::-webkit-scrollbar-track { background: #f5f5f5; }
+    .rooms-grid::-webkit-scrollbar-thumb { background: #dfdfdf; border-radius: 4px; }
+    .room-card { flex: 0 0 320px; height: 320px; scroll-snap-align: start; opacity: 0; transform: translateY(20px); transition: all 0.5s ease; cursor: pointer; }
     .room-card.appear { opacity: 1; transform: translateY(0); }
-    .card-inner { width: 100%; height: 100%; border-radius: 8px; overflow: hidden; position: relative; }
+    .card-inner { width: 100%; height: 100%; border-radius: 0; overflow: hidden; position: relative; }
     .image-zoom-wrapper, img { width: 100%; height: 100%; }
-    img { object-fit: cover; transition: transform .8s ease; }
-    .room-card:hover img { transform: scale(1.05); }
-    .card-overlay { position: absolute; inset: 0; background: rgba(0,0,0,.28); display: flex; flex-direction: column; justify-content: space-between; padding: 18px; transition: background .3s ease; }
-    .room-card:hover .card-overlay { background: rgba(0,0,0,.45); }
-    .count-pill { background: white; color: black; padding: 5px 10px; font-size: .75rem; font-weight: 600; border-radius: 4px; }
-    .bottom-content { color: white; transition: transform .3s ease; }
-    .room-card:hover .bottom-content { transform: translateY(-2px); }
-    .room-title { margin: 0 0 8px; font-size: 1.4rem; font-weight: 600; }
-    .explore-link { display: flex; align-items: center; gap: 8px; font-size: .9rem; opacity: .9; }
-    @media (max-width: 600px) { .room-card { flex: 0 0 240px; height: 220px; } .style-heading { font-size: 2.2rem; } }
+    img { object-fit: cover; transition: transform 0.4s ease; }
+    .room-card:hover img { transform: scale(1.08); }
+    .card-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.6) 0%, transparent 60%); display: flex; flex-direction: column; justify-content: space-between; padding: 20px; }
+    .count-pill { background: white; color: #111; padding: 6px 12px; font-size: 12px; font-weight: 700; border-radius: 50px; display: inline-block; }
+    .bottom-content { color: white; }
+    .room-title { margin: 0 0 12px; font-size: 24px; font-weight: 700; color: white; }
+    .explore-link { display: flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 700; }
+    @media (max-width: 600px) { .room-card { flex: 0 0 280px; height: 280px; } .style-heading { font-size: 32px; } }
   `]
 })
 export class ProductSelection implements OnInit {

@@ -4,16 +4,19 @@ import { MenubarModule } from 'primeng/menubar';
 import { RouterModule, Router } from '@angular/router';
 import { CategoryService } from '../../services/category';
 import { StyleService } from '../../services/style';
+import { SearchComponent } from '../search/search';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-top-menu',
   standalone: true,
-  imports: [MenubarModule, RouterModule],
+  imports: [MenubarModule, RouterModule, SearchComponent, CommonModule],
   templateUrl: './top-menu.html',
   styleUrls: ['./top-menu.css'],
 })
 export class TopMenu implements OnInit {
   items: MenuItem[] = [];
+  showSearch = false;
 
   private categoryService = inject(CategoryService);
   private styleService = inject(StyleService);
@@ -21,6 +24,21 @@ export class TopMenu implements OnInit {
 
   availableCategories: any[] = [];
   availableStyles: any[] = [];
+
+  toggleSearch() {
+    this.showSearch = !this.showSearch;
+  }
+
+  handleSearch(filters: any) {
+    this.router.navigate(['/products'], { 
+      queryParams: { 
+        search: filters.desc 
+      },
+      queryParamsHandling: 'merge'
+    }).then(() => {
+      this.showSearch = false;
+    });
+  }
 
   ngOnInit() {
     this.loadCategories();
@@ -74,7 +92,6 @@ export class TopMenu implements OnInit {
       },
 
       { label: 'Contact', icon: 'pi pi-envelope', routerLink: '/contact' },
-      { label: 'Shopping Cart', icon: 'pi pi-shopping-cart', routerLink: '/cart' }
     ];
   }
 

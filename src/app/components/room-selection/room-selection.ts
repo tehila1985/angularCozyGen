@@ -148,6 +148,7 @@ import { ProductService } from '../../services/product';
       margin: 0 0 35px 0; 
       line-height: 1;
       letter-spacing: -1px;
+      color: #fff;
     }
 
     .modern-btn {
