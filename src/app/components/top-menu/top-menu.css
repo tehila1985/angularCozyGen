@@ -20,11 +20,14 @@
   flex: 0 0 auto;
 }
 
-.logo {
-  font-size: 32px;
-  font-weight: 700;
-  color: #008B8B;
-  margin: 0;
+.logo-img {
+  height: 80px;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.logo-img:hover {
+  opacity: 0.8;
 }
 
 .search-wrapper {

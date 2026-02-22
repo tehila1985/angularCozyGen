@@ -1,5 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
+import { UserService } from '../../services/user';
 
 @Component({
   selector: 'app-cart-details',
@@ -81,6 +83,8 @@ export class CartDetailsComponent {
   cart: any[] = [];
   isLoaded = false;
 
+  constructor(private router: Router, private userService: UserService) {}
+
   ngOnInit() { this.loadCart(); }
 
   loadCart() {
@@ -104,5 +108,11 @@ export class CartDetailsComponent {
 
   getTotal(): number { return this.cart.reduce((sum, item) => sum + (item.price * item.quantity), 0); }
 
-  checkout() { alert('מעבר להזמנה...'); }
+  checkout() {
+    if (!this.userService.isLoggedIn()) {
+      this.router.navigate(['/auth']);
+      return;
+    }
+    this.router.navigate(['/checkout']);
+  }
 }

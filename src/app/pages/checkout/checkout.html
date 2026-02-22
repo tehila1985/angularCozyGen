@@ -1,0 +1,59 @@
+<div class="checkout-container">
+  <div class="checkout-content">
+    
+    <h1 class="checkout-title">השלמת הזמנה</h1>
+
+    <p-message *ngIf="errorMessage" severity="error" [text]="errorMessage"></p-message>
+    <p-message *ngIf="successMessage" severity="success" [text]="successMessage"></p-message>
+
+    <div class="order-summary" *ngIf="!successMessage">
+      <h2>סיכום הזמנה</h2>
+      
+      <div class="items-list">
+        <div *ngFor="let item of cart" class="summary-item">
+          <div class="item-details">
+            <img [src]="item.image" [alt]="item.name" class="item-image">
+            <div>
+              <h4>{{ item.name }}</h4>
+              <p>כמות: {{ item.quantity }}</p>
+            </div>
+          </div>
+          <div class="item-price">₪{{ (item.price * item.quantity).toFixed(2) }}</div>
+        </div>
+      </div>
+
+      <div class="total-section">
+        <h3>סה"כ לתשלום</h3>
+        <h2 class="total-amount">₪{{ totalAmount.toFixed(2) }}</h2>
+      </div>
+
+      <div class="payment-section">
+        <h3>בחר אמצעי תשלום</h3>
+        
+        <!-- כפתור בדיקה -->
+        <div class="test-payment">
+          <p-button 
+            label="השלם הזמנה (בדיקה - ללא תשלום)" 
+            icon="pi pi-check" 
+            (onClick)="completeOrderWithoutPayment()"
+            styleClass="p-button-success w-full"
+            [disabled]="isProcessing"
+          ></p-button>
+          <small style="display: block; text-align: center; margin-top: 8px; color: #666;">
+            כפתור זה ישמור את ההזמנה בדאטה בייס ללא תשלום
+          </small>
+        </div>
+
+        <div style="text-align: center; margin: 20px 0; color: #999;">או</div>
+
+        <div id="paypal-button-container"></div>
+      </div>
+
+      <div class="processing-overlay" *ngIf="isProcessing">
+        <div class="spinner"></div>
+        <p>מעבד הזמנה...</p>
+      </div>
+    </div>
+
+  </div>
+</div>

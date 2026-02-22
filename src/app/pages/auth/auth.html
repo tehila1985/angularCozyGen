@@ -1,0 +1,114 @@
+<div class="auth-container">
+  <p-card [header]="isLoginMode ? 'התחברות' : 'הרשמה'" class="auth-card">
+    
+    <p-message *ngIf="errorMessage" severity="error" [text]="errorMessage"></p-message>
+
+    <!-- Login Form -->
+    <form *ngIf="isLoginMode" (ngSubmit)="onLogin()" class="auth-form">
+      <div class="field">
+        <label for="login-email">אימייל</label>
+        <input 
+          pInputText 
+          id="login-email" 
+          type="email" 
+          [(ngModel)]="loginData.email" 
+          name="email"
+          required
+          class="w-full"
+        />
+      </div>
+
+      <div class="field">
+        <label for="login-password">סיסמה</label>
+        <p-password 
+          [(ngModel)]="loginData.passwordHash" 
+          name="password"
+          [feedback]="false"
+          [toggleMask]="true"
+          styleClass="w-full"
+          inputStyleClass="w-full"
+          required
+        ></p-password>
+      </div>
+
+      <p-button 
+        label="התחבר" 
+        type="submit" 
+        styleClass="w-full"
+        [disabled]="!loginData.email || !loginData.passwordHash"
+      ></p-button>
+
+      <div class="toggle-mode">
+        <span>אין לך חשבון? </span>
+        <a (click)="toggleMode()">הירשם כאן</a>
+      </div>
+    </form>
+
+    <!-- Register Form -->
+    <form *ngIf="!isLoginMode" (ngSubmit)="onRegister()" class="auth-form">
+      <div class="field">
+        <label for="register-firstName">שם פרטי</label>
+        <input 
+          pInputText 
+          id="register-firstName" 
+          type="text" 
+          [(ngModel)]="registerData.firstName" 
+          name="firstName"
+          required
+          class="w-full"
+        />
+      </div>
+
+      <div class="field">
+        <label for="register-lastName">שם משפחה</label>
+        <input 
+          pInputText 
+          id="register-lastName" 
+          type="text" 
+          [(ngModel)]="registerData.lastName" 
+          name="lastName"
+          required
+          class="w-full"
+        />
+      </div>
+
+      <div class="field">
+        <label for="register-email">אימייל</label>
+        <input 
+          pInputText 
+          id="register-email" 
+          type="email" 
+          [(ngModel)]="registerData.email" 
+          name="email"
+          required
+          class="w-full"
+        />
+      </div>
+
+      <div class="field">
+        <label for="register-password">סיסמה</label>
+        <p-password 
+          [(ngModel)]="registerData.passwordHash" 
+          name="password"
+          [toggleMask]="true"
+          styleClass="w-full"
+          inputStyleClass="w-full"
+          required
+        ></p-password>
+      </div>
+
+      <p-button 
+        label="הירשם" 
+        type="submit" 
+        styleClass="w-full"
+        [disabled]="!registerData.firstName || !registerData.lastName || !registerData.email || !registerData.passwordHash"
+      ></p-button>
+
+      <div class="toggle-mode">
+        <span>כבר יש לך חשבון? </span>
+        <a (click)="toggleMode()">התחבר כאן</a>
+      </div>
+    </form>
+
+  </p-card>
+</div>

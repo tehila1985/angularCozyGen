@@ -4,6 +4,7 @@ import { MenubarModule } from 'primeng/menubar';
 import { RouterModule, Router } from '@angular/router';
 import { CategoryService } from '../../services/category';
 import { StyleService } from '../../services/style';
+import { UserService } from '../../services/user';
 import { SearchComponent } from '../search/search';
 import { CommonModule } from '@angular/common';
 
@@ -20,10 +21,12 @@ export class TopMenu implements OnInit {
 
   private categoryService = inject(CategoryService);
   private styleService = inject(StyleService);
+  private userService = inject(UserService);
   private router = inject(Router);
 
   availableCategories: any[] = [];
   availableStyles: any[] = [];
+  currentUser$ = this.userService.currentUser$;
 
   toggleSearch() {
     this.showSearch = !this.showSearch;
@@ -68,6 +71,9 @@ export class TopMenu implements OnInit {
   private updateMenu() {
     if (!this.availableCategories.length || !this.availableStyles.length) return;
 
+    const isLoggedIn = this.userService.isLoggedIn();
+    const currentUser = this.userService.getCurrentUser();
+
     this.items = [
       { label: 'Home', icon: 'pi pi-home', routerLink: '/', fragment: 'home-section' },
 
@@ -92,10 +98,32 @@ export class TopMenu implements OnInit {
       },
 
       { label: 'Contact', icon: 'pi pi-envelope', routerLink: '/contact' },
+
+      isLoggedIn ? {
+        label: currentUser?.firstName || 'משתמש',
+        icon: 'pi pi-user',
+        items: [
+          {
+            label: 'התנתק',
+            icon: 'pi pi-sign-out',
+            command: () => this.logout()
+          }
+        ]
+      } : {
+        label: 'התחבר',
+        icon: 'pi pi-sign-in',
+        routerLink: '/auth'
+      }
     ];
   }
 
   private navigateToProducts(params: { categoryId?: number; styleId?: number }) {
     this.router.navigate(['/products'], { queryParams: params });
+  }
+
+  logout() {
+    this.userService.logout();
+    this.router.navigate(['/']);
+    this.updateMenu();
   }
 }
