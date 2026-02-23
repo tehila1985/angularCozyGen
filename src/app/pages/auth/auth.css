@@ -1,88 +1,172 @@
 .auth-container {
+  min-height: calc(100vh - 120px);
+  background-color: #ffffff;
+  padding: 60px 6% 80px;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  direction: rtl;
+  color: #1a1a1a;
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 80vh;
-  padding: 2rem;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
 }
 
 .auth-card {
   width: 100%;
-  max-width: 450px;
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
-  border-radius: 12px;
+  max-width: 500px;
+  background: #ffffff;
+  border: 1px solid #eee;
+  border-radius: 0;
+  padding: 50px 40px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
 }
 
 .auth-card ::ng-deep .p-card-header {
   text-align: center;
-  font-size: 1.8rem;
+  font-size: 2.5rem;
+  font-weight: 200;
+  padding: 0 0 30px 0;
+  background: transparent;
+  color: #1a1a1a;
+  border: none;
+  letter-spacing: -1px;
+  text-transform: uppercase;
+}
+
+.auth-card::before {
+  content: "WELCOME";
+  display: block;
+  text-align: center;
+  letter-spacing: 6px;
+  color: #b1935b;
   font-weight: 600;
-  padding: 1.5rem;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
-  border-radius: 12px 12px 0 0;
+  font-size: 0.9rem;
+  margin-bottom: 15px;
 }
 
 .auth-card ::ng-deep .p-card-body {
-  padding: 2rem;
+  padding: 0;
 }
 
 .auth-form {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: 24px;
 }
 
 .field {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: 8px;
 }
 
 .field label {
   font-weight: 500;
-  color: #333;
+  color: #1a1a1a;
   text-align: right;
+  font-size: 14px;
+  letter-spacing: 0.5px;
 }
 
-.w-full {
+.field input,
+::ng-deep .p-password input {
   width: 100%;
+  padding: 14px 16px;
+  border: 1px solid #ddd;
+  border-radius: 0;
+  font-size: 15px;
+  transition: all 0.2s;
+  background: #fff;
+  color: #1a1a1a;
+}
+
+.field input:focus,
+::ng-deep .p-password input:focus {
+  outline: none;
+  border-color: #1a1a1a;
+  box-shadow: 0 0 0 1px #1a1a1a;
+}
+
+::ng-deep .p-password {
+  width: 100%;
+}
+
+::ng-deep .p-password .p-inputtext {
+  width: 100%;
+}
+
+::ng-deep .p-button {
+  background: #1a1a1a;
+  border: none;
+  border-radius: 0;
+  padding: 16px;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  transition: all 0.3s;
+  margin-top: 8px;
+}
+
+::ng-deep .p-button:hover {
+  background: #333;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+::ng-deep .p-button:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+  transform: none;
 }
 
 .toggle-mode {
   text-align: center;
-  margin-top: 1rem;
+  margin-top: 24px;
+  padding-top: 24px;
+  border-top: 1px solid #f0f0f0;
   color: #666;
+  font-size: 14px;
 }
 
 .toggle-mode a {
-  color: #667eea;
+  color: #1a1a1a;
   cursor: pointer;
   font-weight: 600;
   text-decoration: none;
+  border-bottom: 1px solid #1a1a1a;
+  transition: opacity 0.2s;
 }
 
 .toggle-mode a:hover {
-  text-decoration: underline;
+  opacity: 0.7;
 }
 
 ::ng-deep .p-message {
-  margin-bottom: 1rem;
+  margin-bottom: 24px;
+  border-radius: 0;
+  border-left: 4px solid;
 }
 
-::ng-deep .p-button {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  border: none;
-  padding: 0.75rem;
-  font-size: 1rem;
-  font-weight: 600;
+::ng-deep .p-message.p-message-error {
+  background: #fff5f5;
+  border-color: #dc3545;
+  color: #dc3545;
 }
 
-::ng-deep .p-button:hover {
-  background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+::ng-deep .p-password-toggle-icon {
+  color: #666;
 }
 
-::ng-deep .p-password input {
-  width: 100%;
+@media (max-width: 768px) {
+  .auth-container {
+    padding: 40px 20px;
+  }
+
+  .auth-card {
+    padding: 40px 30px;
+  }
+
+  .auth-card ::ng-deep .p-card-header {
+    font-size: 2rem;
+  }
 }

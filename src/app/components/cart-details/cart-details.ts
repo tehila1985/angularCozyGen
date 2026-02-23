@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { UserService } from '../../services/user';
+import { CartService } from '../../services/cart';
 
 @Component({
   selector: 'app-cart-details',
@@ -46,7 +47,7 @@ import { UserService } from '../../services/user';
   </section>
   `,
   styles: [`
-    .cart-section { padding: 80px 40px; background: #f5f5f5; font-family: 'Noto Sans Hebrew', sans-serif; direction: rtl; }
+    .cart-section { min-height: calc(100vh - 100px); padding: 40px 40px 80px; background: #f5f5f5; font-family: 'Noto Sans Hebrew', sans-serif; direction: rtl; }
     .header-container { text-align: center; margin-bottom: 50px; }
     .category-label { font-size: 12px; letter-spacing: 2px; color: #929292; font-weight: 700; display: block; margin-bottom: 16px; text-transform: uppercase; }
     .style-heading { font-size: 48px; font-weight: 700; color: #111; margin: 0; }
@@ -83,7 +84,7 @@ export class CartDetailsComponent {
   cart: any[] = [];
   isLoaded = false;
 
-  constructor(private router: Router, private userService: UserService) {}
+  constructor(private router: Router, private userService: UserService, private cartService: CartService) {}
 
   ngOnInit() { this.loadCart(); }
 
@@ -93,7 +94,10 @@ export class CartDetailsComponent {
     setTimeout(() => this.isLoaded = true, 150);
   }
 
-  saveCart() { localStorage.setItem('cart', JSON.stringify(this.cart)); }
+  saveCart() { 
+    localStorage.setItem('cart', JSON.stringify(this.cart)); 
+    this.cartService.updateCartCount();
+  }
 
   increaseQty(index: number) { this.cart[index].quantity++; this.saveCart(); }
 

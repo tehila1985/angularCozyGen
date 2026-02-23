@@ -4,8 +4,10 @@ import { Router } from '@angular/router';
 import { CardModule } from 'primeng/card';
 import { ButtonModule } from 'primeng/button';
 import { MessageModule } from 'primeng/message';
+import { TopMenu } from '../../components/top-menu/top-menu';
 import { OrderService } from '../../services/order';
 import { UserService } from '../../services/user';
+import { CartService } from '../../services/cart';
 import { CreateOrderRequest, OrderItem } from '../../models/order.model';
 
 declare var paypal: any;
@@ -13,13 +15,14 @@ declare var paypal: any;
 @Component({
   selector: 'app-checkout',
   standalone: true,
-  imports: [CommonModule, CardModule, ButtonModule, MessageModule],
+  imports: [CommonModule, CardModule, ButtonModule, MessageModule, TopMenu],
   templateUrl: './checkout.html',
   styleUrls: ['./checkout.css']
 })
 export class CheckoutComponent implements OnInit {
   private orderService = inject(OrderService);
   private userService = inject(UserService);
+  private cartService = inject(CartService);
   private router = inject(Router);
 
   cart: any[] = [];
@@ -109,6 +112,7 @@ export class CheckoutComponent implements OnInit {
       next: (order) => {
         this.successMessage = `הזמנה מספר ${order.orderId} בוצעה בהצלחה!`;
         localStorage.removeItem('cart');
+        this.updateCartService();
         setTimeout(() => {
           this.router.navigate(['/']);
         }, 3000);
@@ -119,6 +123,10 @@ export class CheckoutComponent implements OnInit {
         this.isProcessing = false;
       }
     });
+  }
+
+  updateCartService() {
+    this.cartService.updateCartCount();
   }
 
   completeOrderWithoutPayment() {

@@ -1,150 +1,197 @@
+/* פונטים וסגנון כללי */
 .checkout-container {
-  min-height: 100vh;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  padding: 2rem;
-  font-family: 'Noto Sans Hebrew', sans-serif;
+  min-height: calc(100vh - 100px);
+  background-color: #ffffff; /* רקע לבן נקי במקום הגרדיאנט */
+  padding: 40px 6% 80px;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
   direction: rtl;
+  color: #1a1a1a;
 }
 
 .checkout-content {
-  max-width: 800px;
+  max-width: 1000px;
   margin: 0 auto;
 }
 
+/* כותרות בסגנון פרימיום */
 .checkout-title {
   text-align: center;
-  color: white;
-  font-size: 2.5rem;
-  margin-bottom: 2rem;
-  font-weight: 700;
+  color: #1a1a1a;
+  font-size: 3.5rem;
+  font-weight: 200;
+  letter-spacing: -1px;
+  margin-bottom: 60px;
+  text-transform: uppercase;
 }
 
+/* כותרת משנית/תווית */
+.checkout-content::before {
+  content: "SECURE CHECKOUT";
+  display: block;
+  text-align: center;
+  letter-spacing: 6px;
+  color: #b1935b;
+  font-weight: 600;
+  font-size: 0.9rem;
+  margin-bottom: 15px;
+}
+
+/* סיכום ההזמנה - כרטיס נקי */
 .order-summary {
-  background: white;
-  border-radius: 12px;
-  padding: 2rem;
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+  background: #ffffff;
+  border: 1px solid #eee; /* גבול עדין במקום צל כבד */
+  border-radius: 0; /* מראה מרובע ומודרני יותר */
+  padding: 40px;
   position: relative;
+  transition: all 0.4s ease;
 }
 
 .order-summary h2 {
   font-size: 1.8rem;
-  margin-bottom: 1.5rem;
-  color: #333;
-  border-bottom: 2px solid #667eea;
-  padding-bottom: 0.5rem;
+  font-weight: 600;
+  margin-bottom: 40px;
+  color: #1a1a1a;
+  border-bottom: 1px solid #1a1a1a;
+  padding-bottom: 15px;
+  display: inline-block;
 }
 
-.items-list {
-  margin-bottom: 2rem;
-}
-
+/* רשימת פריטים */
 .summary-item {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1rem;
-  border-bottom: 1px solid #eee;
+  padding: 25px 0;
+  border-bottom: 1px solid #f0f0f0;
 }
 
 .item-details {
   display: flex;
-  gap: 1rem;
+  gap: 20px;
   align-items: center;
 }
 
 .item-image {
-  width: 60px;
-  height: 60px;
+  width: 100px;
+  height: 120px;
   object-fit: cover;
-  border-radius: 8px;
+  border-radius: 0; /* סגנון נקי ללא עיגול פינות */
+  background: #f9f9f9;
 }
 
 .item-details h4 {
   margin: 0;
-  font-size: 1.1rem;
-  color: #333;
+  font-size: 1.2rem;
+  font-weight: 500;
+  color: #1a1a1a;
 }
 
 .item-details p {
-  margin: 0.25rem 0 0 0;
+  margin: 8px 0 0 0;
   color: #666;
-  font-size: 0.9rem;
+  font-size: 0.95rem;
+  font-weight: 300;
 }
 
 .item-price {
-  font-weight: 700;
-  font-size: 1.2rem;
-  color: #008B8B;
+  font-weight: 600;
+  font-size: 1.3rem;
+  color: #1a1a1a;
 }
 
+/* אזור הסה"כ */
 .total-section {
-  background: #f8f9fa;
-  padding: 1.5rem;
-  border-radius: 8px;
-  margin-bottom: 2rem;
+  background: #fcfaf7; /* צבע שמנת עדין מאוד */
+  padding: 40px;
+  margin: 40px 0;
   text-align: center;
+  border: 1px solid #f0ece4;
 }
 
 .total-section h3 {
-  margin: 0 0 0.5rem 0;
-  color: #666;
+  margin: 0 0 10px 0;
+  color: #b1935b;
   font-size: 1rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
 }
 
 .total-amount {
   margin: 0;
-  font-size: 2.5rem;
-  color: #008B8B;
+  font-size: 3rem;
+  color: #1a1a1a;
   font-weight: 700;
 }
 
+/* כפתור מודרני בסגנון ה-modern-btn מהקומפוננטה הקודמת */
+.test-payment {
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.test-payment ::ng-deep .p-button.p-button-success {
+  background: #1a1a1a !important; /* שחור במקום ירוק */
+  border: none !important;
+  border-radius: 0 !important;
+  height: 70px;
+  font-size: 1.1rem !important;
+  font-weight: 600 !important;
+  transition: all 0.3s ease !important;
+  letter-spacing: 1px;
+  width: 100% !important;
+}
+
+.test-payment ::ng-deep .p-button.p-button-success:hover {
+  background: #333 !important;
+  transform: translateY(-2px);
+}
+
+.test-payment small {
+  display: block;
+  text-align: center;
+  margin-top: 15px;
+  color: #999;
+  font-weight: 300;
+}
+
+/* סקציית תשלום */
 .payment-section {
-  margin-top: 2rem;
+  text-align: center;
 }
 
 .payment-section h3 {
-  font-size: 1.3rem;
-  margin-bottom: 1rem;
-  color: #333;
-}
-
-.test-payment {
-  margin-bottom: 1rem;
-}
-
-.test-payment ::ng-deep .p-button {
-  width: 100%;
-  padding: 1rem;
-  font-size: 1.1rem;
+  font-size: 1.4rem;
+  margin-bottom: 25px;
+  font-weight: 600;
+  text-align: center;
 }
 
 #paypal-button-container {
-  margin-top: 1rem;
+  margin-top: 30px;
+  max-width: 500px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
+/* מסך טעינה יוקרתי */
 .processing-overlay {
   position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(255, 255, 255, 0.95);
+  inset: 0;
+  background: rgba(255, 255, 255, 0.98);
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  border-radius: 12px;
-  z-index: 10;
+  z-index: 100;
 }
 
 .spinner {
-  border: 4px solid #f3f3f3;
-  border-top: 4px solid #667eea;
+  border: 1px solid #f3f3f3;
+  border-top: 1px solid #b1935b; /* זהב */
   border-radius: 50%;
-  width: 50px;
-  height: 50px;
-  animation: spin 1s linear infinite;
+  width: 60px;
+  height: 60px;
+  animation: spin 1.5s cubic-bezier(0.4, 0, 0.2, 1) infinite;
 }
 
 @keyframes spin {
@@ -152,37 +199,31 @@
   100% { transform: rotate(360deg); }
 }
 
-.processing-overlay p {
-  margin-top: 1rem;
-  font-size: 1.2rem;
-  color: #333;
-  font-weight: 600;
-}
-
-::ng-deep .p-message {
-  margin-bottom: 1.5rem;
-}
-
+/* התאמה לנייד */
 @media (max-width: 768px) {
   .checkout-container {
-    padding: 1rem;
+    padding: 40px 20px;
   }
 
   .checkout-title {
-    font-size: 1.8rem;
+    font-size: 2.2rem;
   }
 
   .order-summary {
-    padding: 1.5rem;
+    padding: 25px;
   }
 
   .summary-item {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0.5rem;
+    flex-direction: row; /* שומר על מבנה שורה אם יש מקום */
+    gap: 15px;
   }
 
-  .item-price {
-    align-self: flex-end;
+  .item-image {
+    width: 70px;
+    height: 85px;
+  }
+
+  .total-amount {
+    font-size: 2.2rem;
   }
 }

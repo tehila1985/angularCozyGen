@@ -1,22 +1,165 @@
-<div class="ikea-header">
-  <div class="header-top">
+<header class="modern-header">
+  <div class="header-container">
+    <!-- Logo -->
     <div class="logo-section">
-      <img src="/images/logo.png" alt="CozyGen" class="logo-img" routerLink="/">
+      <img src="/images/logo.png" alt="CozyGen" class="logo" routerLink="/" />
     </div>
-    <app-search *ngIf="showSearch" class="search-wrapper" (onSearch)="handleSearch($event)"></app-search>
+
+    <!-- Desktop Navigation -->
+    <nav class="desktop-nav">
+      <a routerLink="/" class="nav-link">Home</a>
+      
+      <div class="nav-dropdown">
+        <button class="nav-link dropdown-toggle">
+          Shop by Style
+          <i class="pi pi-chevron-down"></i>
+        </button>
+        <div class="dropdown-menu">
+          <a *ngFor="let style of availableStyles" 
+             (click)="navigateToProducts({styleId: style.styleId})" 
+             class="dropdown-item">
+            {{ style.name.replace('_', ' ') }}
+          </a>
+        </div>
+      </div>
+
+      <div class="nav-dropdown">
+        <button class="nav-link dropdown-toggle">
+          Shop by Category
+          <i class="pi pi-chevron-down"></i>
+        </button>
+        <div class="dropdown-menu">
+          <a *ngFor="let cat of availableCategories" 
+             (click)="navigateToProducts({categoryId: cat.categoryId})" 
+             class="dropdown-item">
+            {{ cat.name }}
+          </a>
+        </div>
+      </div>
+
+      <a routerLink="/contact" class="nav-link">Contact</a>
+    </nav>
+
+    <!-- Actions -->
     <div class="header-actions">
-      <button class="icon-btn" (click)="toggleSearch()">
+      <button class="action-btn nav-btn" (click)="goBack()" title="הקודם">
+        <i class="pi pi-chevron-right"></i>
+      </button>
+      <button class="action-btn nav-btn" (click)="goForward()" title="הבא">
+        <i class="pi pi-chevron-left"></i>
+      </button>
+      
+      <button class="action-btn" (click)="toggleSearch()">
         <i class="pi pi-search"></i>
       </button>
-      <button class="icon-btn">
-        <i class="pi pi-user"></i>
-      </button>
-      <button class="icon-btn" routerLink="/cart">
+      
+      <div class="nav-dropdown" *ngIf="userService.isLoggedIn(); else loginBtn">
+        <button class="action-btn">
+          <i class="pi pi-user"></i>
+        </button>
+        <div class="dropdown-menu dropdown-menu-left user-dropdown">
+          <div class="user-info">
+            <div class="user-name">{{ userService.getCurrentUser()?.firstName }}</div>
+            <div class="user-email">{{ userService.getCurrentUser()?.userId }}</div>
+          </div>
+          <div class="dropdown-divider"></div>
+          <a routerLink="/profile" class="dropdown-item">
+            <i class="pi pi-user"></i> פרופיל
+          </a>
+          <a routerLink="/order-history" class="dropdown-item">
+            <i class="pi pi-shopping-bag"></i> ההזמנות שלי
+          </a>
+          <a routerLink="/admin" class="dropdown-item">
+            <i class="pi pi-cog"></i> ניהול מערכת
+          </a>
+          <div class="dropdown-divider"></div>
+          <a (click)="logout()" class="dropdown-item logout-item">
+            <i class="pi pi-sign-out"></i> התנתק
+          </a>
+        </div>
+      </div>
+      <ng-template #loginBtn>
+        <button class="action-btn" routerLink="/auth" title="התחבר">
+          <i class="pi pi-user"></i>
+        </button>
+      </ng-template>
+
+      <button class="action-btn cart-btn" routerLink="/cart">
         <i class="pi pi-shopping-cart"></i>
+        <span class="cart-badge" *ngIf="cartCount > 0">{{ cartCount }}</span>
+      </button>
+
+      <button class="mobile-menu-btn" (click)="toggleMobileMenu()">
+        <i class="pi pi-bars"></i>
       </button>
     </div>
   </div>
-  <div class="header-nav">
-    <p-menubar [model]="items" />
+
+  <!-- Search Bar -->
+  <div class="search-bar" *ngIf="showSearch">
+    <app-search (onSearch)="handleSearch($event)"></app-search>
   </div>
-</div>
+
+  <!-- Mobile Menu -->
+  <div class="mobile-menu" [class.active]="mobileMenuOpen">
+    <div class="mobile-menu-header">
+      <button class="close-btn" (click)="toggleMobileMenu()">
+        <i class="pi pi-times"></i>
+      </button>
+    </div>
+    <nav class="mobile-nav">
+      <a routerLink="/" class="mobile-nav-link" (click)="toggleMobileMenu()">Home</a>
+      
+      <div class="mobile-dropdown">
+        <button class="mobile-nav-link" (click)="toggleMobileDropdown('styles')">
+          Shop by Style
+          <i class="pi pi-chevron-down"></i>
+        </button>
+        <div class="mobile-dropdown-content" [class.active]="mobileDropdowns['styles']">
+          <a *ngFor="let style of availableStyles" 
+             (click)="navigateToProducts({styleId: style.styleId}); toggleMobileMenu()" 
+             class="mobile-dropdown-item">
+            {{ style.name.replace('_', ' ') }}
+          </a>
+        </div>
+      </div>
+
+      <div class="mobile-dropdown">
+        <button class="mobile-nav-link" (click)="toggleMobileDropdown('categories')">
+          Shop by Category
+          <i class="pi pi-chevron-down"></i>
+        </button>
+        <div class="mobile-dropdown-content" [class.active]="mobileDropdowns['categories']">
+          <a *ngFor="let cat of availableCategories" 
+             (click)="navigateToProducts({categoryId: cat.categoryId}); toggleMobileMenu()" 
+             class="mobile-dropdown-item">
+            {{ cat.name }}
+          </a>
+        </div>
+      </div>
+
+      <a routerLink="/contact" class="mobile-nav-link" (click)="toggleMobileMenu()">Contact</a>
+      
+      <div class="mobile-divider"></div>
+      
+      <a *ngIf="!userService.isLoggedIn()" routerLink="/auth" class="mobile-nav-link" (click)="toggleMobileMenu()">
+        <i class="pi pi-user"></i> התחבר
+      </a>
+      <div *ngIf="userService.isLoggedIn()">
+        <div class="mobile-user-name">{{ userService.getCurrentUser()?.firstName }}</div>
+        <a routerLink="/profile" class="mobile-nav-link" (click)="toggleMobileMenu()">
+          <i class="pi pi-user"></i> פרופיל
+        </a>
+        <a routerLink="/order-history" class="mobile-nav-link" (click)="toggleMobileMenu()">
+          <i class="pi pi-shopping-bag"></i> ההזמנות שלי
+        </a>
+        <a routerLink="/admin" class="mobile-nav-link" (click)="toggleMobileMenu()">
+          <i class="pi pi-cog"></i> ניהול מערכת
+        </a>
+        <a (click)="logout(); toggleMobileMenu()" class="mobile-nav-link">
+          <i class="pi pi-sign-out"></i> התנתק
+        </a>
+      </div>
+    </nav>
+  </div>
+</header>

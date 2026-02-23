@@ -1,7 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { TopMenu } from '../../components/top-menu/top-menu';
+import { EmailService, ContactForm } from '../../services/email';
 
 @Component({
   selector: 'app-contact',
@@ -19,7 +20,16 @@ import { TopMenu } from '../../components/top-menu/top-menu';
         
         <div class="contact-content">
           <div class="contact-form">
-            <form (ngSubmit)="onSubmit()">
+            <div *ngIf="successMessage" class="success-message">
+              <i class="pi pi-check-circle"></i>
+              <p>{{ successMessage }}</p>
+            </div>
+            <div *ngIf="errorMessage" class="error-message">
+              <i class="pi pi-times-circle"></i>
+              <p>{{ errorMessage }}</p>
+            </div>
+            
+            <form (ngSubmit)="onSubmit()" *ngIf="!successMessage">
               <div class="form-group">
                 <label>שם מלא</label>
                 <input type="text" [(ngModel)]="formData.name" name="name" required>
@@ -96,6 +106,12 @@ import { TopMenu } from '../../components/top-menu/top-menu';
     .form-group input:focus, .form-group textarea:focus { border-color: #008B8B; }
     .submit-btn { width: 100%; background: #008B8B; color: #fff; border: none; padding: 16px; font-size: 16px; font-weight: 700; border-radius: 50px; cursor: pointer; transition: background 0.2s; }
     .submit-btn:hover { background: #006666; }
+    .success-message { background: #d4edda; border: 2px solid #28a745; padding: 20px; border-radius: 8px; margin-bottom: 24px; display: flex; align-items: center; gap: 12px; color: #155724; }
+    .success-message i { font-size: 24px; }
+    .success-message p { margin: 0; font-weight: 600; }
+    .error-message { background: #f8d7da; border: 2px solid #dc3545; padding: 20px; border-radius: 8px; margin-bottom: 24px; display: flex; align-items: center; gap: 12px; color: #721c24; }
+    .error-message i { font-size: 24px; }
+    .error-message p { margin: 0; font-weight: 600; }
     .contact-info { display: flex; flex-direction: column; gap: 32px; }
     .info-item { display: flex; gap: 20px; align-items: flex-start; }
     .info-item i { font-size: 24px; color: #008B8B; margin-top: 4px; }
@@ -108,16 +124,38 @@ import { TopMenu } from '../../components/top-menu/top-menu';
   `]
 })
 export class ContactComponent {
-  formData = {
+  private emailService = inject(EmailService);
+  
+  formData: ContactForm = {
     name: '',
     email: '',
     phone: '',
     message: ''
   };
 
+  isSubmitting = false;
+  successMessage = '';
+  errorMessage = '';
+
   onSubmit() {
-    console.log('Form submitted:', this.formData);
-    alert('תודה על פנייתך! ניצור איתך קשר בהקדם.');
-    this.formData = { name: '', email: '', phone: '', message: '' };
+    if (!this.formData.name || !this.formData.email || !this.formData.message) {
+      this.errorMessage = 'אנא מלא את כל השדות החובה';
+      return;
+    }
+
+    this.isSubmitting = true;
+    this.errorMessage = '';
+    this.successMessage = '';
+
+    this.emailService.sendContactEmail(this.formData).then(
+      () => {
+        this.successMessage = 'תודה! פנייתך התקבלה בהצלחה. ניצור איתך קשר בקרוב.';
+        this.formData = { name: '', email: '', phone: '', message: '' };
+        this.isSubmitting = false;
+      }
+    ).catch(() => {
+      this.errorMessage = 'אופס, היתה שגיאה. נסה שוב מאוחר יותר.';
+      this.isSubmitting = false;
+    });
   }
 }

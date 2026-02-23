@@ -14,6 +14,9 @@ export class UserService {
   
   private currentUserSubject = new BehaviorSubject<UserResponse | null>(this.getUserFromStorage());
   public currentUser$ = this.currentUserSubject.asObservable();
+  
+  private isAdminSubject = new BehaviorSubject<boolean>(false);
+  public isAdmin$ = this.isAdminSubject.asObservable();
 
   private getUserFromStorage(): UserResponse | null {
     const user = localStorage.getItem('currentUser');
@@ -25,6 +28,7 @@ export class UserService {
       tap(user => {
         localStorage.setItem('currentUser', JSON.stringify(user));
         this.currentUserSubject.next(user);
+        this.checkAdminStatus();
       })
     );
   }
@@ -34,6 +38,7 @@ export class UserService {
       tap(user => {
         localStorage.setItem('currentUser', JSON.stringify(user));
         this.currentUserSubject.next(user);
+        this.checkAdminStatus();
       })
     );
   }
@@ -41,6 +46,7 @@ export class UserService {
   logout(): void {
     localStorage.removeItem('currentUser');
     this.currentUserSubject.next(null);
+    this.isAdminSubject.next(false);
   }
 
   isLoggedIn(): boolean {
@@ -49,5 +55,26 @@ export class UserService {
 
   getCurrentUser(): UserResponse | null {
     return this.currentUserSubject.value;
+  }
+
+  checkAdminStatus(): void {
+    if (this.isLoggedIn()) {
+      this.http.get<boolean>(`${this.apiUrl}/IsAdmin`).subscribe(
+        isAdmin => {
+          this.isAdminSubject.next(isAdmin);
+          console.log('Admin status:', isAdmin);
+        },
+        (error) => {
+          console.warn('Admin check failed, defaulting to false', error);
+          this.isAdminSubject.next(false);
+        }
+      );
+    } else {
+      this.isAdminSubject.next(false);
+    }
+  }
+
+  isAdmin(): boolean {
+    return this.isAdminSubject.value;
   }
 }

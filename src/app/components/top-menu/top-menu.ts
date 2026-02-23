@@ -1,32 +1,35 @@
 import { Component, OnInit, inject } from '@angular/core';
-import { MenuItem } from 'primeng/api';
-import { MenubarModule } from 'primeng/menubar';
 import { RouterModule, Router } from '@angular/router';
 import { CategoryService } from '../../services/category';
 import { StyleService } from '../../services/style';
 import { UserService } from '../../services/user';
+import { CartService } from '../../services/cart';
 import { SearchComponent } from '../search/search';
 import { CommonModule } from '@angular/common';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-top-menu',
   standalone: true,
-  imports: [MenubarModule, RouterModule, SearchComponent, CommonModule],
+  imports: [RouterModule, SearchComponent, CommonModule],
   templateUrl: './top-menu.html',
   styleUrls: ['./top-menu.css'],
 })
 export class TopMenu implements OnInit {
-  items: MenuItem[] = [];
   showSearch = false;
+  mobileMenuOpen = false;
+  mobileDropdowns: { [key: string]: boolean } = {};
+  cartCount = 0;
 
   private categoryService = inject(CategoryService);
   private styleService = inject(StyleService);
-  private userService = inject(UserService);
+  public userService = inject(UserService);
+  private cartService = inject(CartService);
   private router = inject(Router);
+  public location = inject(Location);
 
   availableCategories: any[] = [];
   availableStyles: any[] = [];
-  currentUser$ = this.userService.currentUser$;
 
   toggleSearch() {
     this.showSearch = !this.showSearch;
@@ -46,13 +49,23 @@ export class TopMenu implements OnInit {
   ngOnInit() {
     this.loadCategories();
     this.loadStyles();
+    this.cartService.cartCount$.subscribe(count => {
+      this.cartCount = count;
+    });
+    
+    // עדכון מיידי של מספר הפריטים בסל
+    this.router.events.subscribe(() => {
+      this.cartService.updateCartCount();
+    });
+    
+    // בדיקת הרשאות מנהל
+    this.userService.checkAdminStatus();
   }
 
   private loadCategories() {
     this.categoryService.getCategories().subscribe({
       next: (cats) => {
         this.availableCategories = cats;
-        this.updateMenu();
       },
       error: (err) => console.error('Error loading categories', err)
     });
@@ -62,68 +75,33 @@ export class TopMenu implements OnInit {
     this.styleService.getStyles().subscribe({
       next: (styles) => {
         this.availableStyles = styles;
-        this.updateMenu();
       },
       error: (err) => console.error('Error loading styles', err)
     });
   }
 
-  private updateMenu() {
-    if (!this.availableCategories.length || !this.availableStyles.length) return;
-
-    const isLoggedIn = this.userService.isLoggedIn();
-    const currentUser = this.userService.getCurrentUser();
-
-    this.items = [
-      { label: 'Home', icon: 'pi pi-home', routerLink: '/', fragment: 'home-section' },
-
-      {
-        label: 'Shop by Style',
-        icon: 'pi pi-image',
-        items: this.availableStyles.map(stl => ({
-          label: stl.name.replace(/_/g, ' '),
-          icon: 'pi pi-palette',
-          command: () => this.navigateToProducts({ styleId: stl.styleId })
-        }))
-      },
-
-      {
-        label: 'Shop by Category',
-        icon: 'pi pi-th-large',
-        items: this.availableCategories.map(cat => ({
-          label: cat.name,
-          icon: 'pi pi-tag',
-          command: () => this.navigateToProducts({ categoryId: cat.categoryId })
-        }))
-      },
-
-      { label: 'Contact', icon: 'pi pi-envelope', routerLink: '/contact' },
-
-      isLoggedIn ? {
-        label: currentUser?.firstName || 'משתמש',
-        icon: 'pi pi-user',
-        items: [
-          {
-            label: 'התנתק',
-            icon: 'pi pi-sign-out',
-            command: () => this.logout()
-          }
-        ]
-      } : {
-        label: 'התחבר',
-        icon: 'pi pi-sign-in',
-        routerLink: '/auth'
-      }
-    ];
+  navigateToProducts(params: { categoryId?: number; styleId?: number }) {
+    this.router.navigate(['/products'], { queryParams: params });
   }
 
-  private navigateToProducts(params: { categoryId?: number; styleId?: number }) {
-    this.router.navigate(['/products'], { queryParams: params });
+  toggleMobileMenu() {
+    this.mobileMenuOpen = !this.mobileMenuOpen;
+  }
+
+  toggleMobileDropdown(key: string) {
+    this.mobileDropdowns[key] = !this.mobileDropdowns[key];
   }
 
   logout() {
     this.userService.logout();
     this.router.navigate(['/']);
-    this.updateMenu();
+  }
+
+  goBack() {
+    this.location.back();
+  }
+
+  goForward() {
+    this.location.forward();
   }
 }

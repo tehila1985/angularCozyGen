@@ -18,16 +18,18 @@ export class ProductService {
       .set('minPrice', filters.minPrice?.toString() || '0')
       .set('maxPrice', filters.maxPrice?.toString() || '999999');
 
-    // שליחת מערך הקטגוריות כפסיקים
     if (filters.categoryIds?.length) {
       params = params.set('categoryIds', filters.categoryIds.join(','));
     }
 
-    // שליחת מערך הסטיילים כפסיקים
     if (filters.styleIds?.length) {
       params = params.set('styleIds', filters.styleIds.join(','));
     }
 
     return this.http.get<any>(this.apiUrl, { params });
+  }
+
+  getProductById(id: number): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/${id}`);
   }
 }
