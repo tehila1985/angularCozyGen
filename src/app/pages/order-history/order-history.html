@@ -1,0 +1,77 @@
+<app-top-menu></app-top-menu>
+<div class="order-history-container">
+  <h1 class="page-title">היסטוריית הזמנות</h1>
+  
+  <p-card class="orders-card">
+    <div *ngIf="errorMessage" class="error-message">
+      {{ errorMessage }}
+    </div>
+    
+    <p-table 
+      [value]="orders" 
+      [loading]="loading"
+      styleClass="p-datatable-striped"
+      [paginator]="true"
+      [rows]="10"
+      responsiveLayout="scroll"
+    >
+      <ng-template pTemplate="header">
+        <tr>
+          <th style="width: 3rem"></th>
+          <th>מספר הזמנה</th>
+          <th>תאריך</th>
+          <th>סכום</th>
+          <th>סטטוס</th>
+          <th>פריטים</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-order>
+        <tr>
+          <td>
+            <button 
+              type="button" 
+              pButton 
+              pRipple 
+              (click)="toggleOrder(order.orderId)"
+              class="p-button-text p-button-rounded p-button-plain" 
+              [icon]="isExpanded(order.orderId) ? 'pi pi-chevron-down' : 'pi pi-chevron-left'"
+            ></button>
+          </td>
+          <td>{{ order.orderId }}</td>
+          <td>{{ order.orderDate | date:'dd/MM/yyyy' }}</td>
+          <td>₪{{ order.totalPrice }}</td>
+          <td>
+            <p-tag 
+              [value]="order.status" 
+              [severity]="getStatusSeverity(order.status)"
+            ></p-tag>
+          </td>
+          <td>{{ order.orderItems?.length || 0 }}</td>
+        </tr>
+        <tr *ngIf="isExpanded(order.orderId)">
+          <td colspan="6">
+            <div class="order-items-detail">
+              <h3>פריטי ההזמנה</h3>
+              <div class="items-list">
+                <div *ngFor="let item of order.orderItems" class="item-row">
+                  <div class="item-info">
+                    <span class="item-name">{{ item.itemName || 'פריט #' + item.productId }}</span>
+                    <span class="item-quantity">כמות: {{ item.quantity }}</span>
+                  </div>
+                  <span class="item-price">₪{{ item.priceAtPurchase }}</span>
+                </div>
+              </div>
+            </div>
+          </td>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="emptymessage">
+        <tr>
+          <td colspan="6" class="empty-message">
+            אין הזמנות להצגה
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </p-card>
+</div>

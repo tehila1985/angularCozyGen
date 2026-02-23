@@ -1,0 +1,81 @@
+<app-top-menu></app-top-menu>
+<div class="profile-container">
+  <p-card header="אזור אישי" class="profile-card">
+    
+    <div class="navigation-buttons">
+      <p-button 
+        label="פרטים אישיים" 
+        icon="pi pi-user"
+        (onClick)="showPersonalDetails = true"
+        [outlined]="!showPersonalDetails"
+        styleClass="nav-btn"
+      ></p-button>
+      
+      <p-button 
+        label="היסטוריית הזמנות" 
+        icon="pi pi-shopping-cart"
+        (onClick)="goToOrderHistory()"
+        [outlined]="true"
+        styleClass="nav-btn"
+      ></p-button>
+    </div>
+
+    <p-message *ngIf="successMessage" severity="success" [text]="successMessage"></p-message>
+    <p-message *ngIf="errorMessage" severity="error" [text]="errorMessage"></p-message>
+
+    <form *ngIf="showPersonalDetails" (ngSubmit)="onSave()" class="profile-form">
+      <div class="field">
+        <label for="firstName">שם פרטי</label>
+        <input 
+          pInputText 
+          id="firstName" 
+          [(ngModel)]="editData.firstName" 
+          name="firstName"
+          required
+          class="w-full"
+        />
+      </div>
+
+      <div class="field">
+        <label for="lastName">שם משפחה</label>
+        <input 
+          pInputText 
+          id="lastName" 
+          [(ngModel)]="editData.lastName" 
+          name="lastName"
+          required
+          class="w-full"
+        />
+      </div>
+
+      <div class="field">
+        <label for="email">אימייל</label>
+        <input 
+          pInputText 
+          id="email" 
+          type="email"
+          [(ngModel)]="editData.email" 
+          name="email"
+          required
+          class="w-full"
+        />
+      </div>
+
+      <div class="button-group">
+        <p-button 
+          label="שמור שינויים" 
+          type="submit" 
+          styleClass="w-full"
+        ></p-button>
+        
+        <p-button 
+          label="התנתק" 
+          (onClick)="onLogout()"
+          severity="secondary"
+          styleClass="w-full"
+        ></p-button>
+      </div>
+    </form>
+
+  </p-card>
+</div>

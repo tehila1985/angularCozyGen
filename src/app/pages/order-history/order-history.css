@@ -1,0 +1,102 @@
+.order-history-container {
+  min-height: calc(100vh - 100px);
+  background-color: #f8f9fa;
+  padding: 40px 20px;
+  direction: rtl;
+}
+
+.page-title {
+  text-align: center;
+  color: #1a1a1a;
+  font-size: 2.5rem;
+  font-weight: 600;
+  margin-bottom: 40px;
+}
+
+.orders-card {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.error-message {
+  background-color: #fee;
+  color: #c00;
+  padding: 15px;
+  border-radius: 4px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.empty-message {
+  text-align: center;
+  padding: 40px;
+  color: #666;
+  font-size: 1.1rem;
+}
+
+::ng-deep .p-datatable {
+  direction: rtl;
+}
+
+::ng-deep .p-datatable th {
+  text-align: right;
+  font-weight: 600;
+}
+
+::ng-deep .p-datatable td {
+  text-align: right;
+}
+
+.order-items-detail {
+  padding: 20px;
+  background-color: #f9f9f9;
+}
+
+.order-items-detail h3 {
+  margin: 0 0 15px 0;
+  font-size: 1.2rem;
+  color: #1a1a1a;
+}
+
+.items-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.item-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+  background-color: white;
+  border-radius: 4px;
+}
+
+.item-name {
+  flex: 1;
+  font-weight: 500;
+}
+
+.item-quantity {
+  margin: 0 20px;
+  color: #666;
+}
+
+.item-price {
+  font-weight: 600;
+  color: #1a1a1a;
+}
+
+.item-image {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 4px;
+  margin-left: 15px;
+}
+
+.item-info {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}

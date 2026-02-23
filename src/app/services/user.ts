@@ -15,7 +15,7 @@ export class UserService {
   private currentUserSubject = new BehaviorSubject<UserResponse | null>(this.getUserFromStorage());
   public currentUser$ = this.currentUserSubject.asObservable();
   
-  private isAdminSubject = new BehaviorSubject<boolean>(false);
+  private isAdminSubject = new BehaviorSubject<boolean>(this.checkInitialAdminStatus());
   public isAdmin$ = this.isAdminSubject.asObservable();
 
   private getUserFromStorage(): UserResponse | null {
@@ -23,12 +23,25 @@ export class UserService {
     return user ? JSON.parse(user) : null;
   }
 
+  private checkInitialAdminStatus(): boolean {
+    const adminStatus = localStorage.getItem('isAdmin');
+    if (adminStatus === 'true') return true;
+    
+    const user = this.getUserFromStorage();
+    return user?.role === 'Admin';
+  }
+
   login(credentials: UserLogin): Observable<UserResponse> {
     return this.http.post<UserResponse>(`${this.apiUrl}/Login`, credentials).pipe(
       tap(user => {
+        console.log('Login response:', user);
         localStorage.setItem('currentUser', JSON.stringify(user));
         this.currentUserSubject.next(user);
-        this.checkAdminStatus();
+        
+        const isAdmin = user.role === 'Admin';
+        console.log('Is Admin:', isAdmin, 'Role:', user.role);
+        this.isAdminSubject.next(isAdmin);
+        localStorage.setItem('isAdmin', String(isAdmin));
       })
     );
   }
@@ -38,13 +51,16 @@ export class UserService {
       tap(user => {
         localStorage.setItem('currentUser', JSON.stringify(user));
         this.currentUserSubject.next(user);
-        this.checkAdminStatus();
+        const isAdmin = user.role === 'Admin';
+        this.isAdminSubject.next(isAdmin);
+        localStorage.setItem('isAdmin', String(isAdmin));
       })
     );
   }
 
   logout(): void {
     localStorage.removeItem('currentUser');
+    localStorage.removeItem('isAdmin');
     this.currentUserSubject.next(null);
     this.isAdminSubject.next(false);
   }
@@ -58,19 +74,24 @@ export class UserService {
   }
 
   checkAdminStatus(): void {
-    if (this.isLoggedIn()) {
-      this.http.get<boolean>(`${this.apiUrl}/IsAdmin`).subscribe(
-        isAdmin => {
+    const user = this.getCurrentUser();
+    if (user) {
+      this.http.get<any>(`${this.apiUrl}/${user.userId}`).subscribe(
+        fullUser => {
+          const isAdmin = fullUser.role === 'Admin';
           this.isAdminSubject.next(isAdmin);
-          console.log('Admin status:', isAdmin);
+          localStorage.setItem('isAdmin', String(isAdmin));
+          console.log('Admin status:', isAdmin, 'Role:', fullUser.role);
         },
         (error) => {
           console.warn('Admin check failed, defaulting to false', error);
           this.isAdminSubject.next(false);
+          localStorage.removeItem('isAdmin');
         }
       );
     } else {
       this.isAdminSubject.next(false);
+      localStorage.removeItem('isAdmin');
     }
   }
 

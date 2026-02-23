@@ -1,0 +1,120 @@
+<app-top-menu></app-top-menu>
+
+<div class="admin-container">
+  <div class="admin-header">
+    <h1>ניהול מערכת</h1>
+    <p class="admin-subtitle">ADMIN PANEL</p>
+  </div>
+
+  <div class="tabs">
+    <button 
+      [class.active]="activeTab === 'products'" 
+      (click)="activeTab = 'products'">
+      מוצרים
+    </button>
+    <button 
+      [class.active]="activeTab === 'categories'" 
+      (click)="activeTab = 'categories'">
+      קטגוריות
+    </button>
+    <button 
+      [class.active]="activeTab === 'styles'" 
+      (click)="activeTab = 'styles'">
+      סגנונות
+    </button>
+  </div>
+
+  <!-- Products Tab -->
+  <div class="tab-content" *ngIf="activeTab === 'products'">
+    <div class="form-section">
+      <h2>הוספת מוצר חדש</h2>
+      <form (ngSubmit)="addProduct()">
+        <input [(ngModel)]="newProduct.name" name="name" placeholder="שם המוצר" required>
+        <textarea [(ngModel)]="newProduct.description" name="description" placeholder="תיאור" required></textarea>
+        <input [(ngModel)]="newProduct.price" name="price" type="number" placeholder="מחיר" required>
+        <input [(ngModel)]="newProduct.frontImageUrl" name="frontImageUrl" placeholder="כתובת תמונה קדמית" required>
+        <input [(ngModel)]="newProduct.backImageUrl" name="backImageUrl" placeholder="כתובת תמונה אחורית" required>
+        <select [(ngModel)]="newProduct.categoryId" name="categoryId" required>
+          <option value="0">בחר קטגוריה</option>
+          <option *ngFor="let cat of categories" [value]="cat.categoryId">{{cat.name}}</option>
+        </select>
+        <select [(ngModel)]="newProduct.styleId" name="styleId" required>
+          <option value="0">בחר סגנון</option>
+          <option *ngFor="let style of styles" [value]="style.styleId">{{style.name}}</option>
+        </select>
+        <button type="submit" class="btn-add">הוסף מוצר</button>
+      </form>
+    </div>
+
+    <div class="list-section">
+      <h2>מוצרים קיימים</h2>
+      <div class="items-grid">
+        <div class="item-card" *ngFor="let product of products">
+          <div class="image-container">
+            <img 
+              class="img-front"
+              [src]="product.frontImageUrl" 
+              [alt]="product.name"
+              (error)="$any($event.target).src='https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=500'">
+            <img 
+              class="img-back"
+              [src]="product.backImageUrl" 
+              [alt]="product.name"
+              (error)="$any($event.target).src='https://images.unsplash.com/photo-1540574163026-643ea20ade25?w=500'">
+          </div>
+          <div class="item-info">
+            <h3>{{product.name}}</h3>
+            <p>{{product.price}} ₪</p>
+          </div>
+          <button (click)="deleteProduct(product.productId)" class="btn-delete">מחק</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Categories Tab -->
+  <div class="tab-content" *ngIf="activeTab === 'categories'">
+    <div class="form-section">
+      <h2>הוספת קטגוריה חדשה</h2>
+      <form (ngSubmit)="addCategory()">
+        <input [(ngModel)]="newCategory.name" name="catName" placeholder="שם הקטגוריה" required>
+        <input [(ngModel)]="newCategory.description" name="catDesc" placeholder="תיאור (אופציונלי)">
+        <input [(ngModel)]="newCategory.imageUrl" name="catImage" placeholder="כתובת תמונה (אופציונלי)">
+        <button type="submit" class="btn-add">הוסף קטגוריה</button>
+      </form>
+    </div>
+
+    <div class="list-section">
+      <h2>קטגוריות קיימות</h2>
+      <div class="simple-list">
+        <div class="simple-item" *ngFor="let category of categories">
+          <span>{{category.name}}</span>
+          <button (click)="deleteCategory(category.categoryId)" class="btn-delete">מחק</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Styles Tab -->
+  <div class="tab-content" *ngIf="activeTab === 'styles'">
+    <div class="form-section">
+      <h2>הוספת סגנון חדש</h2>
+      <form (ngSubmit)="addStyle()">
+        <input [(ngModel)]="newStyle.name" name="styleName" placeholder="שם הסגנון" required>
+        <input [(ngModel)]="newStyle.description" name="styleDesc" placeholder="תיאור (אופציונלי)">
+        <input [(ngModel)]="newStyle.imageUrl" name="styleImage" placeholder="כתובת תמונה (אופציונלי)">
+        <button type="submit" class="btn-add">הוסף סגנון</button>
+      </form>
+    </div>
+
+    <div class="list-section">
+      <h2>סגנונות קיימים</h2>
+      <div class="simple-list">
+        <div class="simple-item" *ngFor="let style of styles">
+          <span>{{style.name}}</span>
+          <button (click)="deleteStyle(style.styleId)" class="btn-delete">מחק</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
