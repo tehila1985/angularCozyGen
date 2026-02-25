@@ -1,10 +1,11 @@
 import { Component, signal, OnInit, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { UserService } from './services/user';
+import { NotificationComponent } from './components/notification/notification';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
+  imports: [RouterOutlet, NotificationComponent],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
