@@ -4,7 +4,6 @@
     
     <p-message *ngIf="errorMessage" severity="error" [text]="errorMessage"></p-message>
 
-    <!-- Login Form -->
     <form *ngIf="isLoginMode" (ngSubmit)="onLogin()" class="auth-form">
       <div class="field">
         <label for="login-email">אימייל</label>
@@ -44,8 +43,6 @@
         <a (click)="toggleMode()">הירשם כאן</a>
       </div>
     </form>
-
-    <!-- Register Form -->
     <form *ngIf="!isLoginMode" (ngSubmit)="onRegister()" class="auth-form">
       <div class="field">
         <label for="register-firstName">שם פרטי</label>

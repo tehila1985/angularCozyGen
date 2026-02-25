@@ -70,7 +70,7 @@ export class AuthComponent {
   onRegister() {
     this.errorMessage = '';
     
-    // בדיקת חוזק סיסמה
+    // בדיקת ולידטציה בסיסית לסיסמה
     const password = this.registerData.passwordHash;
     if (password.length < 8) {
       this.errorMessage = 'הסיסמה חייבת להכיל לפחות 8 תווים';
