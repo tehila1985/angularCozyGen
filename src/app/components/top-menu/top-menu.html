@@ -64,7 +64,7 @@
         <div class="dropdown-menu dropdown-menu-left user-dropdown">
           <div class="user-info">
             <div class="user-name">{{ userService.getCurrentUser()?.firstName }}</div>
-            <div class="user-email">{{ userService.getCurrentUser()?.userId }}</div>
+            <div class="user-email">{{ userService.getCurrentUser()?.email }}</div>
           </div>
           <div class="dropdown-divider"></div>
           <a routerLink="/profile" class="dropdown-item">
