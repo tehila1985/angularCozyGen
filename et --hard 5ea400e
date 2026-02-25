@@ -1,0 +1,18 @@
+[33mfbc9134[m[33m ([m[1;36mHEAD -> [m[1;32mmain[m[33m)[m HEAD@{0}: pull https://github.com/tehila1985/angularCozyGen.git main: Fast-forward
+[33mb9ed20a[m HEAD@{1}: rebase (abort): returning to refs/heads/main
+[33mb9ed20a[m HEAD@{2}: rebase (abort): returning to refs/heads/main
+[33mda3a153[m HEAD@{3}: pull https://github.com/tehila1985/angularCozyGen.git: Merge made by the 'ort' strategy.
+[33m5ea400e[m HEAD@{4}: commit: feat: Admin panel with image upload support
+[33m7c82395[m HEAD@{5}: pull https://github.com/tehila1985/angularCozyGen.git: Fast-forward
+[33m80f91e8[m HEAD@{6}: commit: Fix all merge conflicts - final
+[33m2e50bd5[m HEAD@{7}: commit: Fix all merge conflicts
+[33m6179bca[m HEAD@{8}: commit (merge): Fix merge conflict and add stock validation
+[33mb9ed20a[m HEAD@{9}: checkout: moving from 117e3a923d69f8695ebd60196d90f9aa55496aad to main
+[33m117e3a9[m HEAD@{10}: commit: fix conflict
+[33m55b476f[m HEAD@{11}: pull https://github.com/tehila1985/angularCozyGen.git main --rebase (start): checkout 55b476f3e569a73773b5d3dc6cd0438281cc6445
+[33mb9ed20a[m HEAD@{12}: commit: Add notification files
+[33m2194712[m HEAD@{13}: commit: Add stock management and validation
+[33m41f931e[m HEAD@{14}: commit: Fix cart count real-time
+[33m59a153e[m HEAD@{15}: commit: Improve menu typography - remove bold fonts
+[33m8ecdfdf[m HEAD@{16}: commit: Replace alerts with toast notifications
+[33mafa83ea[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m HEAD@{17}: clone: from https://github.com/tehila1985/angularCozyGen.git
