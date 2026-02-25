@@ -98,11 +98,37 @@
         ></p-password>
       </div>
 
+      <div class="field">
+        <label for="register-phone">טלפון</label>
+        <input 
+          pInputText 
+          id="register-phone" 
+          type="tel" 
+          [(ngModel)]="registerData.phone" 
+          name="phone"
+          required
+          class="w-full"
+        />
+      </div>
+
+      <div class="field">
+        <label for="register-address">כתובת</label>
+        <input 
+          pInputText 
+          id="register-address" 
+          type="text" 
+          [(ngModel)]="registerData.address" 
+          name="address"
+          required
+          class="w-full"
+        />
+      </div>
+
       <p-button 
         label="הירשם" 
         type="submit" 
         styleClass="w-full"
-        [disabled]="!registerData.firstName || !registerData.lastName || !registerData.email || !registerData.passwordHash"
+        [disabled]="!registerData.firstName || !registerData.lastName || !registerData.email || !registerData.passwordHash || !registerData.phone || !registerData.address"
       ></p-button>
 
       <div class="toggle-mode">

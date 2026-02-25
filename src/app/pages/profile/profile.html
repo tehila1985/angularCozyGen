@@ -61,6 +61,42 @@
         />
       </div>
 
+      <div class="field">
+        <label for="password">סיסמה חדשה (אופציונלי)</label>
+        <input 
+          pInputText 
+          id="password" 
+          type="password"
+          [(ngModel)]="editData.passwordHash" 
+          name="password"
+          placeholder="השאר ריק אם לא רוצה לשנות"
+          class="w-full"
+        />
+      </div>
+
+      <div class="field">
+        <label for="phone">טלפון</label>
+        <input 
+          pInputText 
+          id="phone" 
+          type="tel"
+          [(ngModel)]="editData.phone" 
+          name="phone"
+          class="w-full"
+        />
+      </div>
+
+      <div class="field">
+        <label for="address">כתובת</label>
+        <input 
+          pInputText 
+          id="address" 
+          [(ngModel)]="editData.address" 
+          name="address"
+          class="w-full"
+        />
+      </div>
+
       <div class="button-group">
         <p-button 
           label="שמור שינויים" 

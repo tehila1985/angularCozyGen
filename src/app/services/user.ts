@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { environment } from '../../environments/environment.development';
-import { UserLogin, UserRegister, UserResponse } from '../models/user.model';
+import { UserLogin, UserRegister, UserResponse, UserUpdate } from '../models/user.model';
 
 @Injectable({
   providedIn: 'root'
@@ -97,5 +97,18 @@ export class UserService {
 
   isAdmin(): boolean {
     return this.isAdminSubject.value;
+  }
+
+  updateUser(userId: string, userData: UserUpdate): Observable<UserResponse> {
+    return this.http.put<UserResponse>(`${this.apiUrl}/${userId}`, userData).pipe(
+      tap(updatedUser => {
+        localStorage.setItem('currentUser', JSON.stringify(updatedUser));
+        this.currentUserSubject.next(updatedUser);
+      })
+    );
+  }
+
+  getUserDetails(userId: string): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/${userId}`);
   }
 }
