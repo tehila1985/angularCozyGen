@@ -28,14 +28,29 @@
     
     <p class="product-description">{{ product.description }}</p>
     
+    <div class="stock-info" [class.out-of-stock]="product.stock === 0" [class.low-stock]="product.stock > 0 && product.stock <= 5">
+      @if (product.stock > 0 && product.stock <= 5) {
+        <i class="pi pi-clock"></i>
+        <span>מהרו! נותרו רק {{ product.stock }} יחידות</span>
+      } @else if (product.stock > 0) {
+        <span>במלאי</span>
+      } @else {
+        <span>אזל מהמלאי</span>
+      }
+    </div>
+    
     <div class="buy-box">
       <div class="qty-control">
-        <button (click)="qty = qty + 1">+</button>
+        <button (click)="qty = qty + 1" [disabled]="product.stock === 0 || qty >= product.stock">+</button>
         <span>{{ qty }}</span>
-        <button (click)="qty = qty > 1 ? qty - 1 : 1">-</button>
+        <button (click)="qty = qty > 1 ? qty - 1 : 1" [disabled]="product.stock === 0">-</button>
       </div>
-      <button class="add-btn" (click)="addToCart()">
-        הוספה לסל הקניות
+      <button class="add-btn" (click)="addToCart()" [disabled]="product.stock === 0">
+        @if (product.stock > 0) {
+          הוספה לסל הקניות
+        } @else {
+          אזל מהמלאי
+        }
       </button>
     </div>
     <div class="info-footer">

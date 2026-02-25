@@ -11,10 +11,14 @@ import { environment } from '../../../environments/environment.development';
   template: `
   <section class="ikea-products">
     <div class="products-grid" *ngIf="rooms.length > 0; else noProducts">
-      <div *ngFor="let product of rooms" class="product-card" (click)="choose(product)">
+      <div *ngFor="let product of rooms" class="product-card" [class.out-of-stock]="!product.stock || product.stock <= 0" (click)="choose(product)">
         <div class="image-container">
           <img class="img-front" [src]="product.frontImageUrl" (error)="handleImageError($event)" alt="{{ product.title }}">
           <img class="img-back" [src]="product.backImageUrl" (error)="handleImageError($event)" alt="{{ product.title }}">
+          <div class="stock-badge out" *ngIf="!product.stock || product.stock <= 0">אזל מהמלאי</div>
+          <div class="stock-badge low" *ngIf="product.stock > 0 && product.stock <= 5">
+            <i class="pi pi-clock"></i> נותרו {{ product.stock }}
+          </div>
         </div>
         <div class="product-details">
           <h3 class="product-title">{{ product.title }}</h3>
@@ -56,13 +60,19 @@ import { environment } from '../../../environments/environment.development';
   styles: [`
     .ikea-products { direction: rtl; font-family: 'Noto Sans Hebrew', sans-serif; }
     .products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 32px; }
-    .product-card { cursor: pointer; transition: transform 0.2s; }
+    .product-card { cursor: pointer; transition: transform 0.2s; position: relative; }
     .product-card:hover { transform: translateY(-4px); }
+    .product-card.out-of-stock { opacity: 0.6; }
+    .product-card.out-of-stock:hover { transform: none; }
     .image-container { position: relative; aspect-ratio: 1/1; overflow: hidden; background: #f5f5f5; margin-bottom: 12px; }
     .image-container img { position: absolute; width: 100%; height: 100%; object-fit: cover; transition: opacity 0.3s; }
     .img-back { opacity: 0; }
     .product-card:hover .img-back { opacity: 1; }
     .product-card:hover .img-front { opacity: 0; }
+    .stock-badge { position: absolute; top: 12px; right: 12px; color: white; padding: 8px 16px; border-radius: 4px; font-weight: 700; font-size: 14px; z-index: 10; display: flex; align-items: center; gap: 6px; }
+    .stock-badge.out { background: #c62828; }
+    .stock-badge.low { background: #e65100; animation: pulse 2s infinite; }
+    @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.8; } }
     .product-title { font-size: 16px; font-weight: 700; margin: 0 0 8px 0; color: #111; }
     .product-description { font-size: 14px; color: #484848; margin: 0 0 12px 0; line-height: 1.4; }
     .price { font-size: 20px; font-weight: 700; color: #111; }
@@ -134,6 +144,7 @@ export class Showproducts implements OnInit, OnChanges {
           name: (s.name || '').replace(/_/g, ' '),
           description: s.description || '',
           price: s.price,
+          stock: s.stock || 0,
           categoryName: s.categoryName || '',
           frontImageUrl: s.frontImageUrl?.startsWith('http') ? s.frontImageUrl : `${baseUrl}/${s.frontImageUrl}`,
           backImageUrl: s.backImageUrl?.startsWith('http') ? s.backImageUrl : `${baseUrl}/${s.backImageUrl}`
