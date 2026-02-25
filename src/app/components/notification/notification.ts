@@ -1,11 +1,18 @@
+<<<<<<< HEAD
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NotificationService } from '../../services/notification';
+=======
+import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { NotificationService, Notification } from '../../services/notification';
+>>>>>>> 117e3a9
 
 @Component({
   selector: 'app-notification',
   standalone: true,
   imports: [CommonModule],
+<<<<<<< HEAD
   template: `
     @if (notificationService.notification$ | async; as notification) {
       <div class="notification" [class]="'notification-' + notification.type">
@@ -55,4 +62,22 @@ import { NotificationService } from '../../services/notification';
 })
 export class NotificationComponent {
   constructor(protected notificationService: NotificationService) {}
+=======
+  templateUrl: './notification.html',
+  styleUrl: './notification.css'
+})
+export class NotificationComponent implements OnInit {
+  notification: Notification | null = null;
+
+  constructor(private notificationService: NotificationService) {}
+
+  ngOnInit() {
+    this.notificationService.notification$.subscribe(notification => {
+      this.notification = notification;
+      setTimeout(() => {
+        this.notification = null;
+      }, 3000);
+    });
+  }
+>>>>>>> 117e3a9
 }

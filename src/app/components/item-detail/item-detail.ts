@@ -57,7 +57,7 @@ export class ItemDetail implements OnChanges {
 
     const productToAdd = {
       productId: uniqueId,
-      name: this.product.name,
+      name: this.product.name || 'מוצר',
       price: this.product.price,
       image: this.product.frontImageUrl,
       description: this.product.description || '',

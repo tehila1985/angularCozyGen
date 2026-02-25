@@ -14,6 +14,8 @@ export interface UserRegister {
   lastName: string;
   email: string;
   passwordHash: string;
+  phone: string;
+  address: string;
 }
 
 export interface UserResponse {
@@ -22,4 +24,16 @@ export interface UserResponse {
   lastName: string;
   email: string;
   role?: string;
+  phone?: string;
+  address?: string;
+}
+
+export interface UserUpdate {
+  userId: number;
+  email: string;
+  firstName: string;
+  lastName: string;
+  passwordHash: string;
+  phone: string;
+  address: string;
 }

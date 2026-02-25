@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, OnDestroy, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { CardModule } from 'primeng/card';
@@ -21,7 +21,7 @@ declare var paypal: any;
   templateUrl: './checkout.html',
   styleUrls: ['./checkout.css']
 })
-export class CheckoutComponent implements OnInit {
+export class CheckoutComponent implements OnInit, OnDestroy {
   private orderService = inject(OrderService);
   private userService = inject(UserService);
   private cartService = inject(CartService);
@@ -33,14 +33,27 @@ export class CheckoutComponent implements OnInit {
   errorMessage = '';
   successMessage = '';
   isProcessing = false;
+  private renderTimeout: any;
+  private navigationTimeout: any;
 
   ngOnInit() {
+    console.log('Checkout ngOnInit called');
     this.loadCart();
     if (this.cart.length === 0) {
       this.router.navigate(['/cart']);
       return;
     }
+    console.log('Loading PayPal script...');
     this.loadPayPalScript();
+  }
+
+  ngOnDestroy() {
+    if (this.renderTimeout) {
+      clearTimeout(this.renderTimeout);
+    }
+    if (this.navigationTimeout) {
+      clearTimeout(this.navigationTimeout);
+    }
   }
 
   loadCart() {
@@ -50,6 +63,7 @@ export class CheckoutComponent implements OnInit {
   }
 
   loadPayPalScript() {
+    console.log('loadPayPalScript called, paypal exists:', typeof paypal !== 'undefined');
     if (typeof paypal !== 'undefined') {
       this.renderPayPalButton();
       return;
@@ -57,11 +71,25 @@ export class CheckoutComponent implements OnInit {
 
     const script = document.createElement('script');
     script.src = 'https://www.paypal.com/sdk/js?client-id=test&currency=ILS';
-    script.onload = () => this.renderPayPalButton();
+    script.onload = () => {
+      console.log('PayPal script loaded');
+      this.renderPayPalButton();
+    };
     document.body.appendChild(script);
   }
 
   renderPayPalButton() {
+    console.log('renderPayPalButton called');
+    const container = document.getElementById('paypal-button-container');
+    console.log('Container found:', !!container);
+    if (!container) {
+      this.renderTimeout = setTimeout(() => this.renderPayPalButton(), 100);
+      return;
+    }
+    
+    container.innerHTML = '';
+    console.log('Rendering PayPal button...');
+    
     paypal.Buttons({
       createOrder: (data: any, actions: any) => {
         return actions.order.create({
@@ -93,6 +121,8 @@ export class CheckoutComponent implements OnInit {
     }
 
     this.isProcessing = true;
+    this.successMessage = '';
+    this.errorMessage = '';
     
     const productIds = this.cart.map(item => item.productId);
     const stockChecks = productIds.map(id => this.productService.getProductById(id));
@@ -133,7 +163,7 @@ export class CheckoutComponent implements OnInit {
     const orderItems: OrderItem[] = this.cart.map(item => ({
       orderItemId: 0,
       orderId: 0,
-      itemName: item.name,
+      itemName: item.name || 'מוצר ללא שם',
       productId: item.productId || null,
       quantity: item.quantity,
       priceAtPurchase: item.price
@@ -153,7 +183,8 @@ export class CheckoutComponent implements OnInit {
         this.successMessage = `הזמנה מספר ${order.orderId} בוצעה בהצלחה!`;
         localStorage.removeItem('cart');
         this.updateCartService();
-        setTimeout(() => {
+        this.navigationTimeout = setTimeout(() => {
+          this.isProcessing = false;
           this.router.navigate(['/']);
         }, 3000);
       },

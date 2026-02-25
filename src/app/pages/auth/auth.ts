@@ -43,7 +43,9 @@ export class AuthComponent {
     firstName: '',
     lastName: '',
     email: '',
-    passwordHash: ''
+    passwordHash: '',
+    phone: '',
+    address: ''
   };
 
   toggleMode() {
@@ -92,7 +94,11 @@ export class AuthComponent {
         this.router.navigate(['/']);
       },
       error: (err) => {
-        this.errorMessage = 'שגיאה בהרשמה, נסה שוב';
+        if (err.error?.includes('UNIQUE KEY') || err.error?.includes('duplicate')) {
+          this.errorMessage = 'האימייל כבר קיים במערכת';
+        } else {
+          this.errorMessage = 'שגיאה בהרשמה, נסה שוב';
+        }
       }
     });
   }
