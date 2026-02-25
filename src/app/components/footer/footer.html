@@ -1,0 +1,33 @@
+<footer class="footer">
+  <div class="footer-container">
+    
+    <div class="footer-section">
+      <h3>CozyGen</h3>
+      <p>עיצוב מודרני פוגש בינה מלאכותית</p>
+    </div>
+
+    <div class="footer-section">
+      <h4>קישורים מהירים</h4>
+      <ul>
+        <li><a (click)="navigateTo('/')">דף הבית</a></li>
+        <li><a (click)="navigateTo('/products')">מוצרים</a></li>
+        <li><a (click)="navigateTo('/contact')">צור קשר</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-section">
+      <h4>חשבון</h4>
+      <ul>
+        <li><a (click)="navigateTo('/auth')">התחברות</a></li>
+        <li><a (click)="navigateTo('/profile')">פרופיל</a></li>
+        <li><a (click)="navigateTo('/order-history')">ההזמנות שלי</a></li>
+        <li><a (click)="navigateTo('/cart')">סל קניות</a></li>
+      </ul>
+    </div>
+
+  </div>
+
+  <div class="footer-bottom">
+    <p>&copy; {{ currentYear }} CozyGen. כל הזכויות שמורות.</p>
+  </div>
+</footer>

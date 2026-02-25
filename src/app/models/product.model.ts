@@ -5,6 +5,7 @@ export interface Product {
       categoryName: string,
       price:number ,
       description:string
+      stock:number
       frontImageUrl:string    
       backImageUrl:string
  

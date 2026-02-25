@@ -64,7 +64,39 @@
   font-size: 16px;
   line-height: 1.6;
   color: #484848;
-  margin-bottom: 32px;
+  margin-bottom: 24px;
+}
+
+.stock-info {
+  padding: 12px 16px;
+  background: #e8f5e9;
+  border-radius: 8px;
+  margin-bottom: 24px;
+  font-weight: 500;
+  color: #2e7d32;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.stock-info.low-stock {
+  background: #fff3e0;
+  color: #e65100;
+  animation: pulse 2s infinite;
+}
+
+.stock-info.low-stock i {
+  font-size: 18px;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
+
+.stock-info.out-of-stock {
+  background: #ffebee;
+  color: #c62828;
 }
 
 .buy-box {
@@ -99,6 +131,11 @@
   transform: scale(0.95);
 }
 
+.qty-control button:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
 .qty-control span {
   font-size: 16px;
   font-weight: 500;
@@ -122,6 +159,11 @@
 
 .add-btn:hover {
   background: #006666;
+}
+
+.add-btn:disabled {
+  background: #ccc;
+  cursor: not-allowed;
 }
 
 .info-footer {

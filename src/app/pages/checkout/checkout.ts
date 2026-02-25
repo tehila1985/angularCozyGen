@@ -8,7 +8,9 @@ import { TopMenu } from '../../components/top-menu/top-menu';
 import { OrderService } from '../../services/order';
 import { UserService } from '../../services/user';
 import { CartService } from '../../services/cart';
+import { ProductService } from '../../services/product';
 import { CreateOrderRequest, OrderItem } from '../../models/order.model';
+import { forkJoin } from 'rxjs';
 
 declare var paypal: any;
 
@@ -23,6 +25,7 @@ export class CheckoutComponent implements OnInit, OnDestroy {
   private orderService = inject(OrderService);
   private userService = inject(UserService);
   private cartService = inject(CartService);
+  private productService = inject(ProductService);
   private router = inject(Router);
 
   cart: any[] = [];
@@ -121,10 +124,46 @@ export class CheckoutComponent implements OnInit, OnDestroy {
     this.successMessage = '';
     this.errorMessage = '';
     
+    const productIds = this.cart.map(item => item.productId);
+    const stockChecks = productIds.map(id => this.productService.getProductById(id));
+
+    forkJoin(stockChecks).subscribe({
+      next: (products: any[]) => {
+        for (let i = 0; i < products.length; i++) {
+          const product = products[i];
+          const cartItem = this.cart.find(item => item.productId === product.productId);
+          
+          if (!cartItem) continue;
+          
+          if (product.stock === 0) {
+            this.errorMessage = `המוצר ${product.name} אזל מהמלאי`;
+            this.isProcessing = false;
+            return;
+          }
+          
+          if (cartItem.quantity > product.stock) {
+            this.errorMessage = `למוצר ${product.name} יש במלאי רק ${product.stock} יחידות`;
+            this.isProcessing = false;
+            return;
+          }
+        }
+        
+        this.processOrder();
+      },
+      error: (err) => {
+        console.error('Stock check error:', err);
+        this.errorMessage = 'שגיאה בבדיקת מלאי';
+        this.isProcessing = false;
+      }
+    });
+  }
+
+  processOrder() {
+    const currentUser = this.userService.getCurrentUser()!;
     const orderItems: OrderItem[] = this.cart.map(item => ({
       orderItemId: 0,
       orderId: 0,
-      itemName: item.name,
+      itemName: item.name || 'מוצר ללא שם',
       productId: item.productId || null,
       quantity: item.quantity,
       priceAtPurchase: item.price

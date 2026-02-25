@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 
 export interface Notification {
   message: string;
@@ -10,10 +10,11 @@ export interface Notification {
   providedIn: 'root'
 })
 export class NotificationService {
-  private notificationSubject = new Subject<Notification>();
-  public notification$ = this.notificationSubject.asObservable();
+  private notificationSubject = new BehaviorSubject<Notification | null>(null);
+  notification$ = this.notificationSubject.asObservable();
 
   show(message: string, type: 'success' | 'error' | 'info' = 'info') {
     this.notificationSubject.next({ message, type });
+    setTimeout(() => this.notificationSubject.next(null), 3000);
   }
 }
