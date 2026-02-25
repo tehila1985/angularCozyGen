@@ -32,4 +32,8 @@ export class ProductService {
   getProductById(id: number): Observable<any> {
     return this.http.get<any>(`${this.apiUrl}/${id}`);
   }
+
+  validateStock(productIds: number[]): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/validate-stock`, productIds);
+  }
 }
