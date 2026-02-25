@@ -51,8 +51,7 @@ export class ProfileComponent implements OnInit {
       this.router.navigate(['/auth']);
       return;
     }
-    
-    // טעינת הפרטים המלאים מהשרת
+
     this.userService.getUserDetails(this.user.userId).subscribe({
       next: (fullUser) => {
         console.log('Full user from server:', fullUser);
@@ -94,7 +93,7 @@ export class ProfileComponent implements OnInit {
       address: this.editData.address || ''
     };
     
-    // רק אם יש סיסמה חדשה, נוסיף אותה
+
     if (this.editData.passwordHash) {
       updateData.passwordHash = this.editData.passwordHash;
     } else {

@@ -53,12 +53,12 @@ export class TopMenu implements OnInit {
       this.cartCount = count;
     });
     
-    // עדכון מיידי של מספר הפריטים בסל
+
     this.router.events.subscribe(() => {
       this.cartService.updateCartCount();
     });
     
-    // בדיקת הרשאות מנהל
+  
     this.userService.checkAdminStatus();
   }
 

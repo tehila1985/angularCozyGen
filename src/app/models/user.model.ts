@@ -10,6 +10,7 @@ export interface UserLogin {
 }
 
 export interface UserRegister {
+
   firstName: string;
   lastName: string;
   email: string;

@@ -1,6 +1,6 @@
 <header class="modern-header">
   <div class="header-container">
-    <!-- Logo -->
+
     <div class="logo-section" routerLink="/">
       <div class="text-logo">
         <div class="logo-brand">CozyGen</div>
@@ -9,7 +9,7 @@
       </div>
     </div>
 
-    <!-- Desktop Navigation -->
+
     <nav class="desktop-nav">
       <a routerLink="/" class="nav-link">Home</a>
       
@@ -44,7 +44,7 @@
       <a routerLink="/contact" class="nav-link">Contact</a>
     </nav>
 
-    <!-- Actions -->
+
     <div class="header-actions">
       <button class="action-btn nav-btn" (click)="goBack()" title="הקודם">
         <i class="pi pi-chevron-right"></i>
@@ -64,7 +64,7 @@
         <div class="dropdown-menu dropdown-menu-left user-dropdown">
           <div class="user-info">
             <div class="user-name">{{ userService.getCurrentUser()?.firstName }}</div>
-            <div class="user-email">{{ userService.getCurrentUser()?.userId }}</div>
+            <div class="user-email">{{ userService.getCurrentUser()?.email }}</div>
           </div>
           <div class="dropdown-divider"></div>
           <a routerLink="/profile" class="dropdown-item">
@@ -99,12 +99,12 @@
     </div>
   </div>
 
-  <!-- Search Bar -->
+
   <div class="search-bar" *ngIf="showSearch">
     <app-search (onSearch)="handleSearch($event)"></app-search>
   </div>
 
-  <!-- Mobile Menu -->
+
   <div class="mobile-menu" [class.active]="mobileMenuOpen">
     <div class="mobile-menu-header">
       <button class="close-btn" (click)="toggleMobileMenu()">

@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, inject, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Product } from '../../models/product.model';
 import { NotificationService } from '../../services/notification';
@@ -16,7 +16,8 @@ export class ItemDetail implements OnChanges {
   activeImage: string = '';
   qty: number = 1;
 
-  constructor(private notificationService: NotificationService, private cartService: CartService) {}
+  private notificationService = inject(NotificationService);
+  private cartService = inject(CartService);
 
   ngOnChanges(changes: SimpleChanges): void {
     if (this.product) {
@@ -57,7 +58,7 @@ export class ItemDetail implements OnChanges {
 
     const productToAdd = {
       productId: uniqueId,
-      name: this.product.name || 'מוצר',
+      name: this.product.name,
       price: this.product.price,
       image: this.product.frontImageUrl,
       description: this.product.description || '',
