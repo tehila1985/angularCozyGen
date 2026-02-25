@@ -1,0 +1,58 @@
+import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { NotificationService } from '../../services/notification';
+
+@Component({
+  selector: 'app-notification',
+  standalone: true,
+  imports: [CommonModule],
+  template: `
+    @if (notificationService.notification$ | async; as notification) {
+      <div class="notification" [class]="'notification-' + notification.type">
+        {{ notification.message }}
+      </div>
+    }
+  `,
+  styles: [`
+    .notification {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      padding: 16px 24px;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      z-index: 9999;
+      animation: slideIn 0.3s ease-out;
+      font-weight: 500;
+    }
+
+    .notification-success {
+      background: #4caf50;
+      color: white;
+    }
+
+    .notification-error {
+      background: #f44336;
+      color: white;
+    }
+
+    .notification-info {
+      background: #2196f3;
+      color: white;
+    }
+
+    @keyframes slideIn {
+      from {
+        transform: translateX(400px);
+        opacity: 0;
+      }
+      to {
+        transform: translateX(0);
+        opacity: 1;
+      }
+    }
+  `]
+})
+export class NotificationComponent {
+  constructor(protected notificationService: NotificationService) {}
+}
