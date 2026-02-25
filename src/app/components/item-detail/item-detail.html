@@ -30,9 +30,9 @@
     
     <div class="buy-box">
       <div class="qty-control">
-        <button (click)="qty = qty + 1">+</button>
-        <span>{{ qty }}</span>
         <button (click)="qty = qty > 1 ? qty - 1 : 1">-</button>
+        <span>{{ qty }}</span>
+        <button (click)="qty = qty + 1">+</button>
       </div>
       <button class="add-btn" (click)="addToCart()">
         הוספה לסל הקניות

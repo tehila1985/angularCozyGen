@@ -63,8 +63,9 @@ import { CartService } from '../../services/cart';
     .product-desc { font-size: 14px; color: #484848; margin: 8px 0; }
     .item-actions { display: flex; align-items: center; gap: 24px; margin-top: 16px; flex-wrap: wrap; }
     .qty-control { display: flex; align-items: center; gap: 12px; }
-    .qty-control button { width: 32px; height: 32px; border: 2px solid #111; background: #fff; cursor: pointer; font-weight: 700; }
-    .qty-control button:hover { background: #111; color: #fff; }
+    .qty-control button { background: none; border: none; font-size: 24px; color: #8B7355; cursor: pointer; padding: 0 12px; transition: all 0.2s ease; font-weight: 300; }
+    .qty-control button:hover { color: #6B5345; transform: scale(1.2); }
+    .qty-control button:active { transform: scale(0.95); }
     .product-price { font-weight: 700; color: #008B8B; font-size: 20px; margin: 0; }
     .remove-btn { background: none; border: none; color: #929292; cursor: pointer; text-decoration: underline; }
     .remove-btn:hover { color: #111; }
