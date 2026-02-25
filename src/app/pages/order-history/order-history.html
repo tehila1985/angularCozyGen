@@ -54,6 +54,7 @@
               <h3>פריטי ההזמנה</h3>
               <div class="items-list">
                 <div *ngFor="let item of order.orderItems" class="item-row">
+                  <img *ngIf="productImages[item.productId]" [src]="productImages[item.productId]" class="item-image" />
                   <div class="item-info">
                     <span class="item-name">{{ item.itemName || 'פריט #' + item.productId }}</span>
                     <span class="item-quantity">כמות: {{ item.quantity }}</span>
