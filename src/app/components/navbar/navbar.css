@@ -58,23 +58,33 @@
   margin-bottom: 20px;
 }
 
-/* עיצוב התמונה עם אפקט Zoom */
+/* עיצוב התמונה עם אפקטים */
 .image-wrapper {
   width: 100%;
   aspect-ratio: 1 / 1.2;
   overflow: hidden;
   position: relative;
+  border-radius: 8px;
 }
 
 .image-wrapper img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 2s cubic-bezier(0.2, 1, 0.3, 1);
+  animation: slowZoom 20s ease-in-out infinite alternate;
+}
+
+@keyframes slowZoom {
+  0% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(1.15);
+  }
 }
 
 .image-side:hover img {
-  transform: scale(1.08);
+  animation-play-state: paused;
 }
 
 /* כפתור פשוט בסטייל המודרני */
