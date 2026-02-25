@@ -39,6 +39,23 @@ export class AdminComponent implements OnInit {
     styleId: 0
   };
 
+  frontImageFile: File | null = null;
+  backImageFile: File | null = null;
+  frontImagePreview: string = '';
+  backImagePreview: string = '';
+  uploadMessage: string = '';
+  uploadError: string = '';
+
+  categoryImageFile: File | null = null;
+  categoryImagePreview: string = '';
+  categoryMessage: string = '';
+  categoryError: string = '';
+
+  styleImageFile: File | null = null;
+  styleImagePreview: string = '';
+  styleMessage: string = '';
+  styleError: string = '';
+
   newCategory: AdminCategory = { name: '', description: '', imageUrl: '' };
   newStyle: AdminStyle = { name: '', description: '', imageUrl: '' };
 
@@ -68,12 +85,86 @@ export class AdminComponent implements OnInit {
     });
   }
 
-  // Products
+  onFrontImageSelect(event: any) {
+    const file = event.target.files[0];
+    if (file) {
+      this.frontImageFile = file;
+      const reader = new FileReader();
+      reader.onload = (e: any) => {
+        this.frontImagePreview = e.target.result;
+      };
+      reader.readAsDataURL(file);
+    }
+  }
+
+  onBackImageSelect(event: any) {
+    const file = event.target.files[0];
+    if (file) {
+      this.backImageFile = file;
+      const reader = new FileReader();
+      reader.onload = (e: any) => {
+        this.backImagePreview = e.target.result;
+      };
+      reader.readAsDataURL(file);
+    }
+  }
+
+  onCategoryImageSelect(event: any) {
+    const file = event.target.files[0];
+    if (file) {
+      this.categoryImageFile = file;
+      const reader = new FileReader();
+      reader.onload = (e: any) => {
+        this.categoryImagePreview = e.target.result;
+      };
+      reader.readAsDataURL(file);
+    }
+  }
+
+  onStyleImageSelect(event: any) {
+    const file = event.target.files[0];
+    if (file) {
+      this.styleImageFile = file;
+      const reader = new FileReader();
+      reader.onload = (e: any) => {
+        this.styleImagePreview = e.target.result;
+      };
+      reader.readAsDataURL(file);
+    }
+  }
+
   addProduct() {
-    this.adminService.addProduct(this.newProduct).subscribe(() => {
-      this.loadData();
-      this.resetProductForm();
-    });
+    this.uploadMessage = '';
+    this.uploadError = '';
+    
+    if (this.frontImageFile && this.backImageFile) {
+      this.uploadMessage = 'מעלה תמונות...';
+      
+      this.adminService.uploadProductImages(this.frontImageFile, this.backImageFile, this.newProduct).subscribe({
+        next: () => {
+          this.uploadMessage = 'המוצר נוסף בהצלחה!';
+          this.loadData();
+          this.resetProductForm();
+          setTimeout(() => this.uploadMessage = '', 3000);
+        },
+        error: (err) => {
+          const errorMsg = err.error?.message || err.message || 'שגיאה לא ידועה';
+          this.uploadError = 'שגיאה: ' + errorMsg;
+        }
+      });
+    } else {
+      this.adminService.addProduct(this.newProduct).subscribe({
+        next: () => {
+          this.uploadMessage = 'המוצר נוסף בהצלחה!';
+          this.loadData();
+          this.resetProductForm();
+          setTimeout(() => this.uploadMessage = '', 3000);
+        },
+        error: () => {
+          this.uploadError = 'שגיאה בהוספת המוצר';
+        }
+      });
+    }
   }
 
   deleteProduct(id: number) {
@@ -94,14 +185,51 @@ export class AdminComponent implements OnInit {
       categoryId: 0,
       styleId: 0
     };
+    this.frontImageFile = null;
+    this.backImageFile = null;
+    this.frontImagePreview = '';
+    this.backImagePreview = '';
+    this.uploadMessage = '';
+    this.uploadError = '';
   }
 
-  // Categories
   addCategory() {
-    this.adminService.addCategory(this.newCategory).subscribe(() => {
-      this.loadData();
-      this.newCategory = { name: '', description: '', imageUrl: '' };
-    });
+    this.categoryMessage = '';
+    this.categoryError = '';
+    
+    if (this.categoryImageFile) {
+      this.categoryMessage = 'מעלה תמונה...';
+      
+      this.adminService.uploadCategoryImage(this.categoryImageFile, this.newCategory).subscribe({
+        next: () => {
+          this.categoryMessage = 'הקטגוריה נוספה בהצלחה!';
+          this.loadData();
+          this.resetCategoryForm();
+          setTimeout(() => this.categoryMessage = '', 3000);
+        },
+        error: (err) => {
+          this.categoryError = 'שגיאה: ' + (err.error?.message || err.message);
+        }
+      });
+    } else {
+      this.adminService.addCategory(this.newCategory).subscribe({
+        next: () => {
+          this.categoryMessage = 'הקטגוריה נוספה בהצלחה!';
+          this.loadData();
+          this.resetCategoryForm();
+          setTimeout(() => this.categoryMessage = '', 3000);
+        },
+        error: () => {
+          this.categoryError = 'שגיאה בהוספת הקטגוריה';
+        }
+      });
+    }
+  }
+
+  resetCategoryForm() {
+    this.newCategory = { name: '', description: '', imageUrl: '' };
+    this.categoryImageFile = null;
+    this.categoryImagePreview = '';
   }
 
   deleteCategory(id: number) {
@@ -112,12 +240,43 @@ export class AdminComponent implements OnInit {
     }
   }
 
-  // Styles
   addStyle() {
-    this.adminService.addStyle(this.newStyle).subscribe(() => {
-      this.loadData();
-      this.newStyle = { name: '', description: '', imageUrl: '' };
-    });
+    this.styleMessage = '';
+    this.styleError = '';
+    
+    if (this.styleImageFile) {
+      this.styleMessage = 'מעלה תמונה...';
+      
+      this.adminService.uploadStyleImage(this.styleImageFile, this.newStyle).subscribe({
+        next: () => {
+          this.styleMessage = 'הסגנון נוסף בהצלחה!';
+          this.loadData();
+          this.resetStyleForm();
+          setTimeout(() => this.styleMessage = '', 3000);
+        },
+        error: (err) => {
+          this.styleError = 'שגיאה: ' + (err.error?.message || err.message);
+        }
+      });
+    } else {
+      this.adminService.addStyle(this.newStyle).subscribe({
+        next: () => {
+          this.styleMessage = 'הסגנון נוסף בהצלחה!';
+          this.loadData();
+          this.resetStyleForm();
+          setTimeout(() => this.styleMessage = '', 3000);
+        },
+        error: () => {
+          this.styleError = 'שגיאה בהוספת הסגנון';
+        }
+      });
+    }
+  }
+
+  resetStyleForm() {
+    this.newStyle = { name: '', description: '', imageUrl: '' };
+    this.styleImageFile = null;
+    this.styleImagePreview = '';
   }
 
   deleteStyle(id: number) {

@@ -28,12 +28,29 @@
   <div class="tab-content" *ngIf="activeTab === 'products'">
     <div class="form-section">
       <h2>הוספת מוצר חדש</h2>
+      
+      <div *ngIf="uploadMessage" class="success-message">{{uploadMessage}}</div>
+      <div *ngIf="uploadError" class="error-message">{{uploadError}}</div>
+      
       <form (ngSubmit)="addProduct()">
         <input [(ngModel)]="newProduct.name" name="name" placeholder="שם המוצר" required>
         <textarea [(ngModel)]="newProduct.description" name="description" placeholder="תיאור" required></textarea>
         <input [(ngModel)]="newProduct.price" name="price" type="number" placeholder="מחיר" required>
-        <input [(ngModel)]="newProduct.frontImageUrl" name="frontImageUrl" placeholder="כתובת תמונה קדמית" required>
-        <input [(ngModel)]="newProduct.backImageUrl" name="backImageUrl" placeholder="כתובת תמונה אחורית" required>
+        
+        <div class="image-upload">
+          <label>תמונה קדמית:</label>
+          <input type="file" accept="image/*" (change)="onFrontImageSelect($event)">
+          <img *ngIf="frontImagePreview" [src]="frontImagePreview" class="preview">
+          <input *ngIf="!frontImageFile" [(ngModel)]="newProduct.frontImageUrl" name="frontImageUrl" placeholder="או הזן URL" [required]="!frontImageFile">
+        </div>
+
+        <div class="image-upload">
+          <label>תמונה אחורית:</label>
+          <input type="file" accept="image/*" (change)="onBackImageSelect($event)">
+          <img *ngIf="backImagePreview" [src]="backImagePreview" class="preview">
+          <input *ngIf="!backImageFile" [(ngModel)]="newProduct.backImageUrl" name="backImageUrl" placeholder="או הזן URL" [required]="!backImageFile">
+        </div>
+        
         <select [(ngModel)]="newProduct.categoryId" name="categoryId" required>
           <option value="0">בחר קטגוריה</option>
           <option *ngFor="let cat of categories" [value]="cat.categoryId">{{cat.name}}</option>
@@ -76,10 +93,21 @@
   <div class="tab-content" *ngIf="activeTab === 'categories'">
     <div class="form-section">
       <h2>הוספת קטגוריה חדשה</h2>
+      
+      <div *ngIf="categoryMessage" class="success-message">{{categoryMessage}}</div>
+      <div *ngIf="categoryError" class="error-message">{{categoryError}}</div>
+      
       <form (ngSubmit)="addCategory()">
         <input [(ngModel)]="newCategory.name" name="catName" placeholder="שם הקטגוריה" required>
         <input [(ngModel)]="newCategory.description" name="catDesc" placeholder="תיאור (אופציונלי)">
-        <input [(ngModel)]="newCategory.imageUrl" name="catImage" placeholder="כתובת תמונה (אופציונלי)">
+        
+        <div class="image-upload">
+          <label>תמונה:</label>
+          <input type="file" accept="image/*" (change)="onCategoryImageSelect($event)">
+          <img *ngIf="categoryImagePreview" [src]="categoryImagePreview" class="preview">
+          <input *ngIf="!categoryImageFile" [(ngModel)]="newCategory.imageUrl" name="catImage" placeholder="או הזן URL">
+        </div>
+        
         <button type="submit" class="btn-add">הוסף קטגוריה</button>
       </form>
     </div>
@@ -99,10 +127,21 @@
   <div class="tab-content" *ngIf="activeTab === 'styles'">
     <div class="form-section">
       <h2>הוספת סגנון חדש</h2>
+      
+      <div *ngIf="styleMessage" class="success-message">{{styleMessage}}</div>
+      <div *ngIf="styleError" class="error-message">{{styleError}}</div>
+      
       <form (ngSubmit)="addStyle()">
         <input [(ngModel)]="newStyle.name" name="styleName" placeholder="שם הסגנון" required>
         <input [(ngModel)]="newStyle.description" name="styleDesc" placeholder="תיאור (אופציונלי)">
-        <input [(ngModel)]="newStyle.imageUrl" name="styleImage" placeholder="כתובת תמונה (אופציונלי)">
+        
+        <div class="image-upload">
+          <label>תמונה:</label>
+          <input type="file" accept="image/*" (change)="onStyleImageSelect($event)">
+          <img *ngIf="styleImagePreview" [src]="styleImagePreview" class="preview">
+          <input *ngIf="!styleImageFile" [(ngModel)]="newStyle.imageUrl" name="styleImage" placeholder="או הזן URL">
+        </div>
+        
         <button type="submit" class="btn-add">הוסף סגנון</button>
       </form>
     </div>

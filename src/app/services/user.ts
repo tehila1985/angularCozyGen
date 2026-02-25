@@ -32,10 +32,13 @@ export class UserService {
   }
 
   login(credentials: UserLogin): Observable<UserResponse> {
+    const loginData = credentials as any;
     return this.http.post<UserResponse>(`${this.apiUrl}/Login`, credentials).pipe(
       tap(user => {
         console.log('Login response:', user);
-        localStorage.setItem('currentUser', JSON.stringify(user));
+        const userWithPassword = { ...user, password: loginData.passwordHash };
+        localStorage.setItem('currentUser', JSON.stringify(userWithPassword));
+        console.log('Saved password:', !!loginData.passwordHash);
         this.currentUserSubject.next(user);
         
         const isAdmin = user.role === 'Admin';
