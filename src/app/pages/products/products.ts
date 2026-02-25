@@ -9,7 +9,7 @@ import { PriceFilterComponent } from '../../components/price-filter/price-filter
 @Component({
   selector: 'app-products',
   standalone: true,
-  imports: [Showproducts, TopMenu, SearchComponent, PriceFilterComponent],
+  imports: [Showproducts, TopMenu, PriceFilterComponent],
   templateUrl: './products.html',
   styleUrls: ['./products.css'],
 })
