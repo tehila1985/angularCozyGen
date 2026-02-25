@@ -1,1 +1,36 @@
-<p>cart-details works!</p>
+<section class="cart-section">
+  <div class="header-container">
+    <span class="category-label">YOUR SELECTION</span>
+    <h3 class="style-heading">סל הקניות</h3>
+    <p class="style-subtext">כל המוצרים שבחרת במקום אחד</p>
+  </div>
+  <div *ngIf="cart.length === 0" class="empty-cart">
+    סל הקניות שלך ריק כרגע
+  </div>
+  <div class="cart-list" *ngIf="cart.length > 0">
+    <div *ngFor="let item of cart; let i = index" class="cart-item" [class.appear]="isLoaded" [style.transition-delay]="(i*80)+'ms'">
+      <div class="image-wrapper">
+        <img [src]="item.image" [alt]="item.name">
+      </div>
+      <div class="item-info">
+        <h4 class="product-title">{{ item.name }}</h4>
+        <p class="product-desc">{{ item.description || '' }}</p>
+        <div class="item-actions">
+          <div class="qty-control">
+            <button (click)="decreaseQty(i)">-</button>
+            <span>{{ item.quantity }}</span>
+            <button (click)="increaseQty(i)">+</button>
+          </div>
+          <p class="product-price">₪{{ item.price }}</p>
+          <button class="remove-btn" (click)="removeItem(i)">הסר</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="summary-box" *ngIf="cart.length > 0">
+    <div class="total">
+      סה״כ לתשלום: <span>₪{{ getTotal() }}</span>
+    </div>
+    <button class="order-btn" (click)="checkout()">מעבר להזמנה</button>
+  </div>
+</section>

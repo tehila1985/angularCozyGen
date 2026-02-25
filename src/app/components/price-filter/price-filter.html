@@ -1,0 +1,26 @@
+<div class="filter-sidebar">
+  <h3 class="sidebar-title">סינון מוצרים</h3>
+  
+  <div class="filter-section">
+    <label class="section-label">חיפוש לפי שם</label>
+    <input 
+      type="text" 
+      [(ngModel)]="searchName" 
+      (input)="onFilterChange()" 
+      placeholder="הקלד שם מוצר..." 
+      class="ikea-input"
+    >
+  </div>
+
+  <div class="filter-section">
+    <details open>
+      <summary>טווח מחיר</summary>
+      <div class="price-flex">
+        <input type="number" [(ngModel)]="minPrice" (input)="onFilterChange()" placeholder="מ-" class="ikea-input small">
+        <input type="number" [(ngModel)]="maxPrice" (input)="onFilterChange()" placeholder="עד-" class="ikea-input small">
+      </div>
+    </details>
+  </div>
+
+  <button (click)="resetFilter()" class="reset-btn">נקה הכל</button>
+</div>

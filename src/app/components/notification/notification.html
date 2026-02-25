@@ -1,3 +1,5 @@
-<div *ngIf="notification" class="notification" [ngClass]="'notification-' + notification.type">
-  {{ notification.message }}
-</div>
+@if (notificationService.notification$ | async; as notification) {
+  <div class="notification" [class]="'notification-' + notification.type">
+    {{ notification.message }}
+  </div>
+}

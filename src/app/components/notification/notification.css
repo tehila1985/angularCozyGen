@@ -1,24 +1,13 @@
 .notification {
   position: fixed;
-  top: 80px;
+  top: 20px;
   right: 20px;
   padding: 16px 24px;
   border-radius: 8px;
   box-shadow: 0 4px 12px rgba(0,0,0,0.15);
   z-index: 9999;
-  animation: slideIn 0.3s ease;
+  animation: slideIn 0.3s ease-out;
   font-weight: 500;
-}
-
-@keyframes slideIn {
-  from {
-    transform: translateX(400px);
-    opacity: 0;
-  }
-  to {
-    transform: translateX(0);
-    opacity: 1;
-  }
 }
 
 .notification-success {
@@ -34,4 +23,15 @@
 .notification-info {
   background: #2196f3;
   color: white;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(400px);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
 }
