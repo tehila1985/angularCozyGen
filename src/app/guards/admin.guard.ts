@@ -1,11 +1,13 @@
 import { inject } from '@angular/core';
 import { Router, CanActivateFn } from '@angular/router';
 import { UserService } from '../services/user';
+import { NotificationService } from '../services/notification';
 import { map, take } from 'rxjs/operators';
 
 export const adminGuard: CanActivateFn = () => {
   const userService = inject(UserService);
   const router = inject(Router);
+  const notificationService = inject(NotificationService);
 
   if (!userService.isLoggedIn()) {
     router.navigate(['/auth']);
@@ -16,7 +18,7 @@ export const adminGuard: CanActivateFn = () => {
     take(1),
     map(isAdmin => {
       if (!isAdmin) {
-        alert('אין לך הרשאות מנהל');
+        notificationService.show('אין לך הרשאות מנהל', 'error');
         router.navigate(['/']);
         return false;
       }

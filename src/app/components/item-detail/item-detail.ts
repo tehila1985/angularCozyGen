@@ -1,6 +1,7 @@
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Product } from '../../models/product.model';
+import { NotificationService } from '../../services/notification';
 
 @Component({
   selector: 'app-item-detail',
@@ -13,6 +14,8 @@ export class ItemDetail implements OnChanges {
   @Input() product: Product | undefined;
   activeImage: string = '';
   qty: number = 1;
+
+  constructor(private notificationService: NotificationService) {}
 
   ngOnChanges(changes: SimpleChanges): void {
     if (this.product) {
@@ -52,6 +55,6 @@ export class ItemDetail implements OnChanges {
 
     localStorage.setItem('cart', JSON.stringify(cart));
     this.qty = 1;
-    alert(`המוצר ${this.product.name} נוסף לסל!`);
+    this.notificationService.show(`המוצר ${this.product.name} נוסף לסל!`, 'success');
   }
 }
