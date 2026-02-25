@@ -95,7 +95,7 @@
 .nav-link {
   padding: 12px 20px;
   color: #111;
-  font-weight: 600;
+  font-weight: 400;
   font-size: 15px;
   text-decoration: none;
   border-radius: 8px;
@@ -162,6 +162,7 @@
   transition: background 0.2s;
   cursor: pointer;
   font-size: 14px;
+  font-weight: 400;
 }
 
 .dropdown-item:hover {
@@ -189,7 +190,7 @@
 
 .user-info .user-name {
   font-size: 16px;
-  font-weight: 700;
+  font-weight: 500;
   color: #111;
   padding: 0;
   margin: 0 0 6px 0;
@@ -339,7 +340,7 @@
   padding: 16px;
   color: #111;
   text-decoration: none;
-  font-weight: 600;
+  font-weight: 400;
   font-size: 16px;
   border-radius: 8px;
   margin-bottom: 4px;
@@ -389,7 +390,7 @@
 
 .mobile-user-name {
   padding: 16px;
-  font-weight: 600;
+  font-weight: 500;
   color: #0051BA;
   font-size: 16px;
 }
