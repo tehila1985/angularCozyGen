@@ -26,11 +26,24 @@ export class ProductService {
       params = params.set('styleIds', filters.styleIds.join(','));
     }
 
+    if (filters.productIds?.length) {
+      params = params.set('productIds', filters.productIds.join(','));
+    }
+
     return this.http.get<any>(this.apiUrl, { params });
   }
 
   getProductById(id: number): Observable<any> {
     return this.http.get<any>(`${this.apiUrl}/${id}`);
+  }
+
+  // ===== נוסף עבור הקריאה ל-AI - מחזיר מוצרים לפי רשימת IDs =====
+  getProductsByIds(ids: number[]): Observable<any[]> {
+    let params = new HttpParams();
+    ids.forEach(id => {
+      params = params.append('ids', id.toString());
+    });
+    return this.http.get<any[]>(`${this.apiUrl}/by-ids`, { params });
   }
 
   validateStock(productIds: number[]): Observable<any> {

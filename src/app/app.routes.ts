@@ -9,6 +9,7 @@ import { CheckoutComponent } from './pages/checkout/checkout';
 import { ProfileComponent } from './pages/profile/profile';
 import { OrderHistoryComponent } from './pages/order-history/order-history';
 import { AdminComponent } from './pages/admin/admin';
+import { AiDesignComponent } from './pages/ai-design/ai-design';
 import { adminGuard } from './guards/admin.guard';
 
 export const routes: Routes = [
@@ -21,7 +22,8 @@ export const routes: Routes = [
   { path: 'checkout', component: CheckoutComponent },
   { path: 'profile', component: ProfileComponent },
   { path: 'order-history', component: OrderHistoryComponent },
-  { path: 'admin', component: AdminComponent, canActivate: [adminGuard] }
+  { path: 'admin', component: AdminComponent, canActivate: [adminGuard] },
+  { path: 'ai-design', component: AiDesignComponent }
 ];
 
 

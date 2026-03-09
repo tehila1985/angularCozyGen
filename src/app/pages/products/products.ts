@@ -25,6 +25,7 @@ export class Products {
   desc: string = '';
   minPrice: number = 0;
   maxPrice: number = 999999;
+  aiProductIds: number[] = [];
 
   onProductChoose(product: any) {
     this.router.navigate(['/item'], {
@@ -39,10 +40,12 @@ export class Products {
       const categoryId = Number(params.get('categoryId'));
       const styleId = Number(params.get('styleId'));
       const search = params.get('search') || '';
+      const aiProducts = params.get('aiProducts') || '';
       
       this.categoryIds = categoryId ? [categoryId] : [];
       this.styleIds = styleId ? [styleId] : [];
       this.desc = search;
+      this.aiProductIds = aiProducts ? aiProducts.split(',').map(id => Number(id)) : [];
       
       if (!search) {
         this.minPrice = 0;

@@ -100,6 +100,7 @@ export class Showproducts implements OnInit, OnChanges {
   @Input() desc = '';
   @Input() minPrice = 0;
   @Input() maxPrice = 999999;
+  @Input() aiProductIds: number[] = [];
 
   rooms: any[] = [];
   totalItems = 0;
@@ -122,14 +123,17 @@ export class Showproducts implements OnInit, OnChanges {
 
   fetchProducts() {
     const hasSearch = this.desc && this.desc.trim() !== '';
+    const hasAiProducts = this.aiProductIds && this.aiProductIds.length > 0;
+    
     const filters = {
       categoryIds: this.categoryIds,
       styleIds: this.styleIds,
       desc: '', 
       minPrice: this.minPrice,
       maxPrice: this.maxPrice,
-      position: hasSearch ? 1 : this.currentPage,
-      skip: hasSearch ? 999999 : this.pageSize
+      position: hasSearch || hasAiProducts ? 1 : this.currentPage,
+      skip: hasSearch || hasAiProducts ? 999999 : this.pageSize,
+      productIds: hasAiProducts ? this.aiProductIds : undefined
     };
 
     this.productService.getProducts(filters).subscribe({
@@ -155,6 +159,11 @@ export class Showproducts implements OnInit, OnChanges {
           this.rooms = mapped.filter((p: any) => 
             p.title.toLowerCase().includes(searchTerm)
           );
+          this.totalItems = this.rooms.length;
+          this.totalPages = this.rooms.length > 0 ? 1 : 0;
+          this.pagesArray = this.rooms.length > 0 ? [1] : [];
+        } else if (hasAiProducts) {
+          this.rooms = mapped;
           this.totalItems = this.rooms.length;
           this.totalPages = this.rooms.length > 0 ? 1 : 0;
           this.pagesArray = this.rooms.length > 0 ? [1] : [];

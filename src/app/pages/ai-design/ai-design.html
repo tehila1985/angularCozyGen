@@ -1,0 +1,70 @@
+<app-top-menu></app-top-menu>
+
+<div class="ai-design-container">
+  <div class="ai-design-content">
+    <div class="header">
+      <h1>הפכו את הסלון שלכם ליצירת אמנות</h1>
+      <p>העלו תמונה של הסלון שלכם, והבינה המלאכותית שלנו תתאים לכם חבילת עיצוב מושלמת מהקטלוג שלנו.</p>
+    </div>
+
+    <div class="upload-section">
+      <div class="upload-area" *ngIf="!previewUrl" (click)="fileInput.click()">
+        <i class="pi pi-cloud-upload"></i>
+        <h3>גרור תמונה לכאן או לחץ להעלאה</h3>
+        <p>תמונות בפורמט JPG, PNG או WEBP</p>
+        <input 
+          #fileInput 
+          type="file" 
+          accept="image/*" 
+          (change)="onFileSelected($event)"
+          hidden
+        />
+      </div>
+
+      <div class="preview-area" *ngIf="previewUrl">
+        <img [src]="previewUrl" alt="Preview" />
+        <button class="remove-btn" (click)="removeImage()">
+          <i class="pi pi-times"></i>
+        </button>
+      </div>
+    </div>
+
+    <button 
+      class="analyze-btn" 
+      [disabled]="!selectedFile || isLoading"
+      (click)="analyzeImage()"
+    >
+      <span *ngIf="!isLoading">
+        <i class="pi pi-sparkles"></i>
+        נתח תמונה ומצא מוצרים
+      </span>
+      <span *ngIf="isLoading">
+        <i class="pi pi-spin pi-spinner"></i>
+        המעצב שלנו מנתח את החלל שלכם... כבר מקבלים המלצות.
+      </span>
+    </button>
+
+    <div class="tip" *ngIf="!isLoading">
+      <i class="pi pi-info-circle"></i>
+      מומלץ להעלות תמונה ברורה ובאור יום לתוצאות הטובות ביותר.
+    </div>
+
+    <!-- ===== נוסף עבור הצגת המוצרים המומלצים ===== -->
+    <div class="results-section" *ngIf="recommendedProducts.length > 0">
+      <h2>מוצרים מומלצים עבורך</h2>
+      <div class="products-grid">
+        <div class="product-card" *ngFor="let product of recommendedProducts" (click)="goToProduct(product)">
+          <div class="image-container">
+            <img class="img-front" [src]="getImageUrl(product.frontImageUrl)" [alt]="product.name" (error)="handleImageError($event)" />
+            <img class="img-back" [src]="getImageUrl(product.backImageUrl)" [alt]="product.name" (error)="handleImageError($event)" />
+          </div>
+          <div class="product-details">
+            <h3>{{ product.name }}</h3>
+            <p class="price">₪{{ product.price }}</p>
+            <p class="description">{{ product.description }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
