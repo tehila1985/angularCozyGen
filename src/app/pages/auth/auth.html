@@ -1,12 +1,12 @@
 <app-top-menu></app-top-menu>
 <div class="auth-container">
-  <p-card [header]="isLoginMode ? 'התחברות' : 'הרשמה'" class="auth-card">
+  <p-card [header]="isLoginMode ? 'Login' : 'Register'" class="auth-card">
     
     <p-message *ngIf="errorMessage" severity="error" [text]="errorMessage"></p-message>
 
     <form *ngIf="isLoginMode" (ngSubmit)="onLogin()" class="auth-form">
       <div class="field">
-        <label for="login-email">אימייל</label>
+        <label for="login-email">Email</label>
         <input 
           pInputText 
           id="login-email" 
@@ -19,7 +19,7 @@
       </div>
 
       <div class="field">
-        <label for="login-password">סיסמה</label>
+        <label for="login-password">Password</label>
         <p-password 
           [(ngModel)]="loginData.passwordHash" 
           name="password"
@@ -32,20 +32,20 @@
       </div>
 
       <p-button 
-        label="התחבר" 
+        label="Login" 
         type="submit" 
         styleClass="w-full"
         [disabled]="!loginData.email || !loginData.passwordHash"
       ></p-button>
 
       <div class="toggle-mode">
-        <span>אין לך חשבון? </span>
-        <a (click)="toggleMode()">הירשם כאן</a>
+        <span>Don't have an account? </span>
+        <a (click)="toggleMode()">Register here</a>
       </div>
     </form>
     <form *ngIf="!isLoginMode" (ngSubmit)="onRegister()" class="auth-form">
       <div class="field">
-        <label for="register-firstName">שם פרטי</label>
+        <label for="register-firstName">First Name</label>
         <input 
           pInputText 
           id="register-firstName" 
@@ -58,7 +58,7 @@
       </div>
 
       <div class="field">
-        <label for="register-lastName">שם משפחה</label>
+        <label for="register-lastName">Last Name</label>
         <input 
           pInputText 
           id="register-lastName" 
@@ -71,7 +71,7 @@
       </div>
 
       <div class="field">
-        <label for="register-email">אימייל</label>
+        <label for="register-email">Email</label>
         <input 
           pInputText 
           id="register-email" 
@@ -84,7 +84,7 @@
       </div>
 
       <div class="field">
-        <label for="register-password">סיסמה</label>
+        <label for="register-password">Password</label>
         <p-password 
           [(ngModel)]="registerData.passwordHash" 
           name="password"
@@ -96,7 +96,7 @@
       </div>
 
       <div class="field">
-        <label for="register-phone">טלפון</label>
+        <label for="register-phone">Phone</label>
         <input 
           pInputText 
           id="register-phone" 
@@ -109,7 +109,7 @@
       </div>
 
       <div class="field">
-        <label for="register-address">כתובת</label>
+        <label for="register-address">Address</label>
         <input 
           pInputText 
           id="register-address" 
@@ -122,15 +122,15 @@
       </div>
 
       <p-button 
-        label="הירשם" 
+        label="Register" 
         type="submit" 
         styleClass="w-full"
         [disabled]="!registerData.firstName || !registerData.lastName || !registerData.email || !registerData.passwordHash || !registerData.phone || !registerData.address"
       ></p-button>
 
       <div class="toggle-mode">
-        <span>כבר יש לך חשבון? </span>
-        <a (click)="toggleMode()">התחבר כאן</a>
+        <span>Already have an account? </span>
+        <a (click)="toggleMode()">Login here</a>
       </div>
     </form>
 

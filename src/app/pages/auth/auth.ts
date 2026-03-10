@@ -62,7 +62,7 @@ export class AuthComponent {
         }, 100);
       },
       error: (err) => {
-        this.errorMessage = 'אימייל או סיסמה שגויים';
+        this.errorMessage = 'Incorrect email or password';
       }
     });
   }
@@ -70,22 +70,22 @@ export class AuthComponent {
   onRegister() {
     this.errorMessage = '';
     
-    // בדיקת ולידטציה בסיסית לסיסמה
+    // Basic password validation
     const password = this.registerData.passwordHash;
     if (password.length < 8) {
-      this.errorMessage = 'הסיסמה חייבת להכיל לפחות 8 תווים';
+      this.errorMessage = 'Password must contain at least 8 characters';
       return;
     }
     if (!/[A-Z]/.test(password)) {
-      this.errorMessage = 'הסיסמה חייבת להכיל לפחות אות גדולה אחת באנגלית';
+      this.errorMessage = 'Password must contain at least one uppercase English letter';
       return;
     }
     if (!/[a-z]/.test(password)) {
-      this.errorMessage = 'הסיסמה חייבת להכיל לפחות אות קטנה אחת באנגלית';
+      this.errorMessage = 'Password must contain at least one lowercase English letter';
       return;
     }
     if (!/[0-9]/.test(password)) {
-      this.errorMessage = 'הסיסמה חייבת להכיל לפחות ספרה אחת';
+      this.errorMessage = 'Password must contain at least one digit';
       return;
     }
     
@@ -95,9 +95,9 @@ export class AuthComponent {
       },
       error: (err) => {
         if (err.error?.includes('UNIQUE KEY') || err.error?.includes('duplicate')) {
-          this.errorMessage = 'האימייל כבר קיים במערכת';
+          this.errorMessage = 'Email already exists in the system';
         } else {
-          this.errorMessage = 'שגיאה בהרשמה, נסה שוב';
+          this.errorMessage = 'Registration error, please try again';
         }
       }
     });

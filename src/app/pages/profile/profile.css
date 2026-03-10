@@ -2,7 +2,7 @@
   min-height: calc(100vh - 100px);
   background-color: #f8f9fa;
   padding: 40px 20px;
-  direction: rtl;
+  direction: ltr;
 }
 
 .profile-card {

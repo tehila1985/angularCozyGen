@@ -14,8 +14,8 @@ import { EmailService, ContactForm } from '../../services/email';
       <div class="contact-container">
         <div class="contact-header">
           <span class="category-label">GET IN TOUCH</span>
-          <h2 class="contact-title">צור קשר</h2>
-          <p class="contact-subtitle">נשמח לשמוע ממך</p>
+          <h2 class="contact-title">Contact Us</h2>
+          <p class="contact-subtitle">We'd love to hear from you</p>
         </div>
         
         <div class="contact-content">
@@ -31,26 +31,26 @@ import { EmailService, ContactForm } from '../../services/email';
             
             <form (ngSubmit)="onSubmit()" *ngIf="!successMessage">
               <div class="form-group">
-                <label>שם מלא</label>
+                <label>Full Name</label>
                 <input type="text" [(ngModel)]="formData.name" name="name" required>
               </div>
               
               <div class="form-group">
-                <label>אימייל</label>
+                <label>Email</label>
                 <input type="email" [(ngModel)]="formData.email" name="email" required>
               </div>
               
               <div class="form-group">
-                <label>טלפון</label>
+                <label>Phone</label>
                 <input type="tel" [(ngModel)]="formData.phone" name="phone">
               </div>
               
               <div class="form-group">
-                <label>הודעה</label>
+                <label>Message</label>
                 <textarea [(ngModel)]="formData.message" name="message" rows="6" required></textarea>
               </div>
               
-              <button type="submit" class="submit-btn">שלח הודעה</button>
+              <button type="submit" class="submit-btn">Send Message</button>
             </form>
           </div>
           
@@ -58,15 +58,15 @@ import { EmailService, ContactForm } from '../../services/email';
             <div class="info-item">
               <i class="pi pi-map-marker"></i>
               <div>
-                <h4>כתובת</h4>
-                <p>רחוב הדוגמה 123, תל אביב</p>
+                <h4>Address</h4>
+                <p>123 Example Street, Tel Aviv</p>
               </div>
             </div>
             
             <div class="info-item">
               <i class="pi pi-phone"></i>
               <div>
-                <h4>טלפון</h4>
+                <h4>Phone</h4>
                 <p>03-1234567</p>
               </div>
             </div>
@@ -74,7 +74,7 @@ import { EmailService, ContactForm } from '../../services/email';
             <div class="info-item">
               <i class="pi pi-envelope"></i>
               <div>
-                <h4>אימייל</h4>
+                <h4>Email</h4>
                 <p>info@cozygen.com</p>
               </div>
             </div>
@@ -82,9 +82,9 @@ import { EmailService, ContactForm } from '../../services/email';
             <div class="info-item">
               <i class="pi pi-clock"></i>
               <div>
-                <h4>שעות פעילות</h4>
-                <p>ראשון - חמישי: 9:00 - 18:00</p>
-                <p>שישי: 9:00 - 14:00</p>
+                <h4>Business Hours</h4>
+                <p>Sunday - Thursday: 9:00 - 18:00</p>
+                <p>Friday: 9:00 - 14:00</p>
               </div>
             </div>
           </div>
@@ -93,7 +93,7 @@ import { EmailService, ContactForm } from '../../services/email';
     </section>
   `,
   styles: [`
-    .contact-section { padding: 80px 40px; background: #f5f5f5; direction: rtl; font-family: 'Noto Sans Hebrew', sans-serif; min-height: calc(100vh - 200px); }
+    .contact-section { padding: 80px 40px; background: #f5f5f5; direction: ltr; font-family: 'Noto Sans Hebrew', sans-serif; min-height: calc(100vh - 200px); }
     .contact-container { max-width: 1200px; margin: 0 auto; }
     .contact-header { text-align: center; margin-bottom: 60px; }
     .category-label { font-size: 12px; letter-spacing: 2px; color: #929292; font-weight: 700; display: block; margin-bottom: 16px; text-transform: uppercase; }
@@ -139,7 +139,7 @@ export class ContactComponent {
 
   onSubmit() {
     if (!this.formData.name || !this.formData.email || !this.formData.message) {
-      this.errorMessage = 'אנא מלא את כל השדות החובה';
+      this.errorMessage = 'Please fill in all required fields';
       return;
     }
 
@@ -149,12 +149,12 @@ export class ContactComponent {
 
     this.emailService.sendContactEmail(this.formData).then(
       () => {
-        this.successMessage = 'תודה! פנייתך התקבלה בהצלחה. ניצור איתך קשר בקרוב.';
+        this.successMessage = 'Thank you! Your message has been received successfully. We will contact you soon.';
         this.formData = { name: '', email: '', phone: '', message: '' };
         this.isSubmitting = false;
       }
     ).catch(() => {
-      this.errorMessage = 'אופס, היתה שגיאה. נסה שוב מאוחר יותר.';
+      this.errorMessage = 'Oops, there was an error. Please try again later.';
       this.isSubmitting = false;
     });
   }

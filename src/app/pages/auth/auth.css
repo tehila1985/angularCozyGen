@@ -3,7 +3,7 @@
   background-color: #ffffff;
   padding: 60px 6% 80px;
   font-family: 'Inter', system-ui, -apple-system, sans-serif;
-  direction: rtl;
+  direction: ltr;
   color: #1a1a1a;
   display: flex;
   justify-content: center;
@@ -62,7 +62,7 @@
 .field label {
   font-weight: 500;
   color: #1a1a1a;
-  text-align: right;
+  text-align: left;
   font-size: 14px;
   letter-spacing: 0.5px;
 }

@@ -15,8 +15,8 @@ import { ProductService } from '../../services/product';
   <section id="styles-section" class="selection-section">
       <div class="header-container">
         <span class="category-label">PREMIUM CURATION</span>
-        <h3 class="style-heading">קולקציות לפי סגנון</h3>
-        <p class="style-subtext">גלו את השפה העיצובית שמתאימה לבית שלכם</p>
+        <h3 class="style-heading">Collections by Style</h3>
+        <p class="style-subtext">Discover the design language that suits your home</p>
       </div>
 
       <div class="rooms-grid">
@@ -32,7 +32,7 @@ import { ProductService } from '../../services/product';
             
             <div class="card-overlay">
               <div class="top-info">
-                <span class="count-pill">{{ room.count }} פריטים מחכים לך</span>
+                <span class="count-pill">{{ room.count }} items waiting for you</span>
               </div>
 
               <div class="bottom-content">
@@ -41,7 +41,7 @@ import { ProductService } from '../../services/product';
                 
                 <button class="modern-btn" (click)="choose(room.id)">
                   <span class="btn-inner">
-                    <span class="text">בחירה בסגנון זה</span>
+                    <span class="text">Choose This Style</span>
                     <i class="pi pi-arrow-left"></i>
                   </span>
                 </button>
@@ -56,7 +56,7 @@ import { ProductService } from '../../services/product';
     .selection-section { 
       padding: 120px 6%; 
       background: #ffffff; 
-      direction: rtl; 
+      direction: ltr; 
       font-family: 'Inter', system-ui, -apple-system, sans-serif;
     }
 

@@ -1,10 +1,10 @@
-/* פונטים וסגנון כללי */
+/* Fonts and general style */
 .checkout-container {
   min-height: calc(100vh - 100px);
-  background-color: #ffffff; /* רקע לבן נקי במקום הגרדיאנט */
+  background-color: #ffffff; /* Clean white background instead of gradient */
   padding: 40px 6% 80px;
   font-family: 'Inter', system-ui, -apple-system, sans-serif;
-  direction: rtl;
+  direction: ltr;
   color: #1a1a1a;
 }
 
@@ -13,7 +13,7 @@
   margin: 0 auto;
 }
 
-/* כותרות בסגנון פרימיום */
+/* Premium style headers */
 .checkout-title {
   text-align: center;
   color: #1a1a1a;
@@ -24,7 +24,7 @@
   text-transform: uppercase;
 }
 
-/* כותרת משנית/תווית */
+/* Secondary title/label */
 .checkout-content::before {
   content: "SECURE CHECKOUT";
   display: block;
@@ -36,11 +36,11 @@
   margin-bottom: 15px;
 }
 
-/* סיכום ההזמנה - כרטיס נקי */
+/* Order summary - clean card */
 .order-summary {
   background: #ffffff;
-  border: 1px solid #eee; /* גבול עדין במקום צל כבד */
-  border-radius: 0; /* מראה מרובע ומודרני יותר */
+  border: 1px solid #eee; /* Subtle border instead of heavy shadow */
+  border-radius: 0; /* Square and more modern look */
   padding: 40px;
   position: relative;
   transition: all 0.4s ease;
@@ -56,7 +56,7 @@
   display: inline-block;
 }
 
-/* רשימת פריטים */
+/* Items list */
 .summary-item {
   display: flex;
   justify-content: space-between;
@@ -75,7 +75,7 @@
   width: 100px;
   height: 120px;
   object-fit: cover;
-  border-radius: 0; /* סגנון נקי ללא עיגול פינות */
+  border-radius: 0; /* Clean style without rounded corners */
   background: #f9f9f9;
 }
 
@@ -99,9 +99,9 @@
   color: #1a1a1a;
 }
 
-/* אזור הסה"כ */
+/* Total area */
 .total-section {
-  background: #fcfaf7; /* צבע שמנת עדין מאוד */
+  background: #fcfaf7; /* Very subtle cream color */
   padding: 40px;
   margin: 40px 0;
   text-align: center;
@@ -123,14 +123,14 @@
   font-weight: 700;
 }
 
-/* כפתור מודרני בסגנון ה-modern-btn מהקומפוננטה הקודמת */
+/* Modern button in the style of modern-btn from previous component */
 .test-payment {
   max-width: 500px;
   margin: 0 auto;
 }
 
 .test-payment ::ng-deep .p-button.p-button-success {
-  background: #1a1a1a !important; /* שחור במקום ירוק */
+  background: #1a1a1a !important; /* Black instead of green */
   border: none !important;
   border-radius: 0 !important;
   height: 70px;
@@ -154,7 +154,7 @@
   font-weight: 300;
 }
 
-/* סקציית תשלום */
+/* Payment section */
 .payment-section {
   text-align: center;
 }
@@ -173,7 +173,7 @@
   margin-right: auto;
 }
 
-/* מסך טעינה יוקרתי */
+/* Luxurious loading screen */
 .processing-overlay {
   position: absolute;
   inset: 0;
@@ -187,7 +187,7 @@
 
 .spinner {
   border: 1px solid #f3f3f3;
-  border-top: 1px solid #b1935b; /* זהב */
+  border-top: 1px solid #b1935b; /* Gold */
   border-radius: 50%;
   width: 60px;
   height: 60px;
@@ -199,7 +199,7 @@
   100% { transform: rotate(360deg); }
 }
 
-/* התאמה לנייד */
+/* Mobile adaptation */
 @media (max-width: 768px) {
   .checkout-container {
     padding: 40px 20px;
@@ -214,7 +214,7 @@
   }
 
   .summary-item {
-    flex-direction: row; /* שומר על מבנה שורה אם יש מקום */
+    flex-direction: row; /* Keep row structure if there's space */
     gap: 15px;
   }
 

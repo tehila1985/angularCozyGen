@@ -2,7 +2,7 @@
   min-height: calc(100vh - 100px);
   background-color: #f8f9fa;
   padding: 40px 20px;
-  direction: rtl;
+  direction: ltr;
 }
 
 .page-title {
@@ -35,16 +35,16 @@
 }
 
 ::ng-deep .p-datatable {
-  direction: rtl;
+  direction: ltr;
 }
 
 ::ng-deep .p-datatable th {
-  text-align: right;
+  text-align: left;
   font-weight: 600;
 }
 
 ::ng-deep .p-datatable td {
-  text-align: right;
+  text-align: left;
 }
 
 .order-items-detail {
@@ -93,7 +93,7 @@
   height: 60px;
   object-fit: cover;
   border-radius: 4px;
-  margin-left: 15px;
+  margin-right: 15px;
 }
 
 .item-info {

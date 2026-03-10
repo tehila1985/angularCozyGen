@@ -2,7 +2,7 @@
   min-height: 100vh;
   background: #ffffff;
   padding: 20px 0;
-  direction: rtl;
+  direction: ltr;
   font-family: 'Inter', system-ui, -apple-system, sans-serif;
 }
 
@@ -93,7 +93,7 @@
 .remove-btn {
   position: absolute;
   top: 20px;
-  left: 20px;
+  right: 20px;
   background: rgba(255, 255, 255, 0.95);
   border: 1px solid #ddd;
   width: 44px;
@@ -170,7 +170,7 @@
   font-size: 16px;
 }
 
-/* ===== נוסף עבור הצגת המוצרים המומלצים ===== */
+  /* ===== Added for displaying recommended products ===== */
 .results-section {
   margin-top: 60px;
   padding-top: 40px;

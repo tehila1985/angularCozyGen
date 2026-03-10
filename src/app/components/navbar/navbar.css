@@ -5,7 +5,7 @@
   height: 100vh;
   min-height: 700px;
   overflow: hidden;
-  direction: rtl;
+  direction: ltr;
   font-family: 'Inter', system-ui, -apple-system, sans-serif;
 }
 
@@ -183,7 +183,7 @@
 .testimonials-section {
   padding: 120px 6%;
   background: #ffffff;
-  direction: rtl;
+  direction: ltr;
   font-family: 'Inter', system-ui, -apple-system, sans-serif;
 }
 

@@ -2,7 +2,7 @@
 
 <div class="admin-container">
   <div class="admin-header">
-    <h1>ניהול מערכת</h1>
+    <h1>System Management</h1>
     <p class="admin-subtitle">ADMIN PANEL</p>
   </div>
 
@@ -10,61 +10,61 @@
     <button 
       [class.active]="activeTab === 'products'" 
       (click)="activeTab = 'products'">
-      מוצרים
+      Products
     </button>
     <button 
       [class.active]="activeTab === 'categories'" 
       (click)="activeTab = 'categories'">
-      קטגוריות
+      Categories
     </button>
     <button 
       [class.active]="activeTab === 'styles'" 
       (click)="activeTab = 'styles'">
-      סגנונות
+      Styles
     </button>
   </div>
 
   <!-- Products Tab -->
   <div class="tab-content" *ngIf="activeTab === 'products'">
     <div class="form-section">
-      <h2>הוספת מוצר חדש</h2>
+      <h2>Add New Product</h2>
       
       <div *ngIf="uploadMessage" class="success-message">{{uploadMessage}}</div>
       <div *ngIf="uploadError" class="error-message">{{uploadError}}</div>
       
       <form (ngSubmit)="addProduct()">
-        <input [(ngModel)]="newProduct.name" name="name" placeholder="שם המוצר" required>
-        <textarea [(ngModel)]="newProduct.description" name="description" placeholder="תיאור" required></textarea>
-        <input [(ngModel)]="newProduct.price" name="price" type="number" placeholder="מחיר" required>
+        <input [(ngModel)]="newProduct.name" name="name" placeholder="Product Name" required>
+        <textarea [(ngModel)]="newProduct.description" name="description" placeholder="Description" required></textarea>
+        <input [(ngModel)]="newProduct.price" name="price" type="number" placeholder="Price" required>
         
         <div class="image-upload">
-          <label>תמונה קדמית:</label>
+          <label>Front Image:</label>
           <input type="file" accept="image/*" (change)="onFrontImageSelect($event)">
           <img *ngIf="frontImagePreview" [src]="frontImagePreview" class="preview">
-          <input *ngIf="!frontImageFile" [(ngModel)]="newProduct.frontImageUrl" name="frontImageUrl" placeholder="או הזן URL" [required]="!frontImageFile">
+          <input *ngIf="!frontImageFile" [(ngModel)]="newProduct.frontImageUrl" name="frontImageUrl" placeholder="Or enter URL" [required]="!frontImageFile">
         </div>
 
         <div class="image-upload">
-          <label>תמונה אחורית:</label>
+          <label>Back Image:</label>
           <input type="file" accept="image/*" (change)="onBackImageSelect($event)">
           <img *ngIf="backImagePreview" [src]="backImagePreview" class="preview">
-          <input *ngIf="!backImageFile" [(ngModel)]="newProduct.backImageUrl" name="backImageUrl" placeholder="או הזן URL" [required]="!backImageFile">
+          <input *ngIf="!backImageFile" [(ngModel)]="newProduct.backImageUrl" name="backImageUrl" placeholder="Or enter URL" [required]="!backImageFile">
         </div>
         
         <select [(ngModel)]="newProduct.categoryId" name="categoryId" required>
-          <option value="0">בחר קטגוריה</option>
+          <option value="0">Select Category</option>
           <option *ngFor="let cat of categories" [value]="cat.categoryId">{{cat.name}}</option>
         </select>
         <select [(ngModel)]="newProduct.styleId" name="styleId" required>
-          <option value="0">בחר סגנון</option>
+          <option value="0">Select Style</option>
           <option *ngFor="let style of styles" [value]="style.styleId">{{style.name}}</option>
         </select>
-        <button type="submit" class="btn-add">הוסף מוצר</button>
+        <button type="submit" class="btn-add">Add Product</button>
       </form>
     </div>
 
     <div class="list-section">
-      <h2>מוצרים קיימים</h2>
+      <h2>Existing Products</h2>
       <div class="items-grid">
         <div class="item-card" *ngFor="let product of products">
           <div class="image-container">
@@ -83,7 +83,7 @@
             <h3>{{product.name}}</h3>
             <p>{{product.price}} ₪</p>
           </div>
-          <button (click)="deleteProduct(product.productId)" class="btn-delete">מחק</button>
+          <button (click)="deleteProduct(product.productId)" class="btn-delete">Delete</button>
         </div>
       </div>
     </div>
@@ -92,32 +92,32 @@
   <!-- Categories Tab -->
   <div class="tab-content" *ngIf="activeTab === 'categories'">
     <div class="form-section">
-      <h2>הוספת קטגוריה חדשה</h2>
+      <h2>Add New Category</h2>
       
       <div *ngIf="categoryMessage" class="success-message">{{categoryMessage}}</div>
       <div *ngIf="categoryError" class="error-message">{{categoryError}}</div>
       
       <form (ngSubmit)="addCategory()">
-        <input [(ngModel)]="newCategory.name" name="catName" placeholder="שם הקטגוריה" required>
-        <input [(ngModel)]="newCategory.description" name="catDesc" placeholder="תיאור (אופציונלי)">
+        <input [(ngModel)]="newCategory.name" name="catName" placeholder="Category Name" required>
+        <input [(ngModel)]="newCategory.description" name="catDesc" placeholder="Description (Optional)">
         
         <div class="image-upload">
-          <label>תמונה:</label>
+          <label>Image:</label>
           <input type="file" accept="image/*" (change)="onCategoryImageSelect($event)">
           <img *ngIf="categoryImagePreview" [src]="categoryImagePreview" class="preview">
-          <input *ngIf="!categoryImageFile" [(ngModel)]="newCategory.imageUrl" name="catImage" placeholder="או הזן URL">
+          <input *ngIf="!categoryImageFile" [(ngModel)]="newCategory.imageUrl" name="catImage" placeholder="Or enter URL">
         </div>
         
-        <button type="submit" class="btn-add">הוסף קטגוריה</button>
+        <button type="submit" class="btn-add">Add Category</button>
       </form>
     </div>
 
     <div class="list-section">
-      <h2>קטגוריות קיימות</h2>
+      <h2>Existing Categories</h2>
       <div class="simple-list">
         <div class="simple-item" *ngFor="let category of categories">
           <span>{{category.name}}</span>
-          <button (click)="deleteCategory(category.categoryId)" class="btn-delete">מחק</button>
+          <button (click)="deleteCategory(category.categoryId)" class="btn-delete">Delete</button>
         </div>
       </div>
     </div>
@@ -126,32 +126,32 @@
   <!-- Styles Tab -->
   <div class="tab-content" *ngIf="activeTab === 'styles'">
     <div class="form-section">
-      <h2>הוספת סגנון חדש</h2>
+      <h2>Add New Style</h2>
       
       <div *ngIf="styleMessage" class="success-message">{{styleMessage}}</div>
       <div *ngIf="styleError" class="error-message">{{styleError}}</div>
       
       <form (ngSubmit)="addStyle()">
-        <input [(ngModel)]="newStyle.name" name="styleName" placeholder="שם הסגנון" required>
-        <input [(ngModel)]="newStyle.description" name="styleDesc" placeholder="תיאור (אופציונלי)">
+        <input [(ngModel)]="newStyle.name" name="styleName" placeholder="Style Name" required>
+        <input [(ngModel)]="newStyle.description" name="styleDesc" placeholder="Description (Optional)">
         
         <div class="image-upload">
-          <label>תמונה:</label>
+          <label>Image:</label>
           <input type="file" accept="image/*" (change)="onStyleImageSelect($event)">
           <img *ngIf="styleImagePreview" [src]="styleImagePreview" class="preview">
-          <input *ngIf="!styleImageFile" [(ngModel)]="newStyle.imageUrl" name="styleImage" placeholder="או הזן URL">
+          <input *ngIf="!styleImageFile" [(ngModel)]="newStyle.imageUrl" name="styleImage" placeholder="Or enter URL">
         </div>
         
-        <button type="submit" class="btn-add">הוסף סגנון</button>
+        <button type="submit" class="btn-add">Add Style</button>
       </form>
     </div>
 
     <div class="list-section">
-      <h2>סגנונות קיימים</h2>
+      <h2>Existing Styles</h2>
       <div class="simple-list">
         <div class="simple-item" *ngFor="let style of styles">
           <span>{{style.name}}</span>
-          <button (click)="deleteStyle(style.styleId)" class="btn-delete">מחק</button>
+          <button (click)="deleteStyle(style.styleId)" class="btn-delete">Delete</button>
         </div>
       </div>
     </div>

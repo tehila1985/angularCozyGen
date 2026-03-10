@@ -105,7 +105,7 @@ export class ProfileComponent implements OnInit {
     this.userService.updateUser(this.user.userId, updateData).subscribe({
       next: (updatedUser) => {
         console.log('Update successful:', updatedUser);
-        // שמירת הסיסמה ששלחנו
+        // Save the password we sent
         if (this.editData.passwordHash) {
           this.currentPassword = this.editData.passwordHash;
         }
@@ -114,7 +114,7 @@ export class ProfileComponent implements OnInit {
           phone: this.editData.phone,
           address: this.editData.address
         };
-        this.successMessage = 'הפרטים עודכנו בהצלחה';
+        this.successMessage = 'Details updated successfully';
         this.errorMessage = '';
         this.editData.passwordHash = '';
         setTimeout(() => this.successMessage = '', 3000);
@@ -126,12 +126,12 @@ export class ProfileComponent implements OnInit {
         const errorMessage = typeof err.error === 'string' ? err.error : JSON.stringify(err.error);
         
         if (errorMessage.includes('UNIQUE KEY') || errorMessage.includes('duplicate')) {
-          this.errorMessage = 'האימייל כבר קיים במערכת';
+          this.errorMessage = 'Email already exists in the system';
         } else if (err.error?.errors) {
           const errors = Object.values(err.error.errors).flat();
           this.errorMessage = errors.join(', ');
         } else {
-          this.errorMessage = 'שגיאה בעדכון הפרטים';
+          this.errorMessage = 'Error updating details';
         }
         this.successMessage = '';
       }

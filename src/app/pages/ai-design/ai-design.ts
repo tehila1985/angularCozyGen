@@ -32,7 +32,7 @@ export class AiDesignComponent {
       const file = input.files[0];
       
       if (!file.type.startsWith('image/')) {
-        this.notificationService.show('אנא בחר קובץ תמונה בלבד', 'error');
+        this.notificationService.show('Please select an image file only', 'error');
         return;
       }
 
@@ -53,7 +53,7 @@ export class AiDesignComponent {
 
   analyzeImage() {
     if (!this.selectedFile) {
-      this.notificationService.show('אנא בחר תמונה להעלאה', 'error');
+      this.notificationService.show('Please select an image to upload', 'error');
       return;
     }
 
@@ -64,6 +64,15 @@ export class AiDesignComponent {
       .pipe(
         switchMap(response => {
           console.log('AI response:', response);
+          
+          // בדיקה אם המערך ריק
+          if (!response.productIds || response.productIds.length === 0) {
+            this.isLoading = false;
+            this.recommendedProducts = [];
+            this.notificationService.show('🤔 התמונה שהעלת לא ברורה או לא קשורה לחדר.\n\nאנא נסה להעלות תמונה של חדר עם תאורה טובה וזווית ברורה.', 'error');
+            throw new Error('No products found');
+          }
+          
           return this.productService.getProductsByIds(response.productIds);
         })
       )
@@ -76,12 +85,14 @@ export class AiDesignComponent {
           this.isLoading = false;
           this.recommendedProducts = products;
           console.log('recommendedProducts after setting:', this.recommendedProducts);
-          this.notificationService.show('הניתוח הושלם בהצלחה!', 'success');
+          this.notificationService.show('Analysis completed successfully!', 'success');
         },
         error: (err) => {
           console.error('Full error details:', err);
           this.isLoading = false;
-          this.notificationService.show('שגיאה בניתוח התמונה. נסה שוב.', 'error');
+          if (err.message !== 'No products found') {
+            this.notificationService.show('Error analyzing image. Please try again.', 'error');
+          }
         }
       });
   }
@@ -90,7 +101,7 @@ export class AiDesignComponent {
     this.router.navigate(['/']);
   }
 
-  // ===== נוסף עבור ניווט למוצר וטיפול בתמונות =====
+  // ===== Added for product navigation and image handling =====
   goToProduct(product: any) {
     this.router.navigate(['/item'], {
       queryParams: { 

@@ -1,26 +1,26 @@
 <div class="filter-sidebar">
-  <h3 class="sidebar-title">סינון מוצרים</h3>
+  <h3 class="sidebar-title">Filter Products</h3>
   
   <div class="filter-section">
-    <label class="section-label">חיפוש לפי שם</label>
+    <label class="section-label">Search by Name</label>
     <input 
       type="text" 
       [(ngModel)]="searchName" 
       (input)="onFilterChange()" 
-      placeholder="הקלד שם מוצר..." 
+      placeholder="Enter product name..." 
       class="ikea-input"
     >
   </div>
 
   <div class="filter-section">
     <details open>
-      <summary>טווח מחיר</summary>
+      <summary>Price Range</summary>
       <div class="price-flex">
-        <input type="number" [(ngModel)]="minPrice" (input)="onFilterChange()" placeholder="מ-" class="ikea-input small">
-        <input type="number" [(ngModel)]="maxPrice" (input)="onFilterChange()" placeholder="עד-" class="ikea-input small">
+        <input type="number" [(ngModel)]="minPrice" (input)="onFilterChange()" placeholder="From" class="ikea-input small">
+        <input type="number" [(ngModel)]="maxPrice" (input)="onFilterChange()" placeholder="To" class="ikea-input small">
       </div>
     </details>
   </div>
 
-  <button (click)="resetFilter()" class="reset-btn">נקה הכל</button>
+  <button (click)="resetFilter()" class="reset-btn">Clear All</button>
 </div>

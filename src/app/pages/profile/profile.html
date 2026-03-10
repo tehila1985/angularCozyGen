@@ -1,10 +1,10 @@
 <app-top-menu></app-top-menu>
 <div class="profile-container">
-  <p-card header="אזור אישי" class="profile-card">
+  <p-card header="Personal Area" class="profile-card">
     
     <div class="navigation-buttons">
       <p-button 
-        label="פרטים אישיים" 
+        label="Personal Details" 
         icon="pi pi-user"
         (onClick)="showPersonalDetails = true"
         [outlined]="!showPersonalDetails"
@@ -12,7 +12,7 @@
       ></p-button>
       
       <p-button 
-        label="היסטוריית הזמנות" 
+        label="Order History" 
         icon="pi pi-shopping-cart"
         (onClick)="goToOrderHistory()"
         [outlined]="true"
@@ -25,7 +25,7 @@
 
     <form *ngIf="showPersonalDetails" (ngSubmit)="onSave()" class="profile-form">
       <div class="field">
-        <label for="firstName">שם פרטי</label>
+        <label for="firstName">First Name</label>
         <input 
           pInputText 
           id="firstName" 
@@ -37,7 +37,7 @@
       </div>
 
       <div class="field">
-        <label for="lastName">שם משפחה</label>
+        <label for="lastName">Last Name</label>
         <input 
           pInputText 
           id="lastName" 
@@ -49,7 +49,7 @@
       </div>
 
       <div class="field">
-        <label for="email">אימייל</label>
+        <label for="email">Email</label>
         <input 
           pInputText 
           id="email" 
@@ -62,20 +62,20 @@
       </div>
 
       <div class="field">
-        <label for="password">סיסמה חדשה (אופציונלי)</label>
+        <label for="password">New Password (Optional)</label>
         <input 
           pInputText 
           id="password" 
           type="password"
           [(ngModel)]="editData.passwordHash" 
           name="password"
-          placeholder="השאר ריק אם לא רוצה לשנות"
+          placeholder="Leave empty if you don't want to change"
           class="w-full"
         />
       </div>
 
       <div class="field">
-        <label for="phone">טלפון</label>
+        <label for="phone">Phone</label>
         <input 
           pInputText 
           id="phone" 
@@ -87,7 +87,7 @@
       </div>
 
       <div class="field">
-        <label for="address">כתובת</label>
+        <label for="address">Address</label>
         <input 
           pInputText 
           id="address" 
@@ -99,13 +99,13 @@
 
       <div class="button-group">
         <p-button 
-          label="שמור שינויים" 
+          label="Save Changes" 
           type="submit" 
           styleClass="w-full"
         ></p-button>
         
         <p-button 
-          label="התנתק" 
+          label="Logout" 
           (onClick)="onLogout()"
           severity="secondary"
           styleClass="w-full"

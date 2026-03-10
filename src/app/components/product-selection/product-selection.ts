@@ -14,8 +14,8 @@ import { firstValueFrom } from 'rxjs';
     <section id="products-section" class="selection-section">
       <div class="header-container">
         <span class="category-label">OUR COLLECTIONS</span>
-        <h3 class="style-heading">קטגוריות מוצרים</h3>
-        <p class="style-subtext">מגוון פריטים מעוצבים לכל חלל בבית</p>
+        <h3 class="style-heading">Product Categories</h3>
+        <p class="style-subtext">A variety of designed items for every space in the home</p>
       </div>
 
       <div class="rooms-grid">
@@ -38,14 +38,14 @@ import { firstValueFrom } from 'rxjs';
             <div class="card-overlay">
               <div>
                 <span class="count-pill">
-                  {{ counts[c.categoryId] || 0 }} פריטים
+                  {{ counts[c.categoryId] || 0 }} items
                 </span>
               </div>
 
               <div class="bottom-content">
                 <h4 class="room-title">{{ c.name }}</h4>
                 <div class="explore-link">
-                  <span>צפו בקולקציה</span>
+                  <span>View Collection</span>
                   <i class="pi pi-arrow-left"></i>
                 </div>
               </div>
@@ -56,7 +56,7 @@ import { firstValueFrom } from 'rxjs';
     </section>
   `,
   styles: [`
-    .selection-section { padding: 80px 40px; background: #fff; direction: rtl; font-family: 'Noto Sans Hebrew', sans-serif; }
+    .selection-section { padding: 80px 40px; background: #fff; direction: ltr; font-family: 'Noto Sans Hebrew', sans-serif; }
     .header-container { text-align: center; margin-bottom: 48px; }
     .category-label { font-size: 12px; letter-spacing: 2px; color: #929292; font-weight: 700; display: block; margin-bottom: 16px; text-transform: uppercase; }
     .style-heading { font-size: 48px; font-weight: 700; margin: 0; color: #111; }

@@ -3,10 +3,11 @@ import { RouterOutlet } from '@angular/router';
 import { UserService } from './services/user';
 import { NotificationComponent } from './components/notification/notification';
 import { Footer } from './components/footer/footer';
+import { ChatbotComponent } from './components/chatbot/chatbot';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, NotificationComponent, Footer],
+  imports: [RouterOutlet, NotificationComponent, Footer, ChatbotComponent],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })

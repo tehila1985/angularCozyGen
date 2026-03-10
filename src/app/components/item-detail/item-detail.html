@@ -36,11 +36,11 @@
     <div class="stock-info" [class.out-of-stock]="product.stock === 0" [class.low-stock]="product.stock > 0 && product.stock <= 5">
       @if (product.stock > 0 && product.stock <= 5) {
         <i class="pi pi-clock"></i>
-        <span>מהרו! נותרו רק {{ product.stock }} יחידות</span>
+        <span>Hurry! Only {{ product.stock }} units left</span>
       } @else if (product.stock > 0) {
-        <span>במלאי</span>
+        <span>In Stock</span>
       } @else {
-        <span>אזל מהמלאי</span>
+        <span>Out of Stock</span>
       }
     </div>
     
@@ -52,15 +52,15 @@
       </div>
       <button class="add-btn" (click)="addToCart()" [disabled]="product.stock === 0">
         @if (product.stock > 0) {
-          הוספה לסל הקניות
+          Add to Cart
         } @else {
-          אזל מהמלאי
+          Out of Stock
         }
       </button>
     </div>
     <div class="info-footer">
-      <p><span>משלוח:</span> עד 7 ימי עסקים</p>
-      <p><span>חומרים:</span> חומרי פרימיום בגימור פרימיום</p>
+      <p><span>Shipping:</span> Up to 7 business days</p>
+      <p><span>Materials:</span> Premium materials with premium finish</p>
     </div>
   </div>
 </div>

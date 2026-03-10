@@ -3,15 +3,15 @@
 <div class="ai-design-container">
   <div class="ai-design-content">
     <div class="header">
-      <h1>הפכו את הסלון שלכם ליצירת אמנות</h1>
-      <p>העלו תמונה של הסלון שלכם, והבינה המלאכותית שלנו תתאים לכם חבילת עיצוב מושלמת מהקטלוג שלנו.</p>
+      <h1>Transform Your Living Room Into a Work of Art</h1>
+      <p>Upload a photo of your living room, and our AI will match you with the perfect design package from our catalog.</p>
     </div>
 
     <div class="upload-section">
       <div class="upload-area" *ngIf="!previewUrl" (click)="fileInput.click()">
         <i class="pi pi-cloud-upload"></i>
-        <h3>גרור תמונה לכאן או לחץ להעלאה</h3>
-        <p>תמונות בפורמט JPG, PNG או WEBP</p>
+        <h3>Drag image here or click to upload</h3>
+        <p>Images in JPG, PNG or WEBP format</p>
         <input 
           #fileInput 
           type="file" 
@@ -36,22 +36,22 @@
     >
       <span *ngIf="!isLoading">
         <i class="pi pi-sparkles"></i>
-        נתח תמונה ומצא מוצרים
+                Analyze Image & Find Products
       </span>
       <span *ngIf="isLoading">
         <i class="pi pi-spin pi-spinner"></i>
-        המעצב שלנו מנתח את החלל שלכם... כבר מקבלים המלצות.
+        Our designer is analyzing your space... Getting recommendations.
       </span>
     </button>
 
     <div class="tip" *ngIf="!isLoading">
       <i class="pi pi-info-circle"></i>
-      מומלץ להעלות תמונה ברורה ובאור יום לתוצאות הטובות ביותר.
+      We recommend uploading a clear image in daylight for the best results.
     </div>
 
-    <!-- ===== נוסף עבור הצגת המוצרים המומלצים ===== -->
+    <!-- ===== Added for displaying recommended products ===== -->
     <div class="results-section" *ngIf="recommendedProducts.length > 0">
-      <h2>מוצרים מומלצים עבורך</h2>
+      <h2>Recommended Products for You</h2>
       <div class="products-grid">
         <div class="product-card" *ngFor="let product of recommendedProducts" (click)="goToProduct(product)">
           <div class="image-container">

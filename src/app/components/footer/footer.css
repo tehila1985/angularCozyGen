@@ -4,6 +4,7 @@
   padding: 60px 6% 20px;
   margin-top: 80px;
   font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  direction: ltr;
 }
 
 .footer-container {
@@ -67,7 +68,7 @@
   max-width: 1400px;
   margin: 0 auto;
   padding-top: 30px;
-  text-align: center;
+  text-align: left;
 }
 
 .footer-bottom p {

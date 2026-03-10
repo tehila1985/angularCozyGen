@@ -63,7 +63,7 @@ export class OrderHistoryComponent implements OnInit {
         },
         error: (err) => {
           console.error('Error loading orders:', err);
-          this.errorMessage = 'שגיאה בטעינת ההזמנות';
+          this.errorMessage = 'Error loading orders';
           this.loading = false;
         }
       });

@@ -1,4 +1,4 @@
-.cart-section { min-height: calc(100vh - 100px); padding: 40px 40px 80px; background: #f5f5f5; font-family: 'Noto Sans Hebrew', sans-serif; direction: rtl; }
+.cart-section { min-height: calc(100vh - 100px); padding: 40px 40px 80px; background: #f5f5f5; font-family: 'Inter', sans-serif; direction: ltr; }
 .header-container { text-align: center; margin-bottom: 50px; }
 .category-label { font-size: 12px; letter-spacing: 2px; color: #929292; font-weight: 700; display: block; margin-bottom: 16px; text-transform: uppercase; }
 .style-heading { font-size: 48px; font-weight: 700; color: #111; margin: 0; }
@@ -20,7 +20,7 @@
 .product-price { font-weight: 700; color: #008B8B; font-size: 20px; margin: 0; }
 .remove-btn { background: none; border: none; color: #929292; cursor: pointer; text-decoration: underline; }
 .remove-btn:hover { color: #111; }
-.summary-box { max-width: 1000px; margin: 40px auto 0; text-align: right; background: #fff; padding: 32px; }
+.summary-box { max-width: 1000px; margin: 40px auto 0; text-align: left; background: #fff; padding: 32px; }
 .total { font-size: 24px; font-weight: 700; margin-bottom: 24px; }
 .total span { color: #008B8B; }
 .order-btn { background: #008B8B; color: white; padding: 16px 48px; border: none; cursor: pointer; font-size: 16px; font-weight: 700; border-radius: 50px; transition: background 0.2s; }

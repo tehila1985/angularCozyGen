@@ -46,10 +46,10 @@
 
 
     <div class="header-actions">
-      <button class="action-btn nav-btn" (click)="goBack()" title="הקודם">
+      <button class="action-btn nav-btn" (click)="goBack()" title="Previous">
         <i class="pi pi-chevron-right"></i>
       </button>
-      <button class="action-btn nav-btn" (click)="goForward()" title="הבא">
+      <button class="action-btn nav-btn" (click)="goForward()" title="Next">
         <i class="pi pi-chevron-left"></i>
       </button>
       
@@ -61,29 +61,29 @@
         <button class="action-btn">
           <i class="pi pi-user"></i>
         </button>
-        <div class="dropdown-menu dropdown-menu-left user-dropdown">
+        <div class="dropdown-menu dropdown-menu-right user-dropdown">
           <div class="user-info">
             <div class="user-name">{{ userService.getCurrentUser()?.firstName }}</div>
             <div class="user-email">{{ userService.getCurrentUser()?.email }}</div>
           </div>
           <div class="dropdown-divider"></div>
           <a routerLink="/profile" class="dropdown-item">
-            <i class="pi pi-user"></i> פרופיל
+            <i class="pi pi-user"></i> Profile
           </a>
           <a routerLink="/order-history" class="dropdown-item">
-            <i class="pi pi-shopping-bag"></i> ההזמנות שלי
+            <i class="pi pi-shopping-bag"></i> My Orders
           </a>
           <a routerLink="/admin" class="dropdown-item" *ngIf="(userService.isAdmin$ | async)">
-            <i class="pi pi-cog"></i> ניהול מערכת
+            <i class="pi pi-cog"></i> System Management
           </a>
           <div class="dropdown-divider"></div>
           <a (click)="logout()" class="dropdown-item logout-item">
-            <i class="pi pi-sign-out"></i> התנתק
+            <i class="pi pi-sign-out"></i> Logout
           </a>
         </div>
       </div>
       <ng-template #loginBtn>
-        <button class="action-btn" routerLink="/auth" title="התחבר">
+        <button class="action-btn" routerLink="/auth" title="Login">
           <i class="pi pi-user"></i>
         </button>
       </ng-template>
@@ -147,21 +147,21 @@
       <div class="mobile-divider"></div>
       
       <a *ngIf="!userService.isLoggedIn()" routerLink="/auth" class="mobile-nav-link" (click)="toggleMobileMenu()">
-        <i class="pi pi-user"></i> התחבר
+        <i class="pi pi-user"></i> Login
       </a>
       <div *ngIf="userService.isLoggedIn()">
         <div class="mobile-user-name">{{ userService.getCurrentUser()?.firstName }}</div>
         <a routerLink="/profile" class="mobile-nav-link" (click)="toggleMobileMenu()">
-          <i class="pi pi-user"></i> פרופיל
+          <i class="pi pi-user"></i> Profile
         </a>
         <a routerLink="/order-history" class="mobile-nav-link" (click)="toggleMobileMenu()">
-          <i class="pi pi-shopping-bag"></i> ההזמנות שלי
+          <i class="pi pi-shopping-bag"></i> My Orders
         </a>
         <a routerLink="/admin" class="mobile-nav-link" (click)="toggleMobileMenu()" *ngIf="(userService.isAdmin$ | async)">
-          <i class="pi pi-cog"></i> ניהול מערכת
+          <i class="pi pi-cog"></i> System Management
         </a>
         <a (click)="logout(); toggleMobileMenu()" class="mobile-nav-link">
-          <i class="pi pi-sign-out"></i> התנתק
+          <i class="pi pi-sign-out"></i> Logout
         </a>
       </div>
     </nav>

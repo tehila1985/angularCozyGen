@@ -138,37 +138,37 @@ export class AdminComponent implements OnInit {
     this.uploadError = '';
     
     if (this.frontImageFile && this.backImageFile) {
-      this.uploadMessage = 'מעלה תמונות...';
+      this.uploadMessage = 'Uploading images...';
       
       this.adminService.uploadProductImages(this.frontImageFile, this.backImageFile, this.newProduct).subscribe({
         next: () => {
-          this.uploadMessage = 'המוצר נוסף בהצלחה!';
+          this.uploadMessage = 'Product added successfully!';
           this.loadData();
           this.resetProductForm();
           setTimeout(() => this.uploadMessage = '', 3000);
         },
         error: (err) => {
-          const errorMsg = err.error?.message || err.message || 'שגיאה לא ידועה';
-          this.uploadError = 'שגיאה: ' + errorMsg;
+          const errorMsg = err.error?.message || err.message || 'Unknown error';
+          this.uploadError = 'Error: ' + errorMsg;
         }
       });
     } else {
       this.adminService.addProduct(this.newProduct).subscribe({
         next: () => {
-          this.uploadMessage = 'המוצר נוסף בהצלחה!';
+          this.uploadMessage = 'Product added successfully!';
           this.loadData();
           this.resetProductForm();
           setTimeout(() => this.uploadMessage = '', 3000);
         },
         error: () => {
-          this.uploadError = 'שגיאה בהוספת המוצר';
+          this.uploadError = 'Error adding product';
         }
       });
     }
   }
 
   deleteProduct(id: number) {
-    if (confirm('האם אתה בטוח שברצונך למחוק מוצר זה?')) {
+    if (confirm('Are you sure you want to delete this product?')) {
       this.adminService.deleteProduct(id).subscribe(() => {
         this.loadData();
       });
@@ -198,29 +198,29 @@ export class AdminComponent implements OnInit {
     this.categoryError = '';
     
     if (this.categoryImageFile) {
-      this.categoryMessage = 'מעלה תמונה...';
+      this.categoryMessage = 'Uploading image...';
       
       this.adminService.uploadCategoryImage(this.categoryImageFile, this.newCategory).subscribe({
         next: () => {
-          this.categoryMessage = 'הקטגוריה נוספה בהצלחה!';
+          this.categoryMessage = 'Category added successfully!';
           this.loadData();
           this.resetCategoryForm();
           setTimeout(() => this.categoryMessage = '', 3000);
         },
         error: (err) => {
-          this.categoryError = 'שגיאה: ' + (err.error?.message || err.message);
+          this.categoryError = 'Error: ' + (err.error?.message || err.message);
         }
       });
     } else {
       this.adminService.addCategory(this.newCategory).subscribe({
         next: () => {
-          this.categoryMessage = 'הקטגוריה נוספה בהצלחה!';
+          this.categoryMessage = 'Category added successfully!';
           this.loadData();
           this.resetCategoryForm();
           setTimeout(() => this.categoryMessage = '', 3000);
         },
         error: () => {
-          this.categoryError = 'שגיאה בהוספת הקטגוריה';
+          this.categoryError = 'Error adding category';
         }
       });
     }
@@ -233,7 +233,7 @@ export class AdminComponent implements OnInit {
   }
 
   deleteCategory(id: number) {
-    if (confirm('האם אתה בטוח שברצונך למחוק קטגוריה זו?')) {
+    if (confirm('Are you sure you want to delete this category?')) {
       this.adminService.deleteCategory(id).subscribe(() => {
         this.loadData();
       });
@@ -245,29 +245,29 @@ export class AdminComponent implements OnInit {
     this.styleError = '';
     
     if (this.styleImageFile) {
-      this.styleMessage = 'מעלה תמונה...';
+      this.styleMessage = 'Uploading image...';
       
       this.adminService.uploadStyleImage(this.styleImageFile, this.newStyle).subscribe({
         next: () => {
-          this.styleMessage = 'הסגנון נוסף בהצלחה!';
+          this.styleMessage = 'Style added successfully!';
           this.loadData();
           this.resetStyleForm();
           setTimeout(() => this.styleMessage = '', 3000);
         },
         error: (err) => {
-          this.styleError = 'שגיאה: ' + (err.error?.message || err.message);
+          this.styleError = 'Error: ' + (err.error?.message || err.message);
         }
       });
     } else {
       this.adminService.addStyle(this.newStyle).subscribe({
         next: () => {
-          this.styleMessage = 'הסגנון נוסף בהצלחה!';
+          this.styleMessage = 'Style added successfully!';
           this.loadData();
           this.resetStyleForm();
           setTimeout(() => this.styleMessage = '', 3000);
         },
         error: () => {
-          this.styleError = 'שגיאה בהוספת הסגנון';
+          this.styleError = 'Error adding style';
         }
       });
     }
@@ -280,7 +280,7 @@ export class AdminComponent implements OnInit {
   }
 
   deleteStyle(id: number) {
-    if (confirm('האם אתה בטוח שברצונך למחוק סגנון זה?')) {
+    if (confirm('Are you sure you want to delete this style?')) {
       this.adminService.deleteStyle(id).subscribe(() => {
         this.loadData();
       });

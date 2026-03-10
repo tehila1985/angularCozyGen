@@ -107,7 +107,7 @@ export class CheckoutComponent implements OnInit, OnDestroy {
         });
       },
       onError: (err: any) => {
-        this.errorMessage = 'שגיאה בתשלום, נסה שוב';
+        this.errorMessage = 'Payment error, please try again';
         console.error('PayPal Error:', err);
       }
     }).render('#paypal-button-container');
@@ -136,13 +136,13 @@ export class CheckoutComponent implements OnInit, OnDestroy {
           if (!cartItem) continue;
           
           if (product.stock === 0) {
-            this.errorMessage = `המוצר ${product.name} אזל מהמלאי`;
+            this.errorMessage = `Product ${product.name} is out of stock`;
             this.isProcessing = false;
             return;
           }
           
           if (cartItem.quantity > product.stock) {
-            this.errorMessage = `למוצר ${product.name} יש במלאי רק ${product.stock} יחידות`;
+            this.errorMessage = `Product ${product.name} has only ${product.stock} units in stock`;
             this.isProcessing = false;
             return;
           }
@@ -152,7 +152,7 @@ export class CheckoutComponent implements OnInit, OnDestroy {
       },
       error: (err) => {
         console.error('Stock check error:', err);
-        this.errorMessage = 'שגיאה בבדיקת מלאי';
+        this.errorMessage = 'Stock check error';
         this.isProcessing = false;
       }
     });
@@ -163,7 +163,7 @@ export class CheckoutComponent implements OnInit, OnDestroy {
     const orderItems: OrderItem[] = this.cart.map(item => ({
       orderItemId: 0,
       orderId: 0,
-      itemName: item.name || 'מוצר ללא שם',
+      itemName: item.name || 'Product without name',
       productId: item.productId || null,
       quantity: item.quantity,
       priceAtPurchase: item.price
@@ -180,7 +180,7 @@ export class CheckoutComponent implements OnInit, OnDestroy {
 
     this.orderService.createOrder(orderRequest).subscribe({
       next: (order) => {
-        this.successMessage = `הזמנה מספר ${order.orderId} בוצעה בהצלחה!`;
+        this.successMessage = `Order number ${order.orderId} completed successfully!`;
         localStorage.removeItem('cart');
         this.updateCartService();
         this.navigationTimeout = setTimeout(() => {
@@ -190,7 +190,7 @@ export class CheckoutComponent implements OnInit, OnDestroy {
       },
       error: (err) => {
         console.error('Order error:', err);
-        this.errorMessage = 'שגיאה בשמירת ההזמנה';
+        this.errorMessage = 'Error saving order';
         this.isProcessing = false;
       }
     });

@@ -30,7 +30,7 @@ export class ItemDetail implements OnChanges {
     if (!this.product) return;
 
     if (!this.product.stock || this.product.stock <= 0) {
-      this.notificationService.show('המוצר אזל מהמלאי', 'error');
+      this.notificationService.show('Product is out of stock', 'error');
       return;
     }
 
@@ -39,7 +39,7 @@ export class ItemDetail implements OnChanges {
 
     const uniqueId = (this.product as any).productId ?? (this.product as any).id;
     if (!uniqueId) {
-      console.error('אין ID למוצר!');
+      console.error('No ID for product!');
       return;
     }
 
@@ -48,10 +48,10 @@ export class ItemDetail implements OnChanges {
 
     if (currentCartQty + this.qty > this.product.stock) {
       if (currentCartQty >= this.product.stock) {
-        this.notificationService.show(`כבר יש לך ${currentCartQty} בסל - זה כל המלאי!`, 'error');
+        this.notificationService.show(`You already have ${currentCartQty} in cart - that's all the stock!`, 'error');
       } else {
         const remaining = this.product.stock - currentCartQty;
-        this.notificationService.show(`יש לך כבר ${currentCartQty} בסל. אפשר להוסיף עוד ${remaining} בלבד`, 'error');
+        this.notificationService.show(`You already have ${currentCartQty} in cart. You can add only ${remaining} more`, 'error');
       }
       return;
     }
@@ -74,6 +74,6 @@ export class ItemDetail implements OnChanges {
     localStorage.setItem('cart', JSON.stringify(cart));
     this.cartService.updateCartCount();
     this.qty = 1;
-    this.notificationService.show(`המוצר ${this.product.name} נוסף לסל!`, 'success');
+    this.notificationService.show(`Product ${this.product.name} added to cart!`, 'success');
   }
 }

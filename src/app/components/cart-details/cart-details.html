@@ -1,11 +1,11 @@
 <section class="cart-section">
   <div class="header-container">
     <span class="category-label">YOUR SELECTION</span>
-    <h3 class="style-heading">סל הקניות</h3>
-    <p class="style-subtext">כל המוצרים שבחרת במקום אחד</p>
+    <h3 class="style-heading">Shopping Cart</h3>
+    <p class="style-subtext">All the products you selected in one place</p>
   </div>
   <div *ngIf="cart.length === 0" class="empty-cart">
-    סל הקניות שלך ריק כרגע
+    Your shopping cart is currently empty
   </div>
   <div class="cart-list" *ngIf="cart.length > 0">
     <div *ngFor="let item of cart; let i = index" class="cart-item" [class.appear]="isLoaded" [style.transition-delay]="(i*80)+'ms'">
@@ -22,15 +22,15 @@
             <button (click)="increaseQty(i)">+</button>
           </div>
           <p class="product-price">₪{{ item.price }}</p>
-          <button class="remove-btn" (click)="removeItem(i)">הסר</button>
+          <button class="remove-btn" (click)="removeItem(i)">Remove</button>
         </div>
       </div>
     </div>
   </div>
   <div class="summary-box" *ngIf="cart.length > 0">
     <div class="total">
-      סה״כ לתשלום: <span>₪{{ getTotal() }}</span>
+      Total to pay: <span>₪{{ getTotal() }}</span>
     </div>
-    <button class="order-btn" (click)="checkout()">מעבר להזמנה</button>
+    <button class="order-btn" (click)="checkout()">Proceed to Order</button>
   </div>
 </section>

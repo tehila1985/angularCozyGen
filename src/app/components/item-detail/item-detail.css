@@ -5,8 +5,8 @@
   max-width: 1400px;
   margin: 150px auto 60px auto;
   padding: 0 40px;
-  direction: rtl;
-  font-family: 'Noto Sans Hebrew', sans-serif;
+  direction: ltr;
+  font-family: 'Inter', sans-serif;
 }
 
 .gallery-layout {

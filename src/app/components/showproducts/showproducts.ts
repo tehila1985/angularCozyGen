@@ -15,9 +15,9 @@ import { environment } from '../../../environments/environment.development';
         <div class="image-container">
           <img class="img-front" [src]="product.frontImageUrl" (error)="handleImageError($event)" alt="{{ product.title }}">
           <img class="img-back" [src]="product.backImageUrl" (error)="handleImageError($event)" alt="{{ product.title }}">
-          <div class="stock-badge out" *ngIf="!product.stock || product.stock <= 0">אזל מהמלאי</div>
+          <div class="stock-badge out" *ngIf="!product.stock || product.stock <= 0">Out of Stock</div>
           <div class="stock-badge low" *ngIf="product.stock > 0 && product.stock <= 5">
-            <i class="pi pi-clock"></i> נותרו {{ product.stock }}
+            <i class="pi pi-clock"></i> {{ product.stock }} left
           </div>
         </div>
         <div class="product-details">
@@ -33,13 +33,13 @@ import { environment } from '../../../environments/environment.development';
     <ng-template #noProducts>
       <div class="no-results">
         <i class="pi pi-inbox" style="font-size: 48px; color: #929292;"></i>
-        <p>לא נמצאו מוצרים</p>
+        <p>No products found</p>
       </div>
     </ng-template>
 
     <div class="pagination" *ngIf="totalPages > 1">
       <button [disabled]="currentPage === 1" (click)="changePage(currentPage - 1)" class="page-btn prev">
-        <i class="pi pi-chevron-right"></i>
+        <i class="pi pi-chevron-left"></i>
       </button>
       
       <div class="page-numbers">
@@ -52,13 +52,13 @@ import { environment } from '../../../environments/environment.development';
       </div>
 
       <button [disabled]="currentPage === totalPages" (click)="changePage(currentPage + 1)" class="page-btn next">
-        <i class="pi pi-chevron-left"></i>
+        <i class="pi pi-chevron-right"></i>
       </button>
     </div>
   </section>
   `,
   styles: [`
-    .ikea-products { direction: rtl; font-family: 'Noto Sans Hebrew', sans-serif; }
+    .ikea-products { direction: ltr; font-family: 'Noto Sans Hebrew', sans-serif; }
     .products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 32px; }
     .product-card { cursor: pointer; transition: transform 0.2s; position: relative; }
     .product-card:hover { transform: translateY(-4px); }
@@ -104,7 +104,7 @@ export class Showproducts implements OnInit, OnChanges {
 
   rooms: any[] = [];
   totalItems = 0;
-  pageSize = 12; // כמות קבועה לכל עמוד
+  pageSize = 12; // Fixed amount per page
   currentPage = 1;
   totalPages = 0;
   pagesArray: number[] = [];
